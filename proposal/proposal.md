@@ -7,11 +7,18 @@
 
 ## Description
 
-TODO(issue/1): Define what the project actually is in 2-3 sentences.
+We will create web-based simulator for a CPU inspired by the Intel 808{0,5} CPUs. It will be based
+on the [sms32](http://www.softwareforeducation.com/sms32v50/) simulator used by the CA296 module,
+which supplies us with a lot of good ideas.
 
 ### Inspiration
 
-TODO(issue/1): Talk a bit about why we picked it: tutors; UI not great; works on one OS; etc.
+We're both tutors for the existing assembly module (CA296), which, as mentioned, uses the sms32 simulator.
+It's a nice simulator, supporting nice features such as interrupts and memory-mapped IO. However, it's quite
+old (last updated in 2009), and does have some problems, for example:
+
+1. It only supports the Windows line of operating systems.
+1. The UI doesn't conform to modern UI standards.
 
 ### Features
 
@@ -65,10 +72,6 @@ TODO(issue/1): Talk a bit about why we picked it: tutors; UI not great; works on
     </dd>
 </dl>
 
-### Architecture diagram
-
-TODO(issue/1): Create the architecture diagram
-
 ### Open ideas/questions
 
 - We encourage sharing files, git is good for sharing files, could there be a nice link between them?
@@ -78,7 +81,7 @@ TODO(issue/1): Create the architecture diagram
 
 ## Division of work
 
-TODO(issue/1): Overlay over architecture diagram
+TODO(issue/1): Overlay over an architecture diagram.
 
 ## Programing languages
 
