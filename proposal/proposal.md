@@ -11,7 +11,7 @@ Staff member consulted: Stephen Blott
 
 ### Overview
 
-Our project idea is creating a web-based Assembly simulator. The instruction set and architecture will be inspired by the Intel 8080{0,5}
+Our project idea is creating a web-based Assembly simulator. The instruction set and architecture will be inspired by the Intel 808{0,5}
 CPUs. Users will be able to write their programs on a text editor in their browser or upload a file containing their program, then assemble,
 execute, and debug their program inside a web browser. The state of registers and memory will be displayed on the UI, allowing uses to see
 exactly what is happening. Users will be able to share their programs via a system similar to the [Go playground](https://play.golang.org/).
