@@ -1,4 +1,4 @@
-# tasm
+# Project Proposal - tasm
 
 | Name           | Student Number |
 |----------------|----------------|
@@ -31,25 +31,23 @@ does have some problems, for example:
 <dl>
     <dt>8-bit CPU</dt>
     <dd>
-        The CPU will be loosely based on the Intel 8080 CPU. It will feature a simular
-        instruction set, with some deviations to make it easier for newish programmers.
+        The instruction set and the CPU architecture will be loosely based on the Intel 808{0, 5} CPUs. There will be some deviations from the real
+        instruction set to make it easier to use, and more approachable for beginners.
     </dd>
     <dt>Interrupts &amp; Devices</dt>
     <dd>
-        The CPU will support interrupts in a similar manner to the actual 8080 processor. Interrupts
-        will be used to communicate with devices and peripherals. Initially, we plan to include the
-        following devices/peripherals:
+        The CPU will support interrupts in a similar manner to the actual 8080 processor. Interrupts will be used to communicate with devices and
+        peripherals. Initially, we plan to include the following devices/peripherals:
         <ul>
             <li>Terminal</li>
             <li>Keyboard</li>
             <li>7-segment display</li>
         </ul>
-        It will also feature a timer interrupt because it's an important part of a CPU. 
+        It will feature a timer interrupt, because it's an important part of a CPU. 
     </dd>
     <dt>Assembler directives</dt>
     <dd>
-        The simulator will support a number of common directives for ease of use. We plan to include at least the following
-        directives:
+        The simulator will support a number of common directives for ease of use. We plan to include at least the following directives:
         <ul>
             <li>DB</li>
             <li>ORG</li>
@@ -59,22 +57,23 @@ does have some problems, for example:
     </dd>
     <dt>Debugger support</dt>
     <dd>
-        The simulator will support breakpoints and a step-by-step debugger, allowing students to observe what their code is
-        doing step-by-step.
+        The simulator will support breakpoints and a step-by-step debugger, allowing users to observe what their code is doing step-by-step.
     </dd>
     <dt>Automatic reformatting</dt>
     <dd>
-        The simulator will include a formatter that pretty prints users code to a predefined style. This makes sharing far more
-        useful &amp; encourages good programming practice.
+        The simulator will include a formatter that pretty prints users code to a predefined style. This makes sharing far more practical
+        &amp; encourages good programming practice.
     </dd>
     <dt>Code sharing</dt>
     <dd>
-        Users will be able to share their programs in a similar way to the <a href="https://play.golang.org/">Go playground</a>.
+        Users will be able to share their programs in a similar way to the <a href="https://play.golang.org/">Go playground</a>. Shared programs
+        will be accessible by a URL given to the original author when a program is shared. No information about the author of the program will
+        be held, and programs will remain uploaded for an indefinite amount of time.
     </dd>
     <dt>Modular structure</dt>
     <dd>
-        It will be possible to rip out the assembler &amp; virtual CPU and have them run independently
-        from everything else. This allows it to be used as a command line program, etc.
+        It will be possible to rip out the assembler &amp; virtual CPU and have them run independently from everything else. This allows it to be
+        used as a command line program, etc.
     </dd>
 </dl>
 
@@ -87,9 +86,15 @@ does have some problems, for example:
 
 ## Division of work
 
-We will jointly be doing user requirements gathering
-
 TODO(issue/1): Overlay over an architecture diagram.
+
+We will jointly be doing user requirements gathering. This is because we're both tutors, so we will both see what areas of the sms32
+simulator are causing issues for users as we do our jobs.
+
+All of the documentation writing will be a joint effort.
+
+All of our modules will have unit tests included, these will be written by the author of the module. Integration testing will be
+a joint effort.
 
 ## Programing languages
 
