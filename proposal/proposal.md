@@ -86,7 +86,7 @@ does have some problems, for example:
 
 ## Division of work
 
-TODO(issue/1): Overlay over an architecture diagram.
+![Architecture Diagram](https://i.imgur.com/2VcHnnV.png)
 
 We will jointly be doing user requirements gathering. This is because we're both tutors, so we will both see what areas of the sms32
 simulator are causing issues for users as we do our jobs.
