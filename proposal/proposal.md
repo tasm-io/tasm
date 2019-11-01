@@ -1,11 +1,13 @@
 # Project Proposal - tasm
 
+**Project title**: tasm (Typescript assembler)
+
 | Name           | Student Number |
 |----------------|----------------|
 | Conor McGovern |    17420262    |
 |   Sean Fradl   |    17460674    |
 
-Staff member consulted: Stephen Blott
+**Staff member consulted**: Stephen Blott
 
 ## Description
 
@@ -24,6 +26,7 @@ does have some problems, for example:
 
 1. It only supports the Windows line of operating systems.
 1. The UI doesn't conform to modern standards.
+1. It's not accessible (this is a follow on from the last point.)
 
 ### Features
 
@@ -62,7 +65,7 @@ does have some problems, for example:
     </dd>
     <dt>Automatic reformatting</dt>
     <dd>
-        The simulator will include a formatter that pretty prints users code to a predefined style. This makes sharing far more practical, and
+        The simulator will include a formatter that pretty prints user's code to a predefined style. This makes sharing far more practical, and
         encourages good programming practice.
     </dd>
     <dt>Code sharing</dt>
@@ -76,6 +79,10 @@ does have some problems, for example:
         It will be possible to rip out the assembler &amp; virtual CPU and have them run independently from everything else. This allows it to be
         used as a command line program, or anything else one could wish for.
     </dd>
+    <dt>Accessibility</dt>
+    <dd>
+      The UI will be accessible to as wide a range of users as we can possibly make it.
+    </dd>
 </dl>
 
 ### Open ideas/questions
@@ -83,9 +90,9 @@ does have some problems, for example:
 We have some other ideas that we haven't fully developed, and might include in the final implementation if we have time left over (i.e. stretch goals):
 
 - We encourage sharing files, git is good for sharing files, could there be a nice link between them?
-- Sharing both the code and the state of the CPU could be really nice for debugging and examples, maybe include that in sharing?
+- Sharing both the code and the state of the CPU could be really nice for debugging and examples, so maybe include that with the code.
 - Could we integrate it with Einstein (or any automatic grading tool)? we already plan on making the non-UI bits easy to separate.
-- This would probably a tonne of work, but maybe letting people write their own little devices would be nice stretch goal.
+- Letting users write their own devices would be nice, it isn't too much work if we design the device system well.
 
 ## Division of work
 
