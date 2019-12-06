@@ -7,68 +7,93 @@
 | Conor McGovern |    17420262    |
 | Sean Fradl     |    17460674    |
 
-**Supervisor**: Stephen Blott
+**Supervisor**: Stephen Blott  
 
 ---
-## Table of Contents 
+<div style="page-break-after: always;"></div> > For printing purposes 
+## 0. Table of Contents 
 
-0. **Table of contents**
-1. **Introduction**
-    1.1 Purpose
-    1.2 Scope
-    1.3 Glossary
-2. **General Description**
-    2.1 Product / System Functions
-    2.2 User Characteristics and Objectives
-    2.3 Operating Environment
-    2.4 Constraints
-3. **Functional Requirements**
-    3.1 Fetch the SPA
-    3.2 Upload a file
-    3.3 Assemble Code to Bytecode
-    3.4 Execute Bytecode on the Virtual CPU	
-    3.5 View Simulator State
-    3.6 Debug Program
-    3.7 Edit Text through the Medium of a Text Editor
-    3.8 Interact with Virtual Devices
-    3.9 Format Text Automatically
-    3.10 Share Code
-4. **System Architecture**
-    4.1 Backend
-    4.2 Frontend
-6. **High-Level Design**
-7. **Preliminary Schedule**
-8. **Appendices**
-    7.1 Programming Languages & Tools Referenced
-    7.2 Diagrams
+0. **Table of contents**  
+1. **Introduction**  
+1.1 Purpose  
+1.2 Scope  
+1.3 Glossary  
+2. **General Description**  
+2.1 Product / System Functions  
+2.2 Interfaces  
+2.3 User Characteristics and Objectives  
+2.4 Operating Environment  
+2.5 Constraints  
+3. **Functional Requirements**  
+3.1 Fetch the SPA  
+3.2 Upload a file  
+3.3 Assemble Code to Bytecode  
+3.4 Execute Bytecode on the Virtual CPU	  
+3.5 View Simulator State  
+3.6 Debug Program  
+3.7 Edit Text through the Medium of a Text Editor  
+3.8 Interact with Virtual Devices  
+3.9 Format Text Automatically  
+3.10 Share Code  
+4. **System Architecture**  
+4.1 Backend  
+4.2 Frontend  
+6. **High-Level Design**  
+7. **Preliminary Schedule**  
+8. **Appendices**  
+7.1 Programming Languages & Tools Referenced  
+7.2 Diagrams  
 
 ---
 
+<div style="page-break-after: always;"></div> > For printing purposes 
 ## 1. Introduction
 
 ### 1.1 Purpose
 
-Tasm shall be a web-based that allows users to write code for a simulated 8-bit microprocessor in a safe, contained environment. Tasm is intended to be a successor to pre-existing simulators such as the sms32 simulator. Sms32 lacks some basic functionality that is expected of modern applications, such as an accessible user interface, and cross-platform support. Tasm aims to resolve these issues. Users shall be able to write their code in their web browser, execute their programs, debug their programs with the help of a debugger, and share their programs with other users via a shared URL.
+Tasm shall be a web-based that allows users to write code for a simulated 8-bit microprocessor in a safe, contained environment. Tasm is intended to be a successor to pre-existing simulators such as the sms32 simulator. Existing simulators lack some functionality that is expected of modern applications, such as an accessible user interface, and cross-platform support. Tasm aims to resolve these issues. Users shall be able to write their code in their web browser, execute their programs, debug their programs with the help of a debugger, and share their programs with other users via a shared URL.
 
 ### 1.2 Scope
 
-This system is being developed independent of any business or organisation. The application could be deployed in educational institutions alongside assembly programming modules. The application could be used in conjunction with an automatic grading system due to the planned structure of this application.
+The system is being developed without the support of a business or an organization. The system is primarily aimed at students learning how to write assembly language programs, which is why a significant portion of this document is focused on the user interface. Having said that, the simulator could be used by anybody who wants to learn assembly language programming.
 
 ### 1.3 Glossary
 
-SPA - *Single Page Application.*
-TASM Program - *A program written using the TASM instruction set for this simulator.* 
-Cowboy - *A small, fast, modern HTTP server that runs on the ErlangVM.*
-Nginx - *A high performance load balancer, web server, and reverse proxy.*
-Elixir - *A modern functional programming language.*
-React - *A JavaScript library for building user interfaces.*
-Redux - *An open-source JavaScript library for managing application state.*
-Postgres - *A free and open-source relational database management system emphasizing extensibility and technical standards compliance.*
-NodeJS - *Node.js is an open-source, cross-platform, JavaScript runtime environment that executes JavaScript code outside of a browser.*
-ESLint - *ESLint is a static code analysis tool for identifying problematic patterns found in JavaScript code.*
+<dl>
+<dt>SPA</dt>
+<dd>Single page application</dd>
+
+<dt>Instruction set</dt>
+<dd>The set of instructions that a processor can execute.</dd>
+
+<dt>TASM program</dt>
+<dd>A program written using the TASM instruction set for this simulator.</dd>
+
+<dt>Elixir</dt>
+<dd>A modern functional programming language.</dd>
+
+<dt>Cowboy</dt>
+<dd>A small, fast, modern HTTP server that runs on the ErlangVM.</dd>
+
+<dt>React</dt>
+<dd>A JavaScript library for building user interfaces.</dd>
+
+<dt>Redux</dt>
+<dd>An open-source JavaScript library for managing application state.</dd>
+
+<dt>Postgres</dt>
+<dd>A free and open-source relational database management system emphasizing extensibility and technical standards compliance.</dd>
+
+<dt>NodeJS</dt>
+<dd>An open-source, cross-platform, JavaScript runtime environment that executes JavaScript code outside of a browser.</dd>
+
+<dt>ESLint</dt>
+<dd>A static code analysis tool for identifying problematic patterns found in JavaScript code.</dd>
+</dl>
 
 ---
 
+<div style="page-break-after: always;"></div> > For printing purposes 
 ## 2. General Description
 
 ### 2.1 Product / System Functions
@@ -98,45 +123,57 @@ When Users are happy with their code, they may save the code to a local file on 
 
 Users shall be able to automatically format the code to a standard style. As all users have slight differences in the style of their code this will make code easier to view for others. This is useful for students who share code or teachers that may correct the code. 
 
-### 2.2 User Characteristics and Objectives
+### 2.2 Interfaces
+
+As mentioned in section 1.2, this system is primarily aimed at students learning how to write assembly language programs. Thus, it is paramount that the UI be as intuitive as possible. Given that the user interface for this system will be hosted on a web browser, it is only natural that the style is similar to that of your average website.
+
+The user interface shall be split into two vertical planes. On the left, the text editor will reside. The text editor shall be given half of the screen space because it is where users will spend the majority of their time, and line wrapping makes editing text difficult. On the right, the interface for managing devices, the state of the CPU, etc.
+
+One of the reasons for doing this project was the lack of screenreader support on existing solutions, so it shall be an area of emphasis. Making components of the UI such as the device pane accessible may prove to be difficult, but possible web accessibility guidelines are stickly adhered to.
+
+*Below, a low fidelity UI mockup is presented* 
+
+![low fidelity UI mockup](https://i.imgur.com/7e3BuKv.png)
+
+
+### 2.3 User Characteristics and Objectives
 
 We expect our main users to be in the age range of 18 - 30 and interested in software engineering or pursuing a degree or career involving assembly level programming. Additionally we expect educational staff that are teaching assembly level programming concepts to program and share Tasm programs. 
 Our main objective for the user experience is to make the user not have to think about how they have to interact with the user interface. We plan on doing this by giving the user interface a sense of rhythm and habit through following standard user interface design practices. Additionally we plan on making the website accessible for visually impaired and color blind users.
 
-
-### 2.3 Operating Environment 
+### 2.4 Operating Environment 
 
 The operation of the application for a user shall be conducted on a modern web browser. Any modern web browser on any operating system shall be able to download and run the application. 
 
-The backend shall run on a GNU + Linux box. 
+The backend shall run on a Linux box. Any distribution will work, because distribution-specific technologies shall not be utilised.
 
-While the overall logic of the system lives in the frontend we aim to design the system in a way in such that it shall support removing the UI. This shall allow the integration of the logic of the simulator into third party applications. A great use case of this would be to allow students to run and test programs in TASM and then submit them to a NodeJS server for automatic testing and grading. 
+While the overall logic of the system lives in the frontend, we aim to design the system in a way in such that it shall support removing the UI. This shall allow the integration of the logic of the simulator into third party applications. A great use case of this would be to allow students to run and test programs in TASM and then submit them to a NodeJS server for automatic testing and grading. 
 
-### 2.4 Constraints
+### 2.5 Constraints
 
-#### 2.4.1 Time 
+#### 2.5.1 Time 
 
 We are limited to 9 weeks of development time. Therefore, we must strictly adhere to our proposed timeline. We shall do this by utilising the Agile methodology, which entails weekly sprints, and regular standups. This is further expanded upon in 7.0 - Preliminary Schedule.
 
-#### 2.4.2 Network & Speed
+#### 2.5.2 Network & Speed
 
 We are adding constraints on the finished application in terms of network and speed. The application should be able to be downloaded in less than 2 seconds on the DCU network. The assembler should be able to assemble any program within 2 seconds of hitting the assemble button. Any visual transitions such as the memory display area should run smoothly without affecting the overall performance of the application.
 
-#### 2.4.3 Accessibility 
+#### 2.5.3 Accessibility 
 
 As we aim to make this application accessible to those with disabilities we are limited to a subset of features within HTML. This is due to some HTML attributes not supporting good web accessibility practices.  
 
-#### 2.4.4 Web Technology 
+#### 2.5.4 Web Technology 
 
 The TASM development and design team are limited to the constraints of present day web technologies. This shall limit the scope of our design.
 
-#### 2.4.5 Code Linting 
+#### 2.5.5 Code Linting 
 
 In order to stay aligned with best industry practices, we plan on using a linter to ensure the quality of our code remains at a high level. 
 We plan on using ESLint to perform code linting for TypeScript that shall be integrated with our continious integration in GitLab. Code that doesn't meet the standards imposed by ESLint shall be automatically rejectd in the main branch.  
 
 ---
-
+<div style="page-break-after: always;"></div> > For printing purposes 
 ## 3. Functional Requirements
 
 ### 3.1 Fetch the SPA
@@ -173,31 +210,31 @@ None
 
 #### Inter-requirement Dependencies 
 
-3.1 - By this point, the application should have already been served to the user.
+3.1 - By this point, the application should have already been served to the user.  
 
 ### 3.3 Assemble Code to Bytecode
 
 #### Description 
 
-The user shall be able to assemble their TASM assembly language code into bytecode. There shall be a button on the user interface that allows them to perform this action.
+The user shall be able to assemble their TASM assembly language code into bytecode. There shall be a button on the user interface that allows them to perform this action. Errors caused by syntax and semantic errors shall be presented to the user when encountered.
 
 #### Criticality
 
-This is a critical part of the application. Without an assembler, requirements such as the virtual CPU (requirement 3.3) will be impossible to fulfill.
+This is a critical part of the application. Without an assembler, requirements such as the virtual CPU (requirement 3.3) will be impossible to fulfill. Given that this project is aimed at beginners, it is essential that errors be reported in a clear manner.
 
 #### Technical issues
 
 Writing an Assembler is likely going to be the most challenging part of the system. We have to ensure that we assemble any combination of instructions down to the correct bytecode, and that the assembler gracefully handles both semantic and syntax errors. We must also ensure that the assembler is extensible, so it's easy to add new features if the need arises.
 
 #### Inter-requirement Dependencies
-3.1 - By this point, the application should have already been served to the user. 
-3.2 - Code should be available for the assembler to assemble.
+3.1 - By this point, the application should have already been served to the user.  
+3.2 - Code should be available for the assembler to assemble.  
 
 ### 3.4 Execute Bytecode on the Virtual CPU
 
-#### Description 
+#### Description
 
-The virtual CPU is tasked with taking instructions (bytecode) from the assembler and running the instructions. The virtual CPU contains the state of the registers and returns the difference after the action is performed to the simulator to display on the user interface. 
+The virtual CPU shall interpret the bytes representing instructions, and shall modify its own state based on the values of these instructions. The virtual CPU shall have an 8-bit wors size, and the instruction set shall primarily adhere to the Intel 8080 instruction set. Invalid opcodes shall be reported to the user when encountered.
 
 #### Criticality
 
@@ -205,11 +242,11 @@ This is critical as without this the core of the software application cannot per
 
 #### Technical issues
 
-Writing the virtual CPU is tied with the assembler for the most complicated part of the system. We must interpret the bytes in memory correctly, which will likely lead to some hard to track bugs.
+Writing the virtual CPU is tied with the assembler for the most complicated part of the system. We must interpret the bytes in memory correctly, which will likely lead to some hard to track bugs. Reporting errors encountered as the program is being executed will be a challenge, especially because we are targeting students.
 
 #### Inter-requirement Dependencies 
-3.1 - By this point, the application should have already been served to the user. 
-3.3 - Without the virtual assembler, the virtual CPU cannot receive any instructions.
+3.1 - By this point, the application should have already been served to the user.   
+3.3 - Without the virtual assembler, the virtual CPU cannot receive any instructions.  
 
 ### 3.5 View Simulator State
 
@@ -220,8 +257,8 @@ Users should be able to view the state of the registers and state of the memory 
 This is of high importance as the end state of a register or position in memory will reflect the output of the program. 
 
 #### Technical issues
-3.1 - By this point, the application should have already been served to the user. 
-3.3 - Without the virtual CPU no instructions can processed and no state can be sent to the simulator.
+3.1 - By this point, the application should have already been served to the user.   
+3.3 - Without the virtual CPU no instructions can processed and no state can be sent to the simulator.  
 
 ### 3.6 Debug Program
 
@@ -229,16 +266,22 @@ This is of high importance as the end state of a register or position in memory 
 
 The simulator shall feature a debug mode that allows users to execute their code in steps of a single instruction. This functionality shall be provided by a section on the user interface. There debugger UI shall be able to force the CPU to execute exactly one instruction. The CPU shall not execute another instruction until the operation is invoked again.
 
+The debugger shall support the following operations:
+- Step forwards one instruction
+- Step backwards one instruction
+- Step until the next breakpoint
+
 #### Criticality
 
 This is of high importance, but it is not critical. The application will be able to function without the presence of a debugger.
-Technical issues
+
+#### Technical issues
 Debug mode does not interact well with the interrupt feature. It will be a technical challenge to make them function side-by-side.
 
 #### Inter-requirement Dependencies 
 
-3.1 - By this point, the application should have already been served to the user. 
-3.3, 3.4 -Without the virtual CPU the debugger has nothing to debug and interact with.
+3.1 - By this point, the application should have already been served to the user.   
+3.3, 3.4 -Without the virtual CPU the debugger has nothing to debug and interact with.  
 
 ### 3.7 Edit Text through the Medium of a Text Editor
 
@@ -256,7 +299,7 @@ We are still seeking external libraries to aid in the development of a text edit
 
 #### Inter-requirement Dependencies 
 
-3.1 - By this point, the application should have already been served to the user. 
+3.1 - By this point, the application should have already been served to the user.   
 
 ### 3.8 Interact with Virtual Devices
 
@@ -274,8 +317,8 @@ Providing a common interface for devices to interact with the virtual CPU and ha
 
 #### Inter-requirement Dependencies 
 
-3.1 - By this point, the application should have already been served to the user. 
-3.2 -Without the virtual CPU virtual devices cannot exist.
+3.1 - By this point, the application should have already been served to the user.  
+3.2 -Without the virtual CPU virtual devices cannot exist.  
 
 ### 3.9 Format Text Automatically 
 
@@ -294,9 +337,9 @@ We must ensure that the abstract syntax tree has sufficient information to enabl
 #### Inter-requirement Dependencies 
 
 3.1 - By this point, the application should have already been served to the user. 
-One of the following: 
-3.2  - The uploaded file can be sent to the server.
-3.7  - Code within text editor to send to the server.
+One of the following:   
+3.2  - The uploaded file can be sent to the server.  
+3.7  - Code within text editor to send to the server.  
 
 ### 3.10 Share Code
 
@@ -314,10 +357,10 @@ We have to ensure that a user cannot exhaust all of the servers's storage capaci
 
 #### Inter-requirement Dependencies 
 
-3.1 - By this point, the application should have already been served to the user. 
-3.5 - Text Editor
+3.1 - By this point, the application should have already been served to the user.   
+3.5 - Text Editor  
 
---- 
+---
 
 ## 4. System Architecture
 
@@ -337,20 +380,29 @@ Stateful react UI components will obtain their state from Redux and components s
 Redux will act as middleware and a centralized store between React, the backend and the simulator.
 
 The simulator shall be divided in three parts. The virtual CPU, assembler and virtual devices. 
-Methods shall be performed on the simulator by Redux actions that have been received from the UI. This can be clearly seen in 7.2.2. 
+Methods shall be performed on the simulator by Redux actions that have been received from the UI. This can be clearly seen in 7.2.1. 
 The virtual CPU, assembler, and virtual devices shall have their own state and not be contained within the centralized store of Redux. 
 This is to provide the ability to remove the simulator from the UI designed with this system. This shall allow integration with third party systems such as automatic grading systems. 
 
 *The overall system architecture as described above can be seen below.*
 
-![System Architecture of TASM](https://i.imgur.com/58UK3SG.png)
-
+![System Architecture of TASM](https://i.imgur.com/wSg4hfU.png)
 
 ---
 
+<div style="page-break-after: always;"></div> > For printing purposes 
+
+
 ## 5. High Level Design 
 
-![](https://i.imgur.com/nrdPSuB.png)
+*Data-flow diagram for the whole system*
+![](https://i.imgur.com/f6X4qGC.png)
+
+
+*Data-flow diagram for the assembler*
+![](https://i.imgur.com/2Zq7MlS.png)
+
+
 
 The assembler takes in the user's source code, and performs either of the following operations:
 - Successfully assembles it to bytecode, and returns it to the simulator
@@ -363,12 +415,22 @@ The CPU state contains all the information needed by the CPU to perform operatio
 
 The data contained in individual device states is intentionally not specified, because the CPU will treat them as abstract entities.
 
+Also note that the assembler and CPU do not hold any state themselves, they receivie state from the simulator when invoked. This is an intentional design decision, keeping both of the aforementioned componenets stateless allows for easier testing, and will make the code easier to understand.
+
+For an overview on what user actions affect the state of the simulator see 7.2.2.
+
 
 ---
 
+<div style="page-break-after: always;"></div> > For printing purposes 
+
 ## 6. Preliminary Schedule
 
-An overview of our preliminary schedule can be seen in the **PERT chart in 7.2.4** which highlights the aimed major milestones and how long we believe it shall take for the aimed tasks to be completed. We have set out a period of nine weeks from 9th December to March 8th with a break to maintain periods for studying for semester 1 exams. This gives us sixty-three days to complete the system, we have assigned fifty-eight of these which gives us a remainder of five for unforeseen events and days to refactor code. We plan to do weekly sprints to ensure we meet our aims and objectives of the application. The dates of these sprints are highlighted below. We plan on recording our progress through active informal blog posts. These blog posts will be available at blog.tasm.io.
+An overview of our preliminary schedule can be seen in the **PERT chart in 7.2.3** which highlights the aimed major milestones and how long we believe it shall take for the aimed tasks to be completed. We have set out a period of nine weeks from 9th December to March 8th with a break to maintain periods for studying for semester 1 exams. This gives us sixty-three days to complete the system, we have assigned fifty-eight of these which gives us a remainder of five for unforeseen events and days to refactor code. 
+
+Unit tests will be written for each module as the project is developed. These will be the responsibility of the author of the module. Every commit that modifies the source code will include new tests, or updates to existing tests.
+
+We plan to do weekly sprints to ensure we meet our aims and objectives of the application. The dates of these sprints are highlighted below. We plan on recording our progress through active informal blog posts. These blog posts will be available at blog.tasm.io.
 
 | Week Number    | Week Start     | Week End       |
 |----------------|----------------|----------------|
@@ -385,31 +447,40 @@ An overview of our preliminary schedule can be seen in the **PERT chart in 7.2.4
 
 ---
 
+<div style="page-break-after: always;"></div> > For printing purposes 
+
+
 ## 7. Appendices
 
 ### 7.1 Programming Languages & Tools Referenced
 
-ReactJS - reactjs.org
-TypeScript - typescriptlang.org
-Elixir - elixir-lang.org
-Nginx - nginx.org
-Redux - reduxjs.org
+ReactJS - reactjs.org  
+TypeScript - typescriptlang.org  
+Elixir - elixir-lang.org  
+Nginx - nginx.org  
+Redux - reduxjs.org  
 
 ---
 
 ### 7.2 Diagrams
 
+--- 
 #### 7.2.1 - Sequence diagram for simulator 
 
 ![Simulator Data Flow](https://i.imgur.com/GBZAuLE.png)
 
 ---
 
+<div style="page-break-after: always;"></div> > For printing purposes 
+
+
 #### 7.2.2 - Typical user action flow
 
 ![User Action Flow](https://i.imgur.com/wbuJSar.png)
 
 ---
+
+<div style="page-break-after: always;"></div> > For printing purposes 
 
 #### 7.2.3 - PERT Diagram
 
