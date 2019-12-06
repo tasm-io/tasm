@@ -10,8 +10,7 @@
 **Supervisor**: Stephen Blott  
 
 ---
-
-<div style="page-break-after: always;"></div>
+<div style="page-break-after: always;"></div>  
 
 ## 0. Table of Contents 
 
@@ -48,7 +47,8 @@
 
 ---
 
-<div style="page-break-after: always;"></div> 
+<div style="page-break-after: always;"></div>  
+
 ## 1. Introduction
 
 ### 1.1 Purpose
@@ -96,6 +96,7 @@ The system is being developed without the support of a business or an organizati
 ---
 
 <div style="page-break-after: always;"></div>  
+
 ## 2. General Description
 
 ### 2.1 Product / System Functions
@@ -175,7 +176,8 @@ In order to stay aligned with best industry practices, we plan on using a linter
 We plan on using ESLint to perform code linting for TypeScript that shall be integrated with our continious integration in GitLab. Code that doesn't meet the standards imposed by ESLint shall be automatically rejectd in the main branch.  
 
 ---
-<div style="page-break-after: always;"></div>
+<div style="page-break-after: always;"></div>  
+
 ## 3. Functional Requirements
 
 ### 3.1 Fetch the SPA
@@ -392,8 +394,7 @@ This is to provide the ability to remove the simulator from the UI designed with
 
 ---
 
-<div style="page-break-after: always;"></div> 
-
+<div style="page-break-after: always;"></div>  
 
 ## 5. High Level Design 
 
@@ -424,7 +425,7 @@ For an overview on what user actions affect the state of the simulator see 7.2.2
 
 ---
 
-<div style="page-break-after: always;"></div> 
+<div style="page-break-after: always;"></div>  
 
 ## 6. Preliminary Schedule
 
@@ -449,8 +450,7 @@ We plan to do weekly sprints to ensure we meet our aims and objectives of the ap
 
 ---
 
-<div style="page-break-after: always;"></div> 
-
+<div style="page-break-after: always;"></div>  
 
 ## 7. Appendices
 
@@ -473,7 +473,7 @@ Redux - reduxjs.org
 
 ---
 
-<div style="page-break-after: always;"></div> 
+<div style="page-break-after: always;"></div>  
 
 
 #### 7.2.2 - Typical user action flow
@@ -482,7 +482,7 @@ Redux - reduxjs.org
 
 ---
 
-<div style="page-break-after: always;"></div> 
+<div style="page-break-after: always;"></div>  
 
 #### 7.2.3 - PERT Diagram
 
