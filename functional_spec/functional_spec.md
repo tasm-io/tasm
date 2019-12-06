@@ -132,7 +132,7 @@ As mentioned in section 1.2, this system is primarily aimed at students learning
 
 The user interface shall be split into two vertical planes. On the left, the text editor will reside. The text editor shall be given half of the screen space because it is where users will spend the majority of their time, and line wrapping makes editing text difficult. On the right, the interface for managing devices, the state of the CPU, etc.
 
-One of the reasons for doing this project was the lack of screenreader support on existing solutions, so it shall be an area of emphasis. Making components of the UI such as the device pane accessible may prove to be difficult, but possible web accessibility guidelines are stickly adhered to.
+One of the reasons for doing this project was the lack of screenreader support on existing solutions, so it shall be an area of emphasis. Making components of the UI such as the device pane accessible may prove to be difficult, but possible web accessibility guidelines are strictly adhered to.
 
 *Below, a low fidelity UI mockup is presented* 
 
@@ -141,8 +141,9 @@ One of the reasons for doing this project was the lack of screenreader support o
 
 ### 2.3 User Characteristics and Objectives
 
-We expect our main users to be in the age range of 18 - 30 and interested in software engineering or pursuing a degree or career involving assembly level programming. Additionally we expect educational staff that are teaching assembly level programming concepts to program and share TASM programs. 
-Our main objective for the user experience is to make the user not have to think about how they have to interact with the user interface. We plan on doing this by giving the user interface a sense of rhythm and habit through following standard user interface design practices. Additionally we plan on making the website accessible for visually impaired and color blind users.
+We expect our main users to be in the age range of 18 - 30 and interested in software engineering or pursuing a degree or career involving assembly level programming. Additionally, we expect educational staff that are teaching assembly level programming concepts to program and share TASM programs. 
+
+Our main objective for the user experience is to make the user not have to think about how they have to interact with the user interface. We plan on doing this by giving the user interface a sense of rhythm and habit through following standard user interface design practices. Additionally, we plan on making the website accessible for visually impaired and color-blind users.
 
 ### 2.4 Operating Environment 
 
@@ -172,8 +173,7 @@ The development and design team are limited to the constraints of present day we
 
 #### 2.5.5 Code Linting 
 
-In order to stay aligned with best industry practices, we plan on using a linter to ensure the quality of our code remains at a high level. 
-We plan on using ESLint to perform code linting for TypeScript that shall be integrated with our continious integration in GitLab. Code that doesn't meet the standards imposed by ESLint shall be automatically rejectd in the main branch.  
+In order to stay aligned with best industry practices, we plan on using a linter to ensure the quality of our code remains at a high level. We plan on using ESLint to perform code linting for TypeScript that shall be integrated with our continious integration in GitLab. Code that doesn't meet the standards imposed by ESLint shall be automatically rejectd in the main branch.  
 
 ---
 <div style="page-break-after: always;"></div>  
@@ -384,8 +384,7 @@ Stateful react UI components will obtain their state from Redux and components s
 Redux will act as middleware and a centralized store between React, the backend and the simulator.
 
 The simulator shall be divided in three parts. The virtual CPU, assembler and virtual devices. 
-Methods shall be performed on the simulator by Redux actions that have been received from the UI. This can be clearly seen in 7.2.1. 
-The virtual CPU, assembler, and virtual devices shall have their own state and not be contained within the centralized store of Redux. 
+Methods shall be performed on the simulator by Redux actions that have been received from the UI. This can be clearly seen in 7.2.1. The virtual CPU, assembler, and virtual devices shall have their own state and not be contained within the centralized store of Redux. 
 This is to provide the ability to remove the simulator from the UI designed with this system. This shall allow integration with third party systems such as automatic grading systems.
 
 Note that some features such as the formatter are not present in the system architecture. These shall most likely live within React as stateful React components. 
@@ -424,8 +423,7 @@ Interrupts are a byproduct of users interacting with virtual devices. The simula
 
 The formatter shall be responsible for transforming the user's source code file into a standard style. It, again, acts like a pure function: the input is the old source code, and the output is the formatted source code. Note that the formatter does not interact with the simulator entity in any way.
 
-The file upload system shall be responsible for taking the user's source code.
-The text editor shall be responsible for performing changes to the user's source code. 
+The file upload system shall be responsible for taking the user's source code. The text editor shall be responsible for performing changes to the user's source code. 
 
 *For an overview on what user actions affect the state of the simulator see 7.2.2.*  
 
