@@ -53,11 +53,11 @@
 
 ### 1.1 Purpose
 
-Tasm shall be a web-based that allows users to write code for a simulated 8-bit microprocessor in a safe, contained environment. Tasm is intended to be a successor to pre-existing simulators such as the sms32 simulator. Existing simulators lack some functionality that is expected of modern applications, such as an accessible user interface, and cross-platform support. Tasm aims to resolve these issues. Users shall be able to write their code in their web browser, execute their programs, debug their programs with the help of a debugger, and share their programs with other users via a shared URL.
+TASM shall be a web-based that allows users to write code for a simulated 8-bit microprocessor in a safe, contained environment. TASM is intended to be a successor to pre-existing simulators such as the sms32 simulator. Existing simulators lack some functionality that is expected of modern applications, such as an accessible user interface, and cross-platform support. TASM aims to resolve these issues. Users shall be able to write their code in their web browser, execute their programs, debug their programs with the help of a debugger, and share their programs with other users via a shared URL.
 
 ### 1.2 Scope
 
-The system is being developed without the support of a business or an organization. The system is primarily aimed at students learning how to write assembly language programs, which is why a significant portion of this document is focused on the user interface. Having said that, the simulator could be used by anybody who wants to learn assembly language programming.
+The system is being developed without the support of a business or an organization. The system is primarily aimed at students learning how to write assembly language programs. Having said that, the simulator could be used by anybody who wants to learn assembly language programming.
 
 ### 1.3 Glossary
 
@@ -75,7 +75,7 @@ The system is being developed without the support of a business or an organizati
 <dd>A modern functional programming language.</dd>
 
 <dt>Cowboy</dt>
-<dd>A small, fast, modern HTTP server that runs on the ErlangVM.</dd>
+<dd>A small, fast, modern HTTP server that runs on the Erlang VM.</dd>
 
 <dt>React</dt>
 <dd>A JavaScript library for building user interfaces.</dd>
@@ -101,11 +101,11 @@ The system is being developed without the support of a business or an organizati
 
 ### 2.1 Product / System Functions
 
-Firstly, the user will have to visit a site where Tasm is deployed through a modern web browser. When on the site they will have the full functionality of the product as it runs as a SPA within the users browser. The site will be served using Cowboy and Nginx by default. 
+Firstly, the user will have to visit a site where TASM is deployed through a modern web browser. When on the site they will have the full functionality of the product as it runs as a SPA within the users browser. The site will be served using Cowboy and Nginx by default. 
 
 #### Writing & Uploading Code
 
-When on the site, users will be able to write Tasm code in a text editor. This text editor includes some basic syntax highlighting for Tasm code. Alternatively users can upload a file if they wish to write their code locally. 
+When on the site, users will be able to write TASM code in a text editor. This text editor includes some basic syntax highlighting for TASM code. Alternatively users can upload a file if they wish to write their code locally. 
 
 #### 8-bit CPU Emulation
 The system shall emulate an 8-bit CPU such as the Intel 808{0,5} microprocessors. It shall mimick the majority of the instruction set provided by these processors, but deviations from the instruction set are acceptable if it simplifies the interface for users.
@@ -141,7 +141,7 @@ One of the reasons for doing this project was the lack of screenreader support o
 
 ### 2.3 User Characteristics and Objectives
 
-We expect our main users to be in the age range of 18 - 30 and interested in software engineering or pursuing a degree or career involving assembly level programming. Additionally we expect educational staff that are teaching assembly level programming concepts to program and share Tasm programs. 
+We expect our main users to be in the age range of 18 - 30 and interested in software engineering or pursuing a degree or career involving assembly level programming. Additionally we expect educational staff that are teaching assembly level programming concepts to program and share TASM programs. 
 Our main objective for the user experience is to make the user not have to think about how they have to interact with the user interface. We plan on doing this by giving the user interface a sense of rhythm and habit through following standard user interface design practices. Additionally we plan on making the website accessible for visually impaired and color blind users.
 
 ### 2.4 Operating Environment 
@@ -160,7 +160,7 @@ We are limited to 9 weeks of development time. Therefore, we must strictly adher
 
 #### 2.5.2 Network & Speed
 
-We are adding constraints on the finished application in terms of network and speed. The application should be able to be downloaded in less than 2 seconds on the DCU network. The assembler should be able to assemble any program within 2 seconds of hitting the assemble button. Any visual transitions such as the memory display area should run smoothly without affecting the overall performance of the application.
+We are adding constraints on the finished application in terms of network and speed. The application should be able to be downloaded in less than 2 seconds on the DCU network. The assembler should be able to assemble any program within 2 seconds of hitting the assemble button on a standard lab machine within DCU. Any visual transitions such as the memory display area should run smoothly without affecting the overall performance of the application.
 
 #### 2.5.3 Accessibility 
 
@@ -168,7 +168,7 @@ As we aim to make this application accessible to those with disabilities we are 
 
 #### 2.5.4 Web Technology 
 
-The TASM development and design team are limited to the constraints of present day web technologies. This shall limit the scope of our design.
+The development and design team are limited to the constraints of present day web technologies. This shall limit the scope of our design.
 
 #### 2.5.5 Code Linting 
 
@@ -202,7 +202,7 @@ None
 
 #### Description 
 
-Users shall be able to upload a file containing tasm code to the application through an upload section on the user interface. This code shall then be displayed in the text display area. The uploaded code shall be usable by 
+Users shall be able to upload a file containing TASM code to the application through an upload section on the user interface. This code shall then be displayed in the text display area. The uploaded code shall be usable by 
 
 #### Criticality
 
@@ -238,7 +238,7 @@ Writing an Assembler is likely going to be the most challenging part of the syst
 
 #### Description
 
-The virtual CPU shall interpret the bytes representing instructions, and shall modify its own state based on the values of these instructions. The virtual CPU shall have an 8-bit wors size, and the instruction set shall primarily adhere to the Intel 8080 instruction set. Invalid opcodes shall be reported to the user when encountered.
+The virtual CPU shall interpret the bytes representing instructions, and shall modify its own state based on the values of these instructions. The virtual CPU shall have an 8-bit word size, and the instruction set shall primarily adhere to the Intel 8080 instruction set. Invalid opcodes shall be reported to the user when encountered.
 
 #### Criticality
 
@@ -291,7 +291,7 @@ Debug mode does not interact well with the interrupt feature. It will be a techn
 
 #### Description 
 
-Users shall be able to write their Tasm programs in a web based text editor. This allows users to easily see the structure of the code through keyword highlighting and quickly switch between writing and running programs. If a user has uploaded a program it should by default be displayed and editable in the text editor. 
+Users shall be able to write their TASM programs in a web based text editor. This allows users to easily see the structure of the code through keyword highlighting and quickly switch between writing and running programs. If a user has uploaded a program it should by default be displayed and editable in the text editor. 
 
 #### Criticality
 
@@ -386,7 +386,9 @@ Redux will act as middleware and a centralized store between React, the backend 
 The simulator shall be divided in three parts. The virtual CPU, assembler and virtual devices. 
 Methods shall be performed on the simulator by Redux actions that have been received from the UI. This can be clearly seen in 7.2.1. 
 The virtual CPU, assembler, and virtual devices shall have their own state and not be contained within the centralized store of Redux. 
-This is to provide the ability to remove the simulator from the UI designed with this system. This shall allow integration with third party systems such as automatic grading systems. 
+This is to provide the ability to remove the simulator from the UI designed with this system. This shall allow integration with third party systems such as automatic grading systems.
+
+Note that some features such as the formatter are not present in the system architecture. These shall most likely live within React as stateful React components. 
 
 *The overall system architecture as described above can be seen below.*
 
@@ -399,29 +401,33 @@ This is to provide the ability to remove the simulator from the UI designed with
 ## 5. High Level Design 
 
 *Data-flow diagram for the whole system*
-![](https://i.imgur.com/f6X4qGC.png)
+![](https://i.imgur.com/pPo63YX.png)
 
 
 *Data-flow diagram for the assembler*
 ![](https://i.imgur.com/2Zq7MlS.png)
 
+The system consists primarily of the following entities:
+- Simulator
+- Assembler
+- CPU
+- Formatter
+- Sharer
+- File upload
+- Text editor 
 
+The simulator shall be responsible for translating the actions performed by the user on the user interface into information that the assembler &amp;  CPU can understand, and for maintaining the last state produced by the CPU. The assembler shall be responsible for translating the user's source code into bytecode that the CPU can execute. The CPU shall be responsible for the execution of code.
 
-The assembler takes in the user's source code, and performs either of the following operations:
-- Successfully assembles it to bytecode, and returns it to the simulator
-- Encounters semantic or syntax error(s), and reports them to the simulator
+Both the assembler and the CPU shall be stateless; they simply perform transformations on the data that they receive. The CPU takes in an input state, performs transformations on it, and produces a new output state. It can be seen as a pure function. The assembler follows the same idea: it takes a program as input, and returns executable code as output.
 
-The CPU state contains all the information needed by the CPU to perform operations. In more detail, it contains the following data:
-- Register states
-- Memory states
-- Device states
+Interrupts are a byproduct of users interacting with virtual devices. The simulator shall handle these by notifying the CPU with the interrupt information. The CPU shall then handle the interrupt appropriately and return new state as per it's role mentioned above.
 
-The data contained in individual device states is intentionally not specified, because the CPU will treat them as abstract entities.
+The formatter shall be responsible for transforming the user's source code file into a standard style. It, again, acts like a pure function: the input is the old source code, and the output is the formatted source code. Note that the formatter does not interact with the simulator entity in any way.
 
-Also note that the assembler and CPU do not hold any state themselves, they receivie state from the simulator when invoked. This is an intentional design decision, keeping both of the aforementioned componenets stateless allows for easier testing, and will make the code easier to understand.
+The file upload system shall be responsible for taking the user's source code.
+The text editor shall be responsible for performing changes to the user's source code. 
 
-For an overview on what user actions affect the state of the simulator see 7.2.2.
-
+*For an overview on what user actions affect the state of the simulator see 7.2.2.*  
 
 ---
 
@@ -476,9 +482,10 @@ Redux - reduxjs.org
 <div style="page-break-after: always;"></div>  
 
 
-#### 7.2.2 - Typical user action flow
+#### 7.2.2 - Typical Simulator Data Transaction Sequence Diagram
 
-![User Action Flow](https://i.imgur.com/wbuJSar.png)
+![Typical Simulator Data Transaction Sequence Diagram](https://i.imgur.com/Tlm12k8.png)
+
 
 ---
 
