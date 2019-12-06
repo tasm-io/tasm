@@ -285,7 +285,7 @@ Debug mode does not interact well with the interrupt feature. It will be a techn
 #### Inter-requirement Dependencies 
 
 3.1 - By this point, the application should have already been served to the user.   
-3.3, 3.4 -Without the virtual CPU the debugger has nothing to debug and interact with.  
+3.3, 3.4 - Without the virtual CPU the debugger has nothing to debug and interact with.  
 
 ### 3.7 Edit Text through the Medium of a Text Editor
 
@@ -473,19 +473,18 @@ Redux - reduxjs.org
 ### 7.2 Diagrams
 
 --- 
-#### 7.2.1 - Sequence diagram for simulator 
+#### 7.2.1 - Typical Simulator Data Transaction Sequence Diagram
 
-![Simulator Data Flow](https://i.imgur.com/GBZAuLE.png)
+![Typical Simulator Data Transaction Sequence Diagram](https://i.imgur.com/C3kdw5X.png)
 
 ---
 
 <div style="page-break-after: always;"></div>  
 
 
-#### 7.2.2 - Typical Simulator Data Transaction Sequence Diagram
+#### 7.2.2 - Typical user action flow
 
-![Typical Simulator Data Transaction Sequence Diagram](https://i.imgur.com/Tlm12k8.png)
-
+![User Action Flow](https://i.imgur.com/wbuJSar.png)
 
 ---
 
