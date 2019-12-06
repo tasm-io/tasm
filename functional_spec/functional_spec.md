@@ -400,11 +400,11 @@ Note that some features such as the formatter are not present in the system arch
 
 ## 5. High Level Design 
 
-*Data-flow diagram for the whole system*
+*Data-flow diagram for the whole system*  
 ![](https://i.imgur.com/pPo63YX.png)
 
 
-*Data-flow diagram for the assembler*
+*Data-flow diagram for the assembler*  
 ![](https://i.imgur.com/2Zq7MlS.png)
 
 The system consists primarily of the following entities:
