@@ -1,21 +1,11 @@
-# ElixirWebserver
+# Elixir Webserver
 
-**TODO: Add description**
+Serves the main Tasm Application through a reverse proxy alongside Nginx. Also acts as a JSON API serving shared code when users visit a shared code URL.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `elixir_webserver` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:elixir_webserver, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/elixir_webserver](https://hexdocs.pm/elixir_webserver).
-
+- Install Elixir. 
+- Run mix deps.get to get the dependancies.
+- Run iex -S mix to start an interactive shell
+- Type ElixirWebserver.start() to start the webserver. 
+- Ensure there is a reverse proxy to the designated port, (default 8081).

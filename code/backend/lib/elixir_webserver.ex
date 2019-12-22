@@ -14,8 +14,9 @@ defmodule ElixirWebserver do
     :cowboy_router.compile([
       {:_,
        [
-         {"/[...]", :cowboy_static, {:dir, "/var/www/tasm.io/"}}
-         {"/static/[...]", :cowboy_static, {:dir, "/var/www/tasm.io/"}}
+         {"/", :cowboy_static, {:file, "/var/www/tasm.io/index.html"}}, 
+         {"/[...]", :cowboy_static, {:dir, "/var/www/tasm.io"}},
+         {"/[...]", :cowboy_static, {:dir, "/var/www/tasm.io/static"}}
        ]}
     ])
   end
