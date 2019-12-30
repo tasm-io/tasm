@@ -23,6 +23,7 @@ type VisitorFunction<Node, T, U> = (visitor: Visitor<T, U>, node: Node, context:
  */
 export interface Visitor<T, U> {
   visitInteger: VisitorFunction<Integer, T, U>,
+  visitCharacter: VisitorFunction<Character, T, U>,
   visitIdentifier: VisitorFunction<Identifier, T, U>,
   visitRegister: VisitorFunction<Register, T, U>,
   visitDirectAddress: VisitorFunction<DirectAddress, T, U>,
@@ -105,6 +106,22 @@ export class Integer extends Node {
 
   public accept<T, U>(visitor: Visitor<T, U>, context: U): T {
     return visitor.visitInteger(visitor, this, context);
+  }
+}
+
+/**
+ * A `Character` represents a character literal that occurs in the source code.
+ */
+export class Character extends Node {
+  public value: string;
+
+  constructor(source: Location, value: string) {
+    super(source);
+    this.value = value;
+  }
+
+  public accept<T, U>(visitor: Visitor<T, U>, context: U): T {
+    return visitor.visitCharacter(visitor, this, context);
   }
 }
 
@@ -347,6 +364,7 @@ export class Block extends Node {
 function defaultNullableVisitor<T, U>(): NullableVisitor<T, U> {
   return {
     visitInteger: (_visitor, _integer, _context) => null,
+    visitCharacter: (_visitor, _character, _context) => null,
     visitIdentifier: (_visitor, _identifier, _context) => null,
     visitRegister: (_visitor, _register, _context) => null,
     visitDirectAddress: (visitor, addr, context) => {
@@ -414,6 +432,7 @@ export function createNullableVisitor<T, U>(
 function defaultTransformer<T>(): Transformer<T> {
   return {
     visitInteger: (_visitor, integer, _context) => integer,
+    visitCharacter: (_visitor, character, _context) => character,
     visitIdentifier: (_visitor, identifier, _context) => identifier,
     visitRegister: (_visitor, register, _context) => register,
     visitDirectAddress: (visitor, addr, context) => new DirectAddress(
