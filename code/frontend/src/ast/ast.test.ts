@@ -16,7 +16,7 @@ it('visits correctly', () => {
     new ast.Integer(source, 100),
     new ast.Constant(source, 'Y', new ast.Integer(source, 100)),
   ]).accept(collectConstants, identifiers);
-  expect(identifiers).toStrictEqual(new Set(['Y']));
+  expect(identifiers).toStrictEqual(new Set(['X', 'Y']));
 });
 
 it('transforms correctly', () => {
