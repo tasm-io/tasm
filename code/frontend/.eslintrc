@@ -30,6 +30,7 @@
       2,
       64
     ],
+    "react/destructuring-assignment": [0],
     "import/extensions": [
       "error",
       "ignorePackages",
