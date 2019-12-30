@@ -26,6 +26,10 @@
         "argsIgnorePattern": "^_"
       }
     ],
+    "max-classes-per-file": [
+      2,
+      64
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
