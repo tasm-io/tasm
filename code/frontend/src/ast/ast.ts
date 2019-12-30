@@ -317,9 +317,9 @@ export class Asciiz extends Directive {
  * A `Byte` is a `byte` in the source code.
  */
 export class Byte extends Directive {
-  public value: string;
+  public value: Node;
 
-  constructor(source: Location, value: string) {
+  constructor(source: Location, value: Node) {
     super(source);
     this.value = value;
   }
@@ -392,7 +392,10 @@ function defaultNullableVisitor<T, U>(): NullableVisitor<T, U> {
     },
     visitAscii: (_visitor, _ascii, _context) => null,
     visitAsciiz: (_visitor, _asciiz, _context) => null,
-    visitByte: (_visitor, _byte, _context) => null,
+    visitByte: (visitor, byte, context) => {
+      byte.value.accept(visitor, context);
+      return null;
+    },
     visitBlock: (visitor, block, context) => {
       block.statements.map((stmt) => stmt.accept(visitor, context));
       return null;
@@ -462,7 +465,10 @@ function defaultTransformer<T>(): Transformer<T> {
     ),
     visitAscii: (_visitor, ascii, _context) => ascii,
     visitAsciiz: (_visitor, asciiz, _context) => asciiz,
-    visitByte: (_visitor, byte, _context) => byte,
+    visitByte: (visitor, byte, context) => new Byte(
+      byte.source,
+      byte.value.accept(visitor, context),
+    ),
     visitBlock: (visitor, block, context) => new Block(
       block.source,
       block.statements.map((stmt) => stmt.accept(visitor, context)),
