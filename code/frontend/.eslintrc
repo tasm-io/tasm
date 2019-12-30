@@ -1,6 +1,13 @@
 {
-  "extends": ["airbnb"],
-  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "import/no-unresolved": "error",
@@ -11,6 +18,16 @@
           ".jsx",
           ".tsx"
         ]
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
     ]
   }
