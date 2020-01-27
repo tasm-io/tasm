@@ -12,7 +12,7 @@
 //
 // https://pegjs.org/   https://github.com/metadevpro/ts-pegjs
 
-import * as ast from '../ast/ast';
+import * as ast from './ast';
 export interface IFilePosition {
   offset: number;
   line: number;

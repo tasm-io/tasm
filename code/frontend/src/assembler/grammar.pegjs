@@ -1,5 +1,5 @@
 // To build this use
-// tspegjs -o parser.ts --custom-header "import * as ast from '../ast/ast';" grammar.pegjs
+// tspegjs -o parser.ts --custom-header "import * as ast from './ast';" grammar.pegjs
 
 Program
 	= _ commands:ProgramRec? _ {
