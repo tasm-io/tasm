@@ -24,7 +24,7 @@ it('transforms correctly', () => {
   const byteTransformer: ast.Transformer<{}> = ast.createTransformer({
     visitAscii: (_visitor, node, _context) => new ast.Block(
       node.source,
-      node.value.split('').map((c) => new ast.Byte(node.source, c)),
+      node.value.split('').map((c) => new ast.Byte(node.source, new ast.Character(node.source, c))),
     ),
     visitAsciiz: (visitor, node, context) => new ast.Ascii(
       source,
@@ -40,10 +40,10 @@ it('transforms correctly', () => {
     new ast.Block(source, [
       new ast.Label(source, 'str'),
       new ast.Block(source, [
-        new ast.Byte(source, 'a'),
-        new ast.Byte(source, 'b'),
-        new ast.Byte(source, 'c'),
-        new ast.Byte(source, '\0'),
+        new ast.Byte(source, new ast.Character(source, 'a')),
+        new ast.Byte(source, new ast.Character(source, 'b')),
+        new ast.Byte(source, new ast.Character(source, 'c')),
+        new ast.Byte(source, new ast.Character(source, '\0')),
       ]),
     ]),
   );
