@@ -8,6 +8,9 @@
   "plugins": [
     "@typescript-eslint"
   ],
+  "env": {
+    "jest": true
+  },
   "parser": "@typescript-eslint/parser",
   "rules": {
     "import/no-unresolved": "error",
