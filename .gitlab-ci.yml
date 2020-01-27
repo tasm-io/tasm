@@ -1,0 +1,18 @@
+# TODO(cmgn): Create a deployment job.
+
+build site:
+  image: node:latest
+  stage: build
+  script:
+    - cd code/frontend
+    - npm install --progress=false
+    - npm run-script build
+
+test site:
+  image: node:latest
+  stage: build
+  script:
+    - cd code/frontend
+    - npm install --progress=false
+    - npm run-script test
+
