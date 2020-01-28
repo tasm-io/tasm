@@ -22,3 +22,40 @@ it('expands characters into ints', () => {
     ),
   );
 });
+
+it('expands ascii into bytes', () => {
+  expect(
+    transform.removeStrings(new ast.Ascii(source, 'abcdef')),
+  ).toStrictEqual(
+    new ast.Block(
+      source,
+      [
+        new ast.Integer(source, 97),
+        new ast.Integer(source, 98),
+        new ast.Integer(source, 99),
+        new ast.Integer(source, 100),
+        new ast.Integer(source, 101),
+        new ast.Integer(source, 102),
+      ],
+    )
+  );
+});
+
+it('expands asciiz into bytes', () => {
+  expect(
+    transform.removeStrings(new ast.Asciiz(source, 'abcdef')),
+  ).toStrictEqual(
+    new ast.Block(
+      source,
+      [
+        new ast.Integer(source, 97),
+        new ast.Integer(source, 98),
+        new ast.Integer(source, 99),
+        new ast.Integer(source, 100),
+        new ast.Integer(source, 101),
+        new ast.Integer(source, 102),
+        new ast.Integer(source, 0),
+      ],
+    )
+  );
+});
