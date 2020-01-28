@@ -1,0 +1,24 @@
+import * as ast from './ast';
+import * as transform from './transform';
+
+const source = { line: 0, column: 0, offset: 0 };
+
+it('expands characters into ints', () => {
+  expect(
+    transform.removeCharacters(
+      new ast.Block(
+        source,
+        [
+          new ast.Instruction(source, 'push', [new ast.Character(source, 'a')]),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    new ast.Block(
+      source,
+      [
+        new ast.Instruction(source, 'push', [new ast.Integer(source, 97)]),
+      ],
+    ),
+  );
+});
