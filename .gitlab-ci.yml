@@ -1,4 +1,17 @@
 # TODO(cmgn): Create a deployment job.
+# TODO(cmgn): Make npm install only run once.
+
+stages:
+  - lint
+  - build
+  - test
+
+lint site:
+  stage: lint
+  script:
+    - cd code/frontend
+    - npm install --progress=false
+    - ./node_modules/.bin/eslint . --ext '.ts,.tsx'
 
 build site:
   image: node:latest
@@ -10,7 +23,7 @@ build site:
 
 test site:
   image: node:latest
-  stage: build
+  stage: test
   script:
     - cd code/frontend
     - npm install --progress=false
