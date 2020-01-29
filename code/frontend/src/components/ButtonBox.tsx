@@ -1,15 +1,15 @@
 import React from 'react';
 import '../App.css';
 
-import FileUpload from './FileUpload'
+import FileUpload from './FileUpload';
 
 const ButtonBox: React.FC = () => (
   <div className="ButtonBox">
-      <div className="Column">
-          <FileUpload />
-          <button className="Button">Share</button>
-          <button className="Button">Format</button>
-      </div>
+    <div className="Column">
+      <FileUpload />
+      <button type="button" className="Button">Share</button>
+      <button type="button" className="Button">Format</button>
+    </div>
   </div>
 );
 
