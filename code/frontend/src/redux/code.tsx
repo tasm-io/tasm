@@ -1,18 +1,7 @@
-export const codeReducer = (state = defaultState, action: CodeActions) => {
-    switch(action.type) {
-        case(SET_CODE): {
-            return { ...state, code: action.payload }
-        }
-        case(UPLOAD_ERROR): {
-            return { ...state, uploadErrorMessage: action.payload }
-        }
-        default: 
-            return state
-    }
-}
-
+export const SET_CODE = 'SET_CODE';
+export const UPLOAD_ERROR = 'UPLOAD_ERROR';
 export interface CodeInterface {
-    code: String 
+    code: String
     isUploading: boolean
     shared: boolean
     uploadErrorMessage: String,
@@ -20,12 +9,12 @@ export interface CodeInterface {
 }
 
 const defaultState: CodeInterface = {
-    code: '',
-    isUploading: false, 
-    shared: false,
-    uploadErrorMessage: '',
-    shareURL: '',
-}
+  code: '',
+  isUploading: false,
+  shared: false,
+  uploadErrorMessage: '',
+  shareURL: '',
+};
 
 type CodeActions = SetCode | UploadError
 
@@ -40,5 +29,15 @@ export interface UploadError {
 }
 
 
-export const SET_CODE = "SET_CODE"
-export const UPLOAD_ERROR = 'UPLOAD_ERROR'
+export const codeReducer = (state = defaultState, action: CodeActions) => {
+  switch (action.type) {
+    case (SET_CODE): {
+      return { ...state, code: action.payload };
+    }
+    case (UPLOAD_ERROR): {
+      return { ...state, uploadErrorMessage: action.payload };
+    }
+    default:
+      return state;
+  }
+};

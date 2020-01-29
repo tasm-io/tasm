@@ -8,15 +8,14 @@ import Editor from './components/Editor';
 
 const App: React.FC = () => (
   <div className="Root">
-    <div className="Row" style={{margin: '1em'}}>
+    <div className="Row" style={{ margin: '1em' }}>
       <StateDisplay />
       <Debugger />
       <ButtonBox />
     </div>
     <div className="Row">
       <Editor />
-      <div className="Column">
-      </div>
+      <div className="Column" />
     </div>
   </div>
 );

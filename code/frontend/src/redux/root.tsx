@@ -1,7 +1,8 @@
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux';
+import { codeReducer } from './code';
 
-import {codeReducer} from './code'
+const rootReducer = combineReducers({
+  code: codeReducer,
+});
 
-export const rootReducer = combineReducers({
-    code: codeReducer,
-})
+export default rootReducer;
