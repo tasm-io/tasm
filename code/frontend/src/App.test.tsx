@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import App from './App';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
-import { rootReducer } from './redux/root'
+import rootReducer from './redux/root'
 
 test('Renders the application', () => {
   const store = createStore(rootReducer)
