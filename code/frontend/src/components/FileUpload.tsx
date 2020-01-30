@@ -5,11 +5,11 @@ import { useDispatch } from 'react-redux';
 import { SET_CODE, UPLOAD_ERROR } from '../redux/code';
 
 function handleFileUpload(files: FileList, dispatch: Function) {
-  const file : File = files[0];
-  const fileReader : FileReader = new FileReader();
+  const file: File = files[0];
+  const fileReader: FileReader = new FileReader();
   if (file.type !== 'text/plain') {
     dispatch({ type: UPLOAD_ERROR, payload: 'Unsupported file type' });
-  } else if (file.size > 1000) {
+  } else if (file.size > 128000) {
     dispatch({ type: UPLOAD_ERROR, payload: 'File too big' });
   } else {
     fileReader.onloadend = () => dispatch({ type: SET_CODE, payload: fileReader.result });
