@@ -1,11 +1,12 @@
 export const SET_CODE = 'SET_CODE';
 export const UPLOAD_ERROR = 'UPLOAD_ERROR';
+
 export interface CodeInterface {
-    code: String
+    code: string
     isUploading: boolean
     shared: boolean
-    uploadErrorMessage: String,
-    shareURL: String
+    uploadErrorMessage: string,
+    shareURL: string
 }
 
 const defaultState: CodeInterface = {
@@ -20,12 +21,12 @@ type CodeActions = SetCode | UploadError
 
 export interface SetCode {
     type: typeof SET_CODE
-    payload: String
+    payload: string
 }
 
 export interface UploadError {
     type: typeof UPLOAD_ERROR
-    payload: String
+    payload: string
 }
 
 

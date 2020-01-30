@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import rootReducer from './redux/root'
 
-test('Renders the application', () => {
-  const store = createStore(rootReducer)
-  render(<Provider store={store}><App /></Provider>)
+test('renders the application', () => {
+  const store = createStore(rootReducer);
+  render(<Provider store={store}><App /></Provider>);
 });
