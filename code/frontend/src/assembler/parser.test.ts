@@ -64,13 +64,7 @@ it('parses a full program', () => {
         value: 'b'
       }
     },
-    Label {
-      source: { offset: 74, line: 8, column: 3 },
-      name: Identifier {
-        source: { offset: 74, line: 8, column: 3 },
-        name: 'aaaa'
-      }
-    },
+    Label { source: { offset: 74, line: 8, column: 3 }, name: 'aaaa' },
     Byte {
       source: { offset: 80, line: 8, column: 9 },
       value: Character {
@@ -78,13 +72,7 @@ it('parses a full program', () => {
         value: 'x'
       }
     },
-    Label {
-      source: { offset: 91, line: 9, column: 3 },
-      name: Identifier {
-        source: { offset: 91, line: 9, column: 3 },
-        name: 'bbbb'
-      }
-    },
+    Label { source: { offset: 91, line: 9, column: 3 }, name: 'bbbb' },
     Ascii {
       source: { offset: 97, line: 9, column: 9 },
       value: [
@@ -95,10 +83,7 @@ it('parses a full program', () => {
     },
     Label {
       source: { offset: 117, line: 10, column: 3 },
-      name: Identifier {
-        source: { offset: 117, line: 10, column: 3 },
-        name: 'cccc'
-      }
+      name: 'cccc'
     },
     Byte {
       source: { offset: 123, line: 10, column: 9 },
@@ -123,17 +108,11 @@ it('parses a full program', () => {
     },
     Label {
       source: { offset: 165, line: 13, column: 3 },
-      name: Identifier {
-        source: { offset: 165, line: 13, column: 3 },
-        name: 'label'
-      }
+      name: 'label'
     },
     Instruction {
       source: { offset: 176, line: 14, column: 5 },
-      opcode: Identifier {
-        source: { offset: 176, line: 14, column: 5 },
-        name: 'mov'
-      },
+      opcode: 'mov',
       operands: [
         Register {
           source: { offset: 180, line: 14, column: 9 },
@@ -147,10 +126,7 @@ it('parses a full program', () => {
     },
     Instruction {
       source: { offset: 192, line: 15, column: 5 },
-      opcode: Identifier {
-        source: { offset: 192, line: 15, column: 5 },
-        name: 'mov'
-      },
+      opcode: 'mov',
       operands: [
         Register {
           source: { offset: 196, line: 15, column: 9 },
@@ -167,10 +143,7 @@ it('parses a full program', () => {
     },
     Instruction {
       source: { offset: 209, line: 16, column: 5 },
-      opcode: Identifier {
-        source: { offset: 209, line: 16, column: 5 },
-        name: 'mov'
-      },
+      opcode: 'mov',
       operands: [
         Register {
           source: { offset: 213, line: 16, column: 9 },
@@ -191,10 +164,7 @@ it('parses a full program', () => {
     },
     Instruction {
       source: { offset: 241, line: 17, column: 5 },
-      opcode: Identifier {
-        source: { offset: 241, line: 17, column: 5 },
-        name: 'mov'
-      },
+      opcode: 'mov',
       operands: [
         Identifier {
           source: { offset: 245, line: 17, column: 9 },
@@ -212,10 +182,7 @@ it('parses a full program', () => {
     },
     Instruction {
       source: { offset: 263, line: 18, column: 5 },
-      opcode: Identifier {
-        source: { offset: 263, line: 18, column: 5 },
-        name: 'mov'
-      },
+      opcode: 'mov',
       operands: [
         Register {
           source: { offset: 267, line: 18, column: 9 },
@@ -236,10 +203,7 @@ it('parses a full program', () => {
     },
     Instruction {
       source: { offset: 312, line: 21, column: 5 },
-      opcode: Identifier {
-        source: { offset: 312, line: 21, column: 5 },
-        name: 'jmp'
-      },
+      opcode: 'jmp',
       operands: [
         Identifier {
           source: { offset: 316, line: 21, column: 9 },
@@ -249,10 +213,7 @@ it('parses a full program', () => {
     },
     Instruction {
       source: { offset: 338, line: 23, column: 5 },
-      opcode: Identifier {
-        source: { offset: 338, line: 23, column: 5 },
-        name: 'inc'
-      },
+      opcode: 'inc',
       operands: [
         Identifier {
           source: { offset: 346, line: 24, column: 5 },

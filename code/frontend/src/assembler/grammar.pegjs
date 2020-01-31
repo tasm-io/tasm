@@ -56,12 +56,12 @@ Break
         return new ast.Break(location().start);
     }
 Label
-    = name:Identifier _ ":" {
+    = name:Name _ ":" {
         return new ast.Label(location().start, name);
     }
 
 Instruction
-    = opcode:Identifier _ operands:Operands {
+    = opcode:Name _ operands:Operands {
         return new ast.Instruction(location().start, opcode, operands);
     }
 
