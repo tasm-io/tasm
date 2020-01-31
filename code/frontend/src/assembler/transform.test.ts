@@ -59,3 +59,82 @@ it('expands asciiz into bytes', () => {
     )
   );
 });
+
+it('removes constants', () => {
+  expect(
+    transform.removeConstants(
+      new ast.Block(
+        source,
+        [
+          new ast.Constant(source, 'X', new ast.Integer(source, 100)),
+          new ast.Constant(source, 'Y', new ast.Identifier(source, 'X')),
+          new ast.Instruction(source, 'push', [new ast.Identifier(source, 'Y')]),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    new ast.Block(
+      source,
+      [
+        new ast.Block(source, []),
+        new ast.Block(source, []),
+        new ast.Instruction(source, 'push', [new ast.Integer(source, 100)])
+      ],
+    ),
+  );
+});
+
+it('doesn\'t transform labels', () => {
+  expect(
+    transform.removeConstants(
+      new ast.Block(
+        source,
+        [
+          new ast.Label(source, 'foo'),
+          new ast.Constant(source, 'x', new ast.Integer(source, 5)),
+          new ast.Instruction(
+            source,
+            'bar',
+            [
+              new ast.Identifier(source, 'x'),
+              new ast.Identifier(source, 'foo'),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    new ast.Block(
+      source,
+      [
+        new ast.Label(source, 'foo'),
+          new ast.Block(source, []),
+        new ast.Instruction(
+          source,
+          'bar',
+          [
+            new ast.Integer(source, 5),
+            new ast.Identifier(source, 'foo'),
+          ],
+        ),
+      ],
+    ),
+  );
+});
+
+it('detects constant loops', () => {
+  expect(
+    () => {
+      transform.removeConstants(
+        new ast.Block(
+          source,
+          [
+            new ast.Constant(source, 'x', new ast.Identifier(source, 'y')),
+            new ast.Constant(source, 'y', new ast.Identifier(source, 'x')),
+          ],
+        ),
+      );
+    },
+  ).toThrow(transform.CyclicConstantDefinition);
+});
+
