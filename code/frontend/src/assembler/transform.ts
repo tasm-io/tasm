@@ -112,3 +112,12 @@ export function removeConstants(program: ast.Node): ast.Node {
   });
   return program.accept(replaceConstants, {});
 }
+
+export type Transformation = (p: ast.Node) => ast.Node;
+
+export function createPipeline(...transformations: Transformation[]): Transformation {
+  return transformations.reduce(
+    (f, g) => (x) => g(f(x)),
+    (x) => x,
+  );
+}

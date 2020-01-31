@@ -138,3 +138,60 @@ it('detects constant loops', () => {
   ).toThrow(transform.CyclicConstantDefinition);
 });
 
+
+it('performs the transformation pipeline', () => {
+  const transformation = transform.createPipeline(
+    transform.removeStrings,
+    transform.removeCharacters,
+    transform.removeConstants,
+  );
+  expect(
+    transformation(
+      new ast.Block(
+        source,
+        [
+          new ast.Constant(source, 'x', new ast.Integer(source, 100)),
+          new ast.Constant(source, 'y', new ast.Identifier(source, 'x')),
+          new ast.Label(source, 'z'),
+          new ast.Asciiz(source, 'abc'),
+          new ast.Byte(source, new ast.Character(source, 'a')),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.Identifier(source, 'x'),
+              new ast.Identifier(source, 'y'),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    new ast.Block(
+      source,
+      [
+        new ast.Block(source, []),
+        new ast.Block(source, []),
+        new ast.Label(source, 'z'),
+        new ast.Block(
+          source,
+          [
+            new ast.Integer(source, 97),
+            new ast.Integer(source, 98),
+            new ast.Integer(source, 99),
+            new ast.Integer(source, 0),
+          ],
+        ),
+        new ast.Byte(source, new ast.Integer(source, 97)),
+        new ast.Instruction(
+          source,
+          'mov',
+          [
+            new ast.Integer(source, 100),
+            new ast.Integer(source, 100),
+          ],
+        ),
+      ],
+    ),
+  );
+});
