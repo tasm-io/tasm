@@ -1,7 +1,10 @@
 import * as ast from './ast';
 
+// The definition of an identifier.
 export type Definition = ast.Constant | ast.Label;
 
+// Detect identifiers that have not been defined by either a const statement, or
+// through a label name.
 export function detectUndefinedIdentifiers(program: ast.Node): ast.Identifier[] {
   const visitDefinitions = ast.createNullableVisitor<null, Set<string>>({
     visitLabel: (_visitor, node, context) => {
@@ -35,6 +38,9 @@ export function detectUndefinedIdentifiers(program: ast.Node): ast.Identifier[] 
   return undefinedIdentifiers;
 }
 
+// Detect identifiers that have been defined in more than one place, be that via a
+// label, or a const statement. The return value is a mapping between the identifier
+// name and the nodes where it is defined.
 export function detectDuplicateDefinitions(program: ast.Node): Map<string, Definition[]> {
   const collectLocations = ast.createNullableVisitor<null, Map<string, Definition[]>>({
     visitLabel: (_visitor, node, context) => {
