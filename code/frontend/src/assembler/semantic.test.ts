@@ -30,3 +30,109 @@ it('detects undefined identifiers', () => {
     ],
   );
 });
+
+it('detects duplicate label names', () => {
+  expect(
+    semantic.detectDuplicateDefinitions(
+      new ast.Block(
+        source,
+        [
+          new ast.Label(source, 'x'),
+          new ast.Label(source, 'y'),
+          new ast.Instruction(source, 'jmp', [new ast.Identifier(source, 'x')]),
+          new ast.Label(source, 'x'),
+          new ast.Instruction(source, 'jmp', [new ast.Identifier(source, 'x')]),
+          new ast.Label(source, 'z'),
+          new ast.Label(source, 'x'),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    new Map<string, semantic.Definition[]>(
+      [
+        [
+          'x',
+          [
+            new ast.Label(source, 'x'),
+            new ast.Label(source, 'x'),
+            new ast.Label(source, 'x'),
+          ],
+        ],
+      ],
+    ),
+  );
+});
+
+it('detects duplicate constants', () => {
+  expect(
+    semantic.detectDuplicateDefinitions(
+      new ast.Block(
+        source,
+        [
+          new ast.Constant(source, 'x', new ast.Integer(source, 0)),
+          new ast.Constant(source, 'x', new ast.Integer(source, 2)),
+          new ast.Constant(source, 'y', new ast.Integer(source, 5)),
+          new ast.Constant(source, 'z', new ast.Integer(source, 2)),
+          new ast.Constant(source, 'y', new ast.Integer(source, 6)),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    new Map<string, semantic.Definition[]>(
+      [
+        [
+          'x',
+          [
+            new ast.Constant(source, 'x', new ast.Integer(source, 0)),
+            new ast.Constant(source, 'x', new ast.Integer(source, 2)),
+          ],
+        ],
+        [
+          'y',
+          [
+            new ast.Constant(source, 'y', new ast.Integer(source, 5)),
+            new ast.Constant(source, 'y', new ast.Integer(source, 6)),
+          ],
+        ],
+      ],
+    ),
+  );
+});
+
+it('detects overlapping constants and labels', () => {
+  expect(
+    semantic.detectDuplicateDefinitions(
+      new ast.Block(
+        source,
+        [
+          new ast.Label(source, 'x'),
+          new ast.Constant(source, 'x', new ast.Integer(source, 0)),
+          new ast.Constant(source, 'z', new ast.Integer(source, 1)),
+          new ast.Label(source, 'y'),
+          new ast.Label(source, 'z'),
+          new ast.Constant(source, 'z', new ast.Integer(source, 1)),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    new Map<string, semantic.Definition[]>(
+      [
+        [
+          'x',
+          [
+            new ast.Label(source, 'x'),
+            new ast.Constant(source, 'x', new ast.Integer(source, 0)),
+          ],
+        ],
+        [
+          'z',
+          [
+            new ast.Constant(source, 'z', new ast.Integer(source, 1)),
+            new ast.Label(source, 'z'),
+            new ast.Constant(source, 'z', new ast.Integer(source, 1)),
+          ],
+        ],
+      ],
+    ),
+  );
+});
