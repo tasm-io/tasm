@@ -47,6 +47,39 @@ export enum Opcode {
   Sti = 35,
 }
 
+export const OpcodeMapping: { [key: string]: Opcode[] } = {
+  nop: [Opcode.Nop],
+  mov: [
+    Opcode.MovRegReg,
+    Opcode.MovRegMem,
+    Opcode.MovRegInt,
+    Opcode.MovMemReg,
+    Opcode.MovMemInt,
+  ],
+  add: [Opcode.AddRegReg, Opcode.AddRegInt],
+  sub: [Opcode.SubRegReg, Opcode.SubRegInt],
+  mul: [Opcode.MulRegReg, Opcode.MulRegInt],
+  div: [Opcode.DivRegReg, Opcode.DivRegInt],
+  and: [Opcode.AndRegReg, Opcode.AndRegInt],
+  or: [Opcode.OrRegReg, Opcode.OrRegInt],
+  xor: [Opcode.XorRegReg, Opcode.XorRegInt],
+  cmp: [Opcode.CmpRegReg, Opcode.CmpRegInt],
+  not: [Opcode.Not],
+  push: [Opcode.Push],
+  pop: [Opcode.Pop],
+  in: [Opcode.In],
+  out: [Opcode.Out],
+  call: [Opcode.Call],
+  jmp: [Opcode.Jmp],
+  js: [Opcode.JmpS],
+  jns: [Opcode.JmpNS],
+  jz: [Opcode.JmpZ],
+  jnz: [Opcode.JmpNZ],
+  ret: [Opcode.Ret],
+  cli: [Opcode.Cli],
+  sti: [Opcode.Sti],
+};
+
 // OperandTypes maps each opcode to its operand's types.
 export const OperandTypes = {
   [Opcode.Nop]: [],
