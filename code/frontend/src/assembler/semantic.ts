@@ -1,5 +1,9 @@
 import * as ast from './ast';
-import { Opcode, Operand, OperandTypes, OpcodeMapping } from '../instructionset/instructionset';
+import {
+  Operand,
+  OperandTypes,
+  OpcodeMapping,
+} from '../instructionset/instructionset';
 
 // The definition of an identifier.
 export type Definition = ast.Constant | ast.Label;
@@ -81,7 +85,7 @@ function collectInstructions(program: ast.Node): ast.Instruction[] {
 
 export function detectInvalidOpcodes(program: ast.Node): ast.Instruction[] {
   const instructions = collectInstructions(program);
-  return instructions.filter(instruction => OpcodeMapping[instruction.opcode] === undefined);
+  return instructions.filter((instruction) => OpcodeMapping[instruction.opcode] === undefined);
 }
 
 function getOperandTypes(instruction: ast.Instruction): Operand[] {
@@ -96,26 +100,21 @@ function getOperandTypes(instruction: ast.Instruction): Operand[] {
     visitRegisterOffsetAddress: (_visitor, _node, _context) => Operand.Memory,
   });
   // This can't actually return nulls, we just can't prove it to the type checker.
-  return instruction.operands.map(operand => operand.accept(typeOf, {}) as Operand);
+  return instruction.operands.map((operand) => operand.accept(typeOf, {}) as Operand);
 }
 
 export function detectBadlyTypedInstructions(program: ast.Node): ast.Instruction[] {
   const instructions = collectInstructions(program);
-  return instructions.filter(instruction => {
+  return instructions.filter((instruction) => {
     const operandTypes = getOperandTypes(instruction);
     // This can't fail: we've already made sure that all of the opcodes exist.
     const opcodes = OpcodeMapping[instruction.opcode];
-    return !opcodes.some(opcode => {
+    return !opcodes.some((opcode) => {
       const expectedOperandTypes = OperandTypes[opcode] as Operand[];
       if (expectedOperandTypes.length !== operandTypes.length) {
         return false;
       }
-      for (let i = 0; i < operandTypes.length; i++) {
-        if (expectedOperandTypes[i] !== operandTypes[i]) {
-          return false;
-        }
-      }
-      return true;
+      return operandTypes.every((a, i) => a === expectedOperandTypes[i]);
     });
   });
 }
