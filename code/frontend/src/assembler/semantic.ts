@@ -83,6 +83,7 @@ function collectInstructions(program: ast.Node): ast.Instruction[] {
   return instructions;
 }
 
+// Detect any instructions with an opcode not defined by the assembler.
 export function detectInvalidOpcodes(program: ast.Node): ast.Instruction[] {
   const instructions = collectInstructions(program);
   return instructions.filter((instruction) => OpcodeMapping[instruction.opcode] === undefined);
@@ -103,6 +104,8 @@ function getOperandTypes(instruction: ast.Instruction): Operand[] {
   return instruction.operands.map((operand) => operand.accept(typeOf, {}) as Operand);
 }
 
+// Detect any instructions which have operand types not matching any provided by
+// the assembler.
 export function detectBadlyTypedInstructions(program: ast.Node): ast.Instruction[] {
   const instructions = collectInstructions(program);
   return instructions.filter((instruction) => {
