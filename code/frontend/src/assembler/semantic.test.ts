@@ -136,3 +136,71 @@ it('detects overlapping constants and labels', () => {
     ),
   );
 });
+
+it('rejects badly-typed instructions', () => {
+  expect(
+    semantic.detectBadlyTypedInstructions(
+      new ast.Block(
+        source,
+        [
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.Integer(source, 5),
+              new ast.Register(source, 'al'),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.Register(source, 'al'),
+              new ast.Integer(source, 5),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'out',
+            [
+              new ast.DirectAddress(source, new ast.Integer(source, 5)),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'jz',
+            [
+              new ast.Identifier(source, 'label'),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'jz',
+            [
+              new ast.Identifier(source, 'label'),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    [
+      new ast.Instruction(
+        source,
+        'mov',
+        [
+          new ast.Integer(source, 5),
+          new ast.Register(source, 'al'),
+        ],
+      ),
+      new ast.Instruction(
+        source,
+        'out',
+        [
+          new ast.DirectAddress(source, new ast.Integer(source, 5)),
+        ],
+      ),
+    ]
+  );
+});
+

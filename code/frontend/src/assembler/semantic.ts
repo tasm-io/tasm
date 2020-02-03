@@ -1,4 +1,5 @@
 import * as ast from './ast';
+import { Opcode, Operand, OperandTypes, OpcodeMapping } from '../instructionset/instructionset';
 
 // The definition of an identifier.
 export type Definition = ast.Constant | ast.Label;
@@ -64,4 +65,47 @@ export function detectDuplicateDefinitions(program: ast.Node): Map<string, Defin
     }
   });
   return locations;
+}
+
+function getOperandTypes(instruction: ast.Instruction): Operand[] {
+  const typeOf = ast.createNullableVisitor<null | Operand, {}>({
+    visitInteger: (_visitor, _node, _context) => Operand.Integer,
+    // An identifier represents either a label, or a constant, so we can be sure that
+    // it will eventually turn into an integer.
+    visitIdentifier: (_visitor, _node, _context) => Operand.Integer,
+    visitRegister: (_visitor, _node, _context) => Operand.Register,
+    visitDirectAddress: (_visitor, _node, _context) => Operand.Memory,
+    visitRegisterAddress: (_visitor, _node, _context) => Operand.Memory,
+    visitRegisterOffsetAddress: (_visitor, _node, _context) => Operand.Memory,
+  });
+  // This can't actually return nulls, we just can't prove it to the type checker.
+  return instruction.operands.map(operand => operand.accept(typeOf, {}) as Operand);
+}
+
+export function detectBadlyTypedInstructions(program: ast.Node): ast.Instruction[] {
+  const collectInstructions = ast.createNullableVisitor<null, ast.Instruction[]>({
+    visitInstruction: (_visitor, node, context) => {
+      context.push(node);
+      return null;
+    },
+  });
+  const instructions: ast.Instruction[] = [];
+  program.accept(collectInstructions, instructions);
+  return instructions.filter(instruction => {
+    const operandTypes = getOperandTypes(instruction);
+    // This can't fail: we've already made sure that all of the opcodes exist.
+    const opcodes = OpcodeMapping[instruction.opcode];
+    return !opcodes.some(opcode => {
+      const expectedOperandTypes = OperandTypes[opcode] as Operand[];
+      if (expectedOperandTypes.length !== operandTypes.length) {
+        return false;
+      }
+      for (let i = 0; i < operandTypes.length; i++) {
+        if (expectedOperandTypes[i] !== operandTypes[i]) {
+          return false;
+        }
+      }
+      return true;
+    });
+  });
 }
