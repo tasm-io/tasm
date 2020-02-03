@@ -137,6 +137,26 @@ it('detects overlapping constants and labels', () => {
   );
 });
 
+it('rejects invalid opcodes', () => {
+  expect(
+    semantic.detectInvalidOpcodes(
+      new ast.Block(
+        source,
+        [
+          new ast.Instruction(source, 'foo', []),
+          new ast.Instruction(source, 'mov', []),
+          new ast.Instruction(source, 'goo', []),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    [
+      new ast.Instruction(source, 'foo', []),
+      new ast.Instruction(source, 'goo', []),
+    ]
+  );
+});
+
 it('rejects badly-typed instructions', () => {
   expect(
     semantic.detectBadlyTypedInstructions(

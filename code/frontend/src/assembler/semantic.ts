@@ -67,6 +67,23 @@ export function detectDuplicateDefinitions(program: ast.Node): Map<string, Defin
   return locations;
 }
 
+function collectInstructions(program: ast.Node): ast.Instruction[] {
+  const visitor = ast.createNullableVisitor<null, ast.Instruction[]>({
+    visitInstruction: (_visitor, node, context) => {
+      context.push(node);
+      return null;
+    },
+  });
+  const instructions: ast.Instruction[] = [];
+  program.accept(visitor, instructions);
+  return instructions;
+}
+
+export function detectInvalidOpcodes(program: ast.Node): ast.Instruction[] {
+  const instructions = collectInstructions(program);
+  return instructions.filter(instruction => OpcodeMapping[instruction.opcode] === undefined);
+}
+
 function getOperandTypes(instruction: ast.Instruction): Operand[] {
   const typeOf = ast.createNullableVisitor<null | Operand, {}>({
     visitInteger: (_visitor, _node, _context) => Operand.Integer,
@@ -83,14 +100,7 @@ function getOperandTypes(instruction: ast.Instruction): Operand[] {
 }
 
 export function detectBadlyTypedInstructions(program: ast.Node): ast.Instruction[] {
-  const collectInstructions = ast.createNullableVisitor<null, ast.Instruction[]>({
-    visitInstruction: (_visitor, node, context) => {
-      context.push(node);
-      return null;
-    },
-  });
-  const instructions: ast.Instruction[] = [];
-  program.accept(collectInstructions, instructions);
+  const instructions = collectInstructions(program);
   return instructions.filter(instruction => {
     const operandTypes = getOperandTypes(instruction);
     // This can't fail: we've already made sure that all of the opcodes exist.
