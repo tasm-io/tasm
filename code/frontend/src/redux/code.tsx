@@ -2,19 +2,19 @@ export const SET_CODE = 'SET_CODE';
 export const UPLOAD_ERROR = 'UPLOAD_ERROR';
 
 /**
- * CodeInterface represents of the user's code in the redux central store. 
+ * CodeInterface represents of the user's code in the redux central store.
  * @param code the user's code stored as a `string`
  * @param isUploading whether or not the code is currently uploading to the server.
  * @param uploadErrorMessage the error message of a failed upload.
- * @param shared whether or not the current code has been uploaded to the server. 
- * @param sharedURL the full URL to access the shared code. 
- * 
+ * @param shared whether or not the current code has been uploaded to the server.
+ * @param sharedURL the full URL to access the shared code.
+ *
  */
 
 export interface CodeInterface {
     code: string
     isUploading: boolean
-    uploadErrorMessage: string,
+    uploadErrorMessage: string
     shared: boolean
     shareURL: string
 }
