@@ -7,6 +7,7 @@ export interface CodeInterface {
     shared: boolean
     uploadErrorMessage: string,
     shareURL: string
+    markers: Marker[]
 }
 
 const defaultState: CodeInterface = {
@@ -15,6 +16,7 @@ const defaultState: CodeInterface = {
   shared: false,
   uploadErrorMessage: '',
   shareURL: '',
+  markers: [],
 };
 
 type CodeActions = SetCode | UploadError
@@ -27,6 +29,15 @@ export interface SetCode {
 export interface UploadError {
     type: typeof UPLOAD_ERROR
     payload: string
+}
+
+export interface Marker {
+    startRow: number
+    startCol: number
+    endRow: number
+    endCol: number
+    className: string
+    type: string,
 }
 
 

@@ -15,7 +15,9 @@ const App: React.FC = () => (
     </div>
     <div className="Row">
       <Editor />
-      <div className="Column" />
+      <div className="Column">
+        Hi I am a right hand side
+      </div>
     </div>
   </div>
 );
