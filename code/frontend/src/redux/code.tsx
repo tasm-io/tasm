@@ -42,13 +42,13 @@ export interface UploadError {
 
 export const codeReducer = (state = defaultState, action: CodeActions) => {
   switch (action.type) {
-    case (SET_CODE): {
-      return { ...state, code: action.payload };
-    }
-    case (UPLOAD_ERROR): {
-      return { ...state, uploadErrorMessage: action.payload };
-    }
-    default:
-      return state;
+  case (SET_CODE): {
+    return { ...state, code: action.payload };
+  }
+  case (UPLOAD_ERROR): {
+    return { ...state, uploadErrorMessage: action.payload };
+  }
+  default:
+    return state;
   }
 };
