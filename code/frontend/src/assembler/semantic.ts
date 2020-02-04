@@ -91,14 +91,14 @@ export function detectInvalidOpcodes(program: ast.Node): ast.Instruction[] {
 
 function getOperandTypes(instruction: ast.Instruction): Operand[] {
   const typeOf = ast.createNullableVisitor<null | Operand, {}>({
-    visitInteger: (_visitor, _node, _context) => Operand.Integer,
+    visitInteger: (_visitor, _node, _context) => Operand.INTEGER,
     // An identifier represents either a label, or a constant, so we can be sure that
     // it will eventually turn into an integer.
-    visitIdentifier: (_visitor, _node, _context) => Operand.Integer,
-    visitRegister: (_visitor, _node, _context) => Operand.Register,
-    visitDirectAddress: (_visitor, _node, _context) => Operand.Memory,
-    visitRegisterAddress: (_visitor, _node, _context) => Operand.Memory,
-    visitRegisterOffsetAddress: (_visitor, _node, _context) => Operand.Memory,
+    visitIdentifier: (_visitor, _node, _context) => Operand.INTEGER,
+    visitRegister: (_visitor, _node, _context) => Operand.REGISTER,
+    visitDirectAddress: (_visitor, _node, _context) => Operand.MEMORY,
+    visitRegisterAddress: (_visitor, _node, _context) => Operand.MEMORY,
+    visitRegisterOffsetAddress: (_visitor, _node, _context) => Operand.MEMORY,
   });
   // This can't actually return nulls, we just can't prove it to the type checker.
   return instruction.operands.map((operand) => operand.accept(typeOf, {}) as Operand);
