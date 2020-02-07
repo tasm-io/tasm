@@ -43,6 +43,12 @@
   flex: 2;
 }
 
+.DebuggerButton {
+  background: transparent;
+  padding: .2em;
+  cursor: pointer;
+}
+
 /* Button Box */ 
 
 .ButtonBox {
@@ -62,6 +68,7 @@
   margin: .2em;
   padding: .7em;
   outline: 1;
+  cursor: pointer;
 }
 
 /* Text Editor */ 
