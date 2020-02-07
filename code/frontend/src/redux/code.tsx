@@ -1,3 +1,4 @@
+/* Action Types */
 export const SET_CODE = 'SET_CODE';
 export const UPLOAD_ERROR = 'UPLOAD_ERROR';
 
@@ -31,6 +32,8 @@ const defaultState: CodeInterface = {
 
 type CodeActions = SetCode | UploadError
 
+/* Actions */ 
+
 export interface SetCode {
     type: typeof SET_CODE
     payload: string
@@ -40,6 +43,8 @@ export interface UploadError {
     type: typeof UPLOAD_ERROR
     payload: string
 }
+
+/* End of Actions */ 
 
 export interface Marker {
     startRow: number
