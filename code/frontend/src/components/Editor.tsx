@@ -11,6 +11,9 @@ import { RootState } from '../redux/root';
 import { Marker } from '../redux/code';
 /* eslint-enable */
 
+function handleCodeChange(e: string) {
+  console.log(e);
+}
 
 const Editor: React.FC = () => {
   const code: string = useSelector((state : RootState) => state.code.code);
@@ -21,15 +24,12 @@ const Editor: React.FC = () => {
         minLines={10}
         theme="github"
         showPrintMargin={false}
-        width={(window.screen.width / 2.5).toString()+"px"}
+        width={`${(window.screen.width / 2.5).toString()}px`}
         value={code}
-        onChange={() => {}}
+        onChange={handleCodeChange}
         name="AceEditor"
         editorProps={{ $blockScrolling: true }}
         markers={markers}
-        annotations={[{
-          row: 0, column: 2, type: 'error', text: 'Some error.',
-        }]}
       />
     </div>
   );
