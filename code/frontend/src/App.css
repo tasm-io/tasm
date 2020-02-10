@@ -49,6 +49,11 @@
   cursor: pointer;
 }
 
+.Icon {
+  font-size: 2em;
+  padding: .3em;
+}
+
 /* Button Box */ 
 
 .ButtonBox {

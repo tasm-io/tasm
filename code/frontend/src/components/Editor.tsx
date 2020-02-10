@@ -10,19 +10,19 @@ import { RootState } from '../redux/root';
 import { Marker, SetCode, SET_CODE } from '../redux/code';
 /* eslint-enable */
 
-// Handle changes in the code and send the changes to the redux store. 
+// Handle changes in the code and send the changes to the redux store.
 function handleCodeChange(code: string, dispatch: Function) {
-  let action: SetCode = {
+  const action: SetCode = {
     payload: code,
-    type: SET_CODE
-  }
+    type: SET_CODE,
+  };
   dispatch(action);
 }
 
 const Editor: React.FC = () => {
   const code: string = useSelector((state : RootState) => state.code.code);
   const markers: Marker[] = useSelector((state : RootState) => state.code.markers);
-  const dispatch: Function = useDispatch()
+  const dispatch: Function = useDispatch();
   return (
     <div className="Editor">
       <AceEditor
