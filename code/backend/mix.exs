@@ -23,7 +23,7 @@ defmodule WebServer.MixProject do
     [
       {:cowboy, "~> 2.6.0"},
       {:ecto_sql, "~> 3.0"},
-      {:postgrex, ">= 0.0.0"},
+      {:postgrex, ">= 0.0.0"}
     ]
   end
 end
