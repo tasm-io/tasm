@@ -25,9 +25,9 @@ defmodule SubmitHandler do
             # Response Code
             200,
             # Content Type
-            %{"content-type" => "application/json"},
+            %{"content-type" => "text/plain"},
             # Response
-            "{\"ID\": \"#{hash}\"}",
+            "#{hash}",
             # Original Request
             req
           )
