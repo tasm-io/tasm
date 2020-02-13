@@ -3,7 +3,7 @@ defmodule WebServer.MixProject do
 
   def project do
     [
-      app: :WebServer,
+      app: :webserver,
       version: "0.1.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
@@ -14,6 +14,7 @@ defmodule WebServer.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      mod: {Runner, []},
       extra_applications: [:logger]
     ]
   end

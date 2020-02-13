@@ -9,11 +9,19 @@ defmodule RequestHandler do
 
   def retrieve_id_from(request) do
     qs = :cowboy_req.parse_qs(request)
-    {key, id} = List.first(qs)
+    count = length(qs)
 
-    case "id" do
-      ^key -> id
-      _ -> ""
+    case 0 do
+      ^count ->
+        ""
+
+      _ ->
+        {key, id} = List.first(qs)
+
+        case "id" do
+          ^key -> id
+          _ -> ""
+        end
     end
   end
 
