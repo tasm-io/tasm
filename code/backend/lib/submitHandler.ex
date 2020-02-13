@@ -3,9 +3,11 @@
 # If the body has text store the text in the DB and return the user the hash.
 
 defmodule SubmitHandler do
+
   def init(req0, state) do
-    # Send request to handler
-    handle(req0, state)
+    req = :cowboy_req.set_resp_header(<<"access-control-allow-methods">>, <<"POST, OPTIONS">>, req0)
+    req2 = :cowboy_req.set_resp_header(<<"access-control-allow-origin">>, <<"*">>, req)
+    handle(req2, state)
   end
 
   def handle(request, state) do

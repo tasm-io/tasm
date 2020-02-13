@@ -4,7 +4,9 @@
 
 defmodule RequestHandler do
   def init(req0, state) do
-    handle(req0, state)
+    req = :cowboy_req.set_resp_header(<<"access-control-allow-methods">>, <<"GET, OPTIONS">>, req0)
+    req2 = :cowboy_req.set_resp_header(<<"access-control-allow-origin">>, <<"*">>, req)
+    handle(req2, state)
   end
 
   def retrieve_id_from(request) do
