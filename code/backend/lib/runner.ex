@@ -4,8 +4,6 @@ defmodule Runner do
   def start(_type, _args) do
     {serverPort, _} = Integer.parse(System.get_env("port"))
     dbPass = System.get_env("dbPass")
-    IO.puts(serverPort)
-    IO.puts(dbPass)
 
     children = [
       %{
