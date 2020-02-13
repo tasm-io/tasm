@@ -27,7 +27,7 @@ defmodule SubmitHandler do
             # Content Type
             %{"content-type" => "application/json"},
             # Response
-            "{'ID': '#{hash}'}",
+            "{\"ID\": \"#{hash}\"}",
             # Original Request
             req
           )

@@ -45,7 +45,7 @@ defmodule RequestHandler do
             # Content Type
             %{"content-type" => "application/json"},
             # Response
-            "{'code': '#{code}'}",
+            "{\"code\": \"#{code}\"}",
             # Original Request
             request
           )
