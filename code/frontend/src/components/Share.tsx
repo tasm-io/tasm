@@ -1,53 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../App.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 /* eslint-disable */
 import { RootState } from '../redux/root';
+import {serverURL} from '../constants';
 import { UploadError, UPLOADING, UPLOAD_ERROR, UPLOAD_SUCCESS, UploadSuccess } from '../redux/code';
+import { AddNotice, ADD_NOTICE } from '../redux/notices';
 /* eslint-enable */
 
-const shareEndpoint: string = 'https://tasm.io/submit';
-
-interface submissionResponse {
-  id: string
-  uploadErrorMessage?: string
-}
+const shareEndpoint: string = `${serverURL}/submit`;
 
 async function uploadCode(code: string) {
   try {
     const response : any = await fetch(shareEndpoint, {
       method: 'POST',
-      mode: 'no-cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
       body: code,
     });
-    return await response.json();
+    return await response.text();
   } catch (_e) {
     const e: Error = _e;
-    console.log(`Error: ${e.message}`);
-    return { uploadErrorMessage: 'Failed to contact the server' };
+    console.log(`error: ${e.message}`);
+    return 'error: Failed to contact the server';
   }
-  // eslint-disable-next-line no-return-await
 }
 
-function handleShareSuccess(response: submissionResponse) {
-  const action: UploadSuccess = {
-    type: UPLOAD_SUCCESS,
-    payload: response.id as string,
+function ShareURLNotice(id: string) : AddNotice {
+  const shareURL = `Shared Sucessfully to URL: ${serverURL}/share/${id}`;
+  const action: AddNotice = {
+    type: ADD_NOTICE,
+    payload: shareURL,
   };
   return action;
 }
-function handleShareFailure(response: submissionResponse) {
+
+function handleShareSuccess(response: string) : UploadSuccess {
+  const action: UploadSuccess = {
+    type: UPLOAD_SUCCESS,
+    payload: response,
+  };
+  return action;
+}
+
+
+function handleShareFailure(response: string) : UploadError {
   const action: UploadError = {
     type: UPLOAD_ERROR,
-    payload: response.uploadErrorMessage as string,
+    payload: response,
   };
   return action;
 }
@@ -59,9 +58,10 @@ function handleShareCode(code: string, dispatch: Function) {
   };
   dispatch(uploadingAction);
   uploadCode(code).then((resp) => {
-    const response: submissionResponse = resp;
-    if (response.uploadErrorMessage !== undefined) {
+    const response = resp;
+    if (response.includes('error') !== true) {
       dispatch(handleShareSuccess(response));
+      dispatch(ShareURLNotice(response));
     } else {
       dispatch(handleShareFailure(response));
     }

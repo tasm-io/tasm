@@ -1,0 +1,1 @@
+export const serverURL : string = 'https://tasm.io';

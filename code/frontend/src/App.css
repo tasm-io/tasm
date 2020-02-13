@@ -89,3 +89,24 @@
 /* Memory Display */ 
 
 /* Devices */ 
+
+
+/* Notices */
+
+.Notice {
+  display: flex;
+  align-content: center;
+  margin: auto;
+  padding: .2em;
+  margin-top: .4em;
+  background-color: #ffcc00;
+  border-top-right-radius: .1em;
+  border-bottom-right-radius: 10px;
+}
+
+.NoticeDismiss {
+  cursor: pointer;
+  font-size: 1em;
+  background: transparent;
+  border: 0;
+}
