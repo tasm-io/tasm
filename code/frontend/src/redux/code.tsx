@@ -1,6 +1,8 @@
 /* Action Types */
 export const SET_CODE = 'SET_CODE';
 export const UPLOAD_ERROR = 'UPLOAD_ERROR';
+export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
+export const UPLOADING = 'UPLOADING';
 
 /**
  * CodeInterface represents of the user's code in the redux central store.
@@ -30,13 +32,23 @@ const defaultState: CodeInterface = {
   markers: [],
 };
 
-type CodeActions = SetCode | UploadError
+type CodeActions = SetCode | UploadError | UploadSuccess | Uploading
 
 /* Actions */
 
 export interface SetCode {
     type: typeof SET_CODE
     payload: string
+}
+
+export interface Uploading {
+  type: typeof UPLOADING
+  payload: boolean
+}
+
+export interface UploadSuccess {
+  type: typeof UPLOAD_SUCCESS
+  payload: string
 }
 
 export interface UploadError {
@@ -60,6 +72,14 @@ export const codeReducer = (state = defaultState, action: CodeActions) => {
   switch (action.type) {
     case (SET_CODE): {
       return { ...state, code: action.payload };
+    }
+    case (UPLOADING): {
+      return { ...state, isUploading: action.payload };
+    }
+    case (UPLOAD_SUCCESS): {
+      return {
+        ...state, shareURL: action.payload, shared: true, isUploading: false,
+      };
     }
     case (UPLOAD_ERROR): {
       return { ...state, uploadErrorMessage: action.payload };
