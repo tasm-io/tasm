@@ -4,7 +4,7 @@ defmodule Psql do
   def setup_db_connection(pw) do
     {:ok, pid} =
       Postgrex.start_link(
-        hostname: "tasm.io",
+        hostname: "localhost",
         username: "tasm",
         password: pw,
         database: "tasm_code_safe"
