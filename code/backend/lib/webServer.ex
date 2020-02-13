@@ -8,7 +8,7 @@ defmodule WebServer do
 
     {:ok, _} =
       :cowboy.start_clear(
-        :http,
+        :https,
         [{:port, serverPort}],
         %{env: %{dispatch: dispatch_config}}
       )
