@@ -215,3 +215,40 @@ it('assembles mov correctly', () => {
     ),
   );
 });
+
+it('assembles labels correctly', () => {
+  expect(
+    assemble(
+      new ast.Block(
+        source,
+        [
+          new ast.Byte(source, new ast.Integer(source, 1)),
+          new ast.Label(source, 'foo'),
+          new ast.Instruction(
+            source,
+            'jmp',
+            [
+              new ast.Identifier(source, 'foo'),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'jmp',
+            [
+              new ast.Identifier(source, 'goo'),
+            ],
+          ),
+          new ast.Label(source, 'goo'),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    buildMemory(
+      [0, 1],
+      [1, Opcode.JMP],
+      [2, 1],
+      [3, Opcode.JMP],
+      [4, 5],
+    ),
+  );
+});

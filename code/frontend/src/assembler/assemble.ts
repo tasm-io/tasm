@@ -40,6 +40,7 @@ class State {
   write(n: number) {
     this.memory[this.position] = n;
     this.position += 1;
+    this.position %= this.memory.length;
   }
 
   // Mark marks the current write position as one that should be filled in once
@@ -48,6 +49,7 @@ class State {
   mark(name: string) {
     this.toFill.push([this.position, name]);
     this.position += 1;
+    this.position %= this.memory.length;
   }
 
   // Label sets a label to the current write position.
@@ -139,6 +141,9 @@ const statementVisitor = ast.createNullableVisitor<void, State>({
     // during the transformation stage.
     node.accept(operandVisitor, context);
   },
+  visitLabel: (_visitor, node, context) => {
+    context.label(node.name);
+  },
 });
 
 export default function assemble(program: ast.Node): number[] {
@@ -147,4 +152,3 @@ export default function assemble(program: ast.Node): number[] {
   state.fillLabels();
   return state.extract();
 }
-
