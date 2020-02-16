@@ -11,24 +11,58 @@ import {
 } from '../instructionset/instructionset';
 
 class State {
+  // memory is the 256 bytes of memory that we have available.
   private memory: number[];
 
-  private wpos: number;
+  // toFill consists of pairs of addresses which are due to have the
+  // location of labels filled in.
+  private toFill: [number, string][];
+
+  // labels contains the positions of the labels we have seen so far.
+  private labels: Map<string, number>;
+
+  // position is the current position in the memory buffer.
+  private position: number;
 
   constructor() {
     this.memory = new Array(256).fill(0);
-    this.wpos = 0;
+    this.toFill = [];
+    this.labels = new Map();
+    this.position = 0;
   }
 
+  // Seek sets the write position.
   seek(pos: number) {
-    this.wpos = pos;
+    this.position = pos;
   }
 
+  // Write writes a single integer.
   write(n: number) {
-    this.memory[this.wpos] = n;
-    this.wpos += 1;
+    this.memory[this.position] = n;
+    this.position += 1;
   }
 
+  // Mark marks the current write position as one that should be filled in once
+  // we have collected all of the labels. The argument is the label that should be
+  // placed here.
+  mark(name: string) {
+    this.toFill.push([this.position, name]);
+    this.position += 1;
+  }
+
+  // Label sets a label to the current write position.
+  label(name: string) {
+    this.labels.set(name, this.position);
+  }
+
+  fillLabels() {
+    this.toFill.forEach(([position, name]) => {
+      this.memory[position] = this.labels.get(name) as number;
+    });
+    this.toFill = [];
+  }
+
+  // Extract extracs the underlying memory.
   extract(): number[] {
     return this.memory;
   }
@@ -43,8 +77,8 @@ function getOperandTypes(instruction: ast.Instruction): Operand[] {
     visitIdentifier: (_visitor, _node, _context) => Operand.INTEGER,
     visitRegister: (_visitor, _node, _context) => Operand.REGISTER,
     visitDirectAddress: (_visitor, _node, _context) => Operand.MEMORY,
-    visitRegisterAddress: (_visitor, _node, _context) => Operand.MEMORY,
-    visitRegisterOffsetAddress: (_visitor, _node, _context) => Operand.MEMORY,
+    visitRegisterAddress: (_visitor, _node, _context) => Operand.MEMORY_REGISTER_OFFSET,
+    visitRegisterOffsetAddress: (_visitor, _node, _context) => Operand.MEMORY_REGISTER_OFFSET,
   });
   // This can't actually return nulls, we just can't prove it to the type checker.
   return instruction.operands.map((operand) => operand.accept(typeOf, {}) as Operand);
@@ -60,54 +94,57 @@ function getMatchingOpcode(instr: ast.Instruction): Opcode {
   })[0];
 }
 
-function assembleOperand(operand: ast.Node, state: State) {
-  const visitor = ast.createNullableVisitor({
-    visitInteger: (_visitor, node, _context) => {
-      state.write(node.value);
-    },
-    visitRegister: (_visitor, node, _context) => {
-      state.write(Register[node.name.toUpperCase() as keyof typeof Register]);
-    },
-    visitDirectAddress: (_visitor, node, _context) => {
-      assembleOperand(node.value, state);
-    },
-    visitRegisterAddress: (_visitor, node, _context) => {
-      assembleOperand(node.register, state);
-    },
-    visitRegisterOffsetAddress: (_visitor, node, _context) => {
-      // TODO(cmgn): Come up with a nicer way of doing this.
-      const fakeState = new State();
-      assembleOperand(node.register, fakeState);
-      assembleOperand(node.offset, fakeState);
-      const fakeMemory = fakeState.extract();
-      // eslint-disable-next-line no-bitwise
-      state.write((fakeMemory[0] << 5) | fakeMemory[1]);
-    },
-  });
-  operand.accept(visitor, {});
-}
+const operandVisitor = ast.createNullableVisitor<void, State>({
+  visitInteger: (_visitor, node, context) => {
+    context.write(node.value);
+  },
+  visitIdentifier: (_visitor, node, context) => {
+    context.mark(node.name);
+  },
+  visitRegister: (_visitor, node, context) => {
+    context.write(Register[node.name.toUpperCase() as keyof typeof Register]);
+  },
+  visitDirectAddress: (visitor, node, context) => {
+    node.value.accept(visitor, context);
+  },
+  visitRegisterAddress: (visitor, node, context) => {
+    const fakeState = new State();
+    node.register.accept(visitor, fakeState);
+    const fakeMemory = fakeState.extract();
+    // eslint-disable-next-line no-bitwise
+    context.write(fakeMemory[0] << 5);
+  },
+  visitRegisterOffsetAddress: (visitor, node, context) => {
+    // TODO(cmgn): Come up with a nicer way of doing this.
+    const fakeState = new State();
+    node.register.accept(visitor, fakeState);
+    node.offset.accept(visitor, fakeState);
+    const fakeMemory = fakeState.extract();
+    // eslint-disable-next-line no-bitwise
+    context.write((fakeMemory[0] << 5) | fakeMemory[1]);
+  },
+});
 
-function assembleStatement(stmt: ast.Node, state: State) {
-  const visitor = ast.createNullableVisitor({
-    visitInstruction: (_visitor, node, _context) => {
-      const opcode = getMatchingOpcode(node);
-      state.write(opcode);
-      node.operands.forEach((operand) => assembleOperand(operand, state));
-    },
-    visitBlock: (_visitor, node, _context) => {
-      node.statements.forEach((subStmt) => assembleStatement(subStmt, state));
-    },
-    visitByte: (_visitor, node, _context) => {
-      // The value of this must be an integer, because it was transformed into one
-      // during the transformation stage.
-      assembleOperand(node.value, state);
-    },
-  });
-  stmt.accept(visitor, {});
-}
+const statementVisitor = ast.createNullableVisitor<void, State>({
+  visitInstruction: (_visitor, node, context) => {
+    const opcode = getMatchingOpcode(node);
+    context.write(opcode);
+    node.operands.forEach((operand) => operand.accept(operandVisitor, context));
+  },
+  visitBlock: (visitor, node, context) => {
+    node.statements.forEach((stmt) => stmt.accept(visitor, context));
+  },
+  visitByte: (_visitor, node, context) => {
+    // The value of this must be an integer, because it was transformed into one
+    // during the transformation stage.
+    node.accept(operandVisitor, context);
+  },
+});
 
 export default function assemble(program: ast.Node): number[] {
   const state = new State();
-  assembleStatement(program, state);
+  program.accept(statementVisitor, state);
+  state.fillLabels();
   return state.extract();
 }
+

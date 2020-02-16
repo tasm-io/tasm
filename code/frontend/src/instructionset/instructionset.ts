@@ -3,6 +3,7 @@
 // Operand represnts an operand to an instruction.
 export enum Operand {
   MEMORY,
+  MEMORY_REGISTER_OFFSET,
   REGISTER,
   INTEGER,
 }
@@ -91,12 +92,12 @@ export const OperandTypes = {
   [Opcode.NOP]: [],
   [Opcode.MOV_REG_REG]: [Operand.REGISTER, Operand.REGISTER],
   [Opcode.MOV_REG_MEMABS]: [Operand.REGISTER, Operand.MEMORY],
-  [Opcode.MOV_REG_MEMREGOFFSET]: [Operand.REGISTER, Operand.MEMORY],
+  [Opcode.MOV_REG_MEMREGOFFSET]: [Operand.REGISTER, Operand.MEMORY_REGISTER_OFFSET],
   [Opcode.MOV_REG_INT]: [Operand.REGISTER, Operand.INTEGER],
   [Opcode.MOV_MEMABS_REG]: [Operand.MEMORY, Operand.REGISTER],
-  [Opcode.MOV_MEMREGOFFSET_REG]: [Operand.MEMORY, Operand.REGISTER],
+  [Opcode.MOV_MEMREGOFFSET_REG]: [Operand.MEMORY_REGISTER_OFFSET, Operand.REGISTER],
   [Opcode.MOV_MEMABS_INT]: [Operand.MEMORY, Operand.INTEGER],
-  [Opcode.MOV_MEMREGOFFSET_INT]: [Operand.MEMORY, Operand.INTEGER],
+  [Opcode.MOV_MEMREGOFFSET_INT]: [Operand.MEMORY_REGISTER_OFFSET, Operand.INTEGER],
   [Opcode.ADD_REG_REG]: [Operand.REGISTER, Operand.REGISTER],
   [Opcode.ADD_REG_INT]: [Operand.REGISTER, Operand.INTEGER],
   [Opcode.SUB_REG_REG]: [Operand.REGISTER, Operand.REGISTER],

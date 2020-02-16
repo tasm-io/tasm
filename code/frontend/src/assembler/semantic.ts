@@ -97,8 +97,8 @@ function getOperandTypes(instruction: ast.Instruction): Operand[] {
     visitIdentifier: (_visitor, _node, _context) => Operand.INTEGER,
     visitRegister: (_visitor, _node, _context) => Operand.REGISTER,
     visitDirectAddress: (_visitor, _node, _context) => Operand.MEMORY,
-    visitRegisterAddress: (_visitor, _node, _context) => Operand.MEMORY,
-    visitRegisterOffsetAddress: (_visitor, _node, _context) => Operand.MEMORY,
+    visitRegisterAddress: (_visitor, _node, _context) => Operand.MEMORY_REGISTER_OFFSET,
+    visitRegisterOffsetAddress: (_visitor, _node, _context) => Operand.MEMORY_REGISTER_OFFSET,
   });
   // This can't actually return nulls, we just can't prove it to the type checker.
   return instruction.operands.map((operand) => operand.accept(typeOf, {}) as Operand);

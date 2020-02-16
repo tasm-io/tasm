@@ -92,3 +92,126 @@ it('implements all the arithmetic operators', () => {
   );
 });
 
+
+it('assembles mov correctly', () => {
+  expect(
+    assemble(
+      new ast.Block(
+        source,
+        [
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.Register(source, 'al'),
+              new ast.Register(source, 'bl'),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.Register(source, 'cl'),
+              new ast.DirectAddress(
+                source,
+                new ast.Integer(source, 10),
+              ),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.Register(source, 'dl'),
+              new ast.RegisterOffsetAddress(
+                source,
+                new ast.Register(source, 'sp'),
+                new ast.Integer(source, 5),
+              ),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.Register(source, 'sp'),
+              new ast.Integer(source, 10),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.DirectAddress(
+                source,
+                new ast.Integer(source, 10),
+              ),
+              new ast.Register(source, 'cl'),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.RegisterAddress(
+                source,
+                new ast.Register(source, 'bl'),
+              ),
+              new ast.Register(source, 'bl'),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.DirectAddress(
+                source,
+                new ast.Integer(source, 128),
+              ),
+              new ast.Integer(source, 50),
+            ],
+          ),
+          new ast.Instruction(
+            source,
+            'mov',
+            [
+              new ast.RegisterOffsetAddress(
+                source,
+                new ast.Register(source, 'bl'),
+                new ast.Integer(source, 10),
+              ),
+              new ast.Integer(source, 1),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    buildMemory(
+      [0, Opcode.MOV_REG_REG],
+      [1, Register.AL],
+      [2, Register.BL],
+      [3, Opcode.MOV_REG_MEMABS],
+      [4, Register.CL],
+      [5, 10],
+      [6, Opcode.MOV_REG_MEMREGOFFSET],
+      [7, Register.DL],
+      [8, (Register.SP << 5) | 5],
+      [9, Opcode.MOV_REG_INT],
+      [10, Register.SP],
+      [11, 10],
+      [12, Opcode.MOV_MEMABS_REG],
+      [13, 10],
+      [14, Register.CL],
+      [15, Opcode.MOV_MEMREGOFFSET_REG],
+      [16, Register.BL << 5],
+      [17, Register.BL],
+      [18, Opcode.MOV_MEMABS_INT],
+      [19, 128],
+      [20, 50],
+      [21, Opcode.MOV_MEMREGOFFSET_INT],
+      [22, (Register.BL << 5) | 10],
+      [23, 1],
+    ),
+  );
+});
