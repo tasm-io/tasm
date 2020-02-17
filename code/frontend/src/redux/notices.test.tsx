@@ -1,4 +1,3 @@
-import React from 'react';
 import { NoticesInterface, NoticeInterface, noticeReducer, AddNotice, ADD_NOTICE, DismissNotice, DISMISS_NOTICE } from './notices';
 
 test('adds a notice', () => {
