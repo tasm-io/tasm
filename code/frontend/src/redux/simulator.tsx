@@ -57,7 +57,6 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
     };
   }
   case (STEP): {
-    console.log(state.cpu);
     state.cpu.step();
     return {
       ...state,

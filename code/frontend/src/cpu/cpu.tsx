@@ -41,12 +41,10 @@ class CPU {
 
     constructor(byteCode: number[]) {
       this.byteCode = byteCode;
-      console.log(byteCode, "Hey it's me the simulator!");
       this.registers = new Uint8Array(7).fill(0);
       this.registers[Register.SP] = 255;
       this.RAM = new Uint8Array(256);
       this.RAM.set(byteCode);
-      console.log(this.RAM);
     }
 
     step() {

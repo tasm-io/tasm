@@ -28,13 +28,13 @@ export interface AddNotice {
 
 export const noticeReducer = (state = defaultState, action: NoticesActions) => {
   switch (action.type) {
-    case (ADD_NOTICE): {
-      return { notices: [...state.notices, { message: action.payload, dismissed: false }] };
-    }
-    case (DISMISS_NOTICE): {
-      return { notices: state.notices.filter((notice) => notice.message !== action.payload) };
-    }
-    default:
-      return state;
+  case (ADD_NOTICE): {
+    return { notices: [...state.notices, { message: action.payload, dismissed: false }] };
+  }
+  case (DISMISS_NOTICE): {
+    return { notices: state.notices.filter((notice) => notice.message !== action.payload) };
+  }
+  default:
+    return state;
   }
 };
