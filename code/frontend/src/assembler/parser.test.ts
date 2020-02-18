@@ -75,11 +75,7 @@ it('parses a full program', () => {
     Label { source: { offset: 91, line: 9, column: 3 }, name: 'bbbb' },
     Ascii {
       source: { offset: 97, line: 9, column: 9 },
-      value: [
-        'h', 'e', 'l',
-        'l', 'o', '\\n',
-        '"'
-      ]
+      value: 'hello\\n"'
     },
     Label {
       source: { offset: 117, line: 10, column: 3 },

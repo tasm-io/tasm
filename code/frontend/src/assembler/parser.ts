@@ -204,7 +204,7 @@ function peg$parse(input: string, options?: IParseOptions) {
   const peg$c12 = "ascii";
   const peg$c13 = peg$literalExpectation("ascii", false);
   const peg$c14 = function(value: any): any {
-          return new ast.Ascii(location().start, value);
+          return new ast.Ascii(location().start, value.join(""));
       };
   const peg$c15 = "asciiz";
   const peg$c16 = peg$literalExpectation("asciiz", false);
