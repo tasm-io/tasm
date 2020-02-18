@@ -2,8 +2,8 @@ defmodule Runner do
   use Application
 
   def start(_type, _args) do
-    {serverPort, _} = Integer.parse(System.get_env("port"))
-    dbPass = System.get_env("dbPass")
+    {serverPort, _} = Integer.parse(System.get_env("PORT"))
+    dbPass = System.get_env("DB_PASS")
 
     children = [
       %{

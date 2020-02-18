@@ -20,7 +20,7 @@ defmodule WebServer do
        [
          {"/submit", SubmitHandler, [Psql.setup_db_connection(dbpass)]},
          {"/request", RequestHandler, [Psql.setup_db_connection(dbpass)]},
-         {"/", :cowboy_static, {:file, "/var/www/tasm.io/index.html"}},
+         {"/[share/:_]", :cowboy_static, {:file, "/var/www/tasm.io/index.html"}},
          {"/[...]", :cowboy_static, {:dir, "/var/www/tasm.io"}},
          {"/[...]", :cowboy_static, {:dir, "/var/www/tasm.io/static"}}
        ]}
