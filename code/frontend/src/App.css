@@ -36,6 +36,24 @@
   margin-left: 3em;
 }
 
+/* Ram Display */
+
+.RamDisplay {
+  border: 1px solid black;
+}
+
+.RamDisplay tr {
+  border: 1px solid black;
+}
+
+.RamDisplay td {
+  padding: .4em;
+}
+
+.RamDisplayIP {
+  background-color: red;
+}
+
 /* Debugger */
 
 .Debugger {

@@ -70,21 +70,21 @@ export interface Marker {
 
 export const codeReducer = (state = defaultState, action: CodeActions) => {
   switch (action.type) {
-    case (SET_CODE): {
-      return { ...state, code: action.payload };
-    }
-    case (UPLOADING): {
-      return { ...state, isUploading: action.payload };
-    }
-    case (UPLOAD_SUCCESS): {
-      return {
-        ...state, shareURL: action.payload, shared: true, isUploading: false,
-      };
-    }
-    case (UPLOAD_ERROR): {
-      return { ...state, uploadErrorMessage: action.payload };
-    }
-    default:
-      return state;
+  case (SET_CODE): {
+    return { ...state, code: action.payload };
+  }
+  case (UPLOADING): {
+    return { ...state, isUploading: action.payload };
+  }
+  case (UPLOAD_SUCCESS): {
+    return {
+      ...state, shareURL: action.payload, shared: true, isUploading: false,
+    };
+  }
+  case (UPLOAD_ERROR): {
+    return { ...state, uploadErrorMessage: action.payload };
+  }
+  default:
+    return state;
   }
 };

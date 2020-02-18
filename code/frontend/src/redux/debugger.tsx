@@ -35,17 +35,17 @@ export default function debuggerReducer(
   action: DebuggerActions,
 ) {
   switch (action.type) {
-    case (MODIFY_SPEED): {
-      let newSpeed = state.speed + action.payload;
-      if (newSpeed < 100) {
-        newSpeed = 100;
-      } else if (newSpeed > 5000) newSpeed = 5000;
-      return { ...state, speed: newSpeed };
-    }
-    case (SET_SIMULATOR_RUNNING): {
-      return { ...state, running: action.payload };
-    }
-    default:
-      return state;
+  case (MODIFY_SPEED): {
+    let newSpeed = state.speed + action.payload;
+    if (newSpeed < 100) {
+      newSpeed = 100;
+    } else if (newSpeed > 5000) newSpeed = 5000;
+    return { ...state, speed: newSpeed };
+  }
+  case (SET_SIMULATOR_RUNNING): {
+    return { ...state, running: action.payload };
+  }
+  default:
+    return state;
   }
 }

@@ -15,6 +15,7 @@ import { NoticesInterface, NoticeInterface } from './redux/notices';
 import { RootState } from './redux/root';
 // eslint-disable-next-line no-unused-vars
 import { SET_CODE, SetCode } from './redux/code';
+import RamDisplay from './components/RamDisplay';
 
 function setCode(code: string, dispatch: Function) {
   const action: SetCode = {
@@ -69,9 +70,11 @@ const App: React.FC = () => {
       </div>
       {checkURL(dispatch)}
       <div className="Row">
-        <Editor />
         <div className="Column">
-        Hi I am a right hand side
+          <Editor />
+        </div>
+        <div className="Column">
+          <RamDisplay />
         </div>
       </div>
     </div>

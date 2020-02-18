@@ -1,6 +1,8 @@
 import React from 'react';
 import '../App.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line no-unused-vars
+import { RootState } from '../redux/root';
 import {
   // eslint-disable-next-line no-unused-vars
   ModifyDebuggerSpeed, MODIFY_SPEED,
@@ -8,13 +10,26 @@ import {
   SetSimulatorRunning, SET_SIMULATOR_RUNNING,
 } from '../redux/debugger';
 
-function handleAssembleClick(_dispatch: Function) {
-  // ToDo(Fraz): Pass code to Assembler and handle errors.
-  // Should make a new assembler / simulator object each time?
+import {
+  // eslint-disable-next-line no-unused-vars
+  ASSEMBLE, Assemble, STEP, Step,
+} from '../redux/simulator';
+
+function handleAssembleClick(code: string, dispatch: Function) {
+  const action: Assemble = {
+    type: ASSEMBLE,
+    payload: code,
+  };
+  dispatch(action);
 }
 
-function handleStepClick(_dispatch: Function) {
+function handleStepClick(dispatch: Function) {
   // ToDo(Fraz): Ensure code is assembled and send instruction to simulator to step.
+  const action: Step = {
+    type: STEP,
+    payload: undefined,
+  };
+  dispatch(action);
 }
 
 function handleRunClick(dispatch: Function) {
@@ -53,11 +68,13 @@ function handleStopClick(dispatch: Function) {
   dispatch(action);
 }
 
+
 const Debugger: React.FC = () => {
+  const code: string = useSelector((state : RootState) => state.code.code);
   const dispatch = useDispatch();
   return (
     <div className="Debugger Row">
-      <button className="Button" type="button" onClick={() => handleAssembleClick(dispatch)}>
+      <button className="Button" type="button" onClick={() => handleAssembleClick(code, dispatch)}>
         <i className="Icon fa fa-cog" />
         <div style={{ marginLeft: '.4em' }}>Assemble</div>
       </button>
