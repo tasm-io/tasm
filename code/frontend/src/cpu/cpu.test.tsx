@@ -1,7 +1,7 @@
 import CPU from './cpu';
 import { Register } from '../instructionset/instructionset';
 
-test('initiliaze values correctly', () => {
+test('initialize values correctly', () => {
   const byteCode = [5, 0, 11];
   const cpu: CPU = new CPU(byteCode);
   const expectedRegisters = new Uint8Array(7);
