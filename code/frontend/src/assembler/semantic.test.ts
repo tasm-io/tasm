@@ -224,3 +224,20 @@ it('rejects badly-typed instructions', () => {
   );
 });
 
+it('detects labels used in org', () => {
+  expect(
+    semantic.detectLabelsUsedInOrg(
+      new ast.Block(
+        source,
+        [
+          new ast.Org(source, new ast.Identifier(source, 'foo')),
+          new ast.Label(source, 'foo'),
+          new ast.Org(source, new ast.Identifier(source, 'goo')),
+          new ast.Constant(source, 'goo', new ast.Integer(source, 0)),
+        ],
+      ),
+    ),
+  ).toStrictEqual([
+    new ast.Org(source, new ast.Identifier(source, 'foo')),
+  ]);
+});
