@@ -73,30 +73,30 @@ const Debugger: React.FC = () => {
   const code: string = useSelector((state : RootState) => state.code.code);
   const dispatch = useDispatch();
   return (
-    <div className="Debugger Row">
+    <div className="Column">
       <button className="Button" type="button" onClick={() => handleAssembleClick(code, dispatch)}>
         <i className="Icon fa fa-cog" />
-        <div style={{ marginLeft: '.4em' }}>Assemble</div>
+        <div className="buttonText">Assemble</div>
       </button>
       <button className="Button" type="button" onClick={() => handleStepClick(dispatch)}>
         <i className="Icon fa fa-arrow-right" />
-        <div style={{ marginLeft: '.4em' }}>Step</div>
+        <div className="buttonText">Step</div>
       </button>
       <button className="Button" type="button" onClick={() => handleRunClick(dispatch)}>
         <i className="Icon fa fa-play" />
-        <div style={{ marginLeft: '.4em' }}>Run</div>
+        <div className="buttonText">Run</div>
       </button>
       <button className="Button" type="button" onClick={() => handleStopClick(dispatch)}>
         <i className="Icon fa fa-stop" />
-        <div style={{ marginLeft: '.4em' }}>Stop</div>
+        <div className="buttonText">Stop</div>
       </button>
       <button className="Button" type="button" onClick={() => handleFasterClick(dispatch)}>
         <i className="Icon fa fa-fast-forward" />
-        <div style={{ marginLeft: '.4em' }}>Faster</div>
+        <div className="buttonText">Faster</div>
       </button>
       <button className="Button" type="button" onClick={() => handleSlowerClick(dispatch)}>
         <i className="Icon fa fa-fast-backward" />
-        <div style={{ marginLeft: '.4em' }}>Slower</div>
+        <div className="buttonText">Slower</div>
       </button>
     </div>
   );

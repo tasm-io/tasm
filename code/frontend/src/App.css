@@ -3,8 +3,10 @@
 .Root {
   display: flex;
   flex-direction: column;
-  background-color: #e5e5e8;
+  background-color: #191927;
+  color: #c8d6e5;
   min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
 }
 
 .Row {
@@ -15,7 +17,6 @@
 .Column {
   display: flex;
   flex-direction: column;
-  margin: auto;
 }
 
 /* Components */
@@ -32,6 +33,7 @@
 
 .RegisterDisplay {
   margin: auto;
+  margin-top: .5em; 
   flex: 1;
   margin-left: 3em;
 }
@@ -62,6 +64,8 @@
 }
 
 .DebuggerButton {
+  display: flex;
+  max-height: 5em;
   background: transparent;
   padding: .2em;
   cursor: pointer;
@@ -79,14 +83,25 @@
   font-size: smaller;
 }
 
+.buttonText {
+  margin: auto;
+  margin-left: .2em;
+  font-family: 'Roboto', sans-serif;
+  font-weight: lighter;
+}
+
 .FileUpload {
   display: flex;
   flex: 1; 
 }
 
 .Button {
+  display: inline-flex;
+  font-family: 'Roboto', sans-serif;
+  color: #c8d6e5;
   flex: 1;
-  border: 1px solid black;
+  border: 0;
+  background-color: transparent;
   border-radius: 5px;
   margin: .2em;
   padding: .7em;
@@ -94,10 +109,30 @@
   cursor: pointer;
 }
 
+.Button:hover {
+  background-color: #222230;
+}
+
 /* Text Editor */ 
 
-.TextEditor {
-  flex: 1
+.Editor {
+  flex: 1;
+  margin-left: 20em;
+  margin-top: 5em;
+}
+
+.EditorTab {
+  font-family: 'Roboto', sans-serif;
+  background-color: transparent;
+  border: 1px solid #282a36;
+  border-bottom: 0px;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  color: #c8d6e5;
+}
+
+.EditorTab:hover {
+  background-color: #222230;
 }
 
 .ErrorMarker {
@@ -107,7 +142,6 @@
 /* Memory Display */ 
 
 /* Devices */ 
-
 
 /* Notices */
 
@@ -127,4 +161,34 @@
   font-size: 1em;
   background: transparent;
   border: 0;
+}
+
+
+/* Other */
+
+hr {
+  background-color: #44475a;
+  border: .5px solid #44475a;
+}
+
+/* Animations */
+
+.Rotate {
+  transition: 5s;
+}
+
+.Rotate {
+  -o-transform:rotate(720deg);
+  -ms-transform:rotate(720deg);
+  -moz-transform:rotate(720deg);
+  -webkit-transform:rotate(720deg);
+  transform:rotate(720deg);
+}
+
+.FlashGreen {
+  transition: 1s;
+}
+
+.FlashGreen:focus {
+  color: green;
 }

@@ -16,14 +16,14 @@ function prettyDisplay(num: number): string {
 const StateDisplay: React.FC = () => {
   const registers: Uint8Array = useSelector((state : RootState) => state.simulator.registers);
   return (
-    <div className="StateDisplay">
-      <div className="Row" style={{ marginTop: '2em' }}>
+    <div className="StateDisplay Row">
+      <div className="Column">
         <RegisterDisplay name="AL" value={prettyDisplay(registers[Register.AL])} />
         <RegisterDisplay name="BL" value={prettyDisplay(registers[Register.BL])} />
         <RegisterDisplay name="CL" value={prettyDisplay(registers[Register.CL])} />
         <RegisterDisplay name="DL" value={prettyDisplay(registers[Register.DL])} />
       </div>
-      <div className="Row" style={{ marginTop: '2em' }}>
+      <div className="Column">
         <RegisterDisplay name="IP" value={prettyDisplay(registers[Register.IP])} />
         <RegisterDisplay name="SP" value={prettyDisplay(registers[Register.SP])} />
         <RegisterDisplay name="SR" value={prettyDisplay(registers[Register.SR])} />

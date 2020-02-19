@@ -58,22 +58,17 @@ const App: React.FC = () => {
   return (
     <div className="Root">
       <div className="Row">
-        <div className="Column">
-          {displayNotices(noticesState)}
-          {console.log(noticesState)}
+        <div className="Column" style={{width: '15em', marginTop: '8em', float: 'right', marginLeft: '5em'}}>
+          <ButtonBox />
+          <Debugger />
         </div>
-      </div>
-      <div className="Row" style={{ margin: '1em' }}>
-        <StateDisplay />
-        <Debugger />
-        <ButtonBox />
-      </div>
-      {checkURL(dispatch)}
-      <div className="Row">
         <div className="Column">
           <Editor />
         </div>
-        <div className="Column">
+        <div className="Column" style={{width: '33%', marginLeft: '5em', marginTop: '10em'}}>
+          <StateDisplay />
+          <hr />
+          <div>Tabs</div>
           <RamDisplay />
         </div>
       </div>

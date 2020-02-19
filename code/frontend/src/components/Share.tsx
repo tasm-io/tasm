@@ -78,7 +78,8 @@ const Share: React.FC = () => {
         className="Button"
         onClick={() => handleShareCode(code, dispatch)}
       >
-      Share
+        <i className="Icon fa fa-share-square" />
+        <div className="buttonText">Share</div>
       </button>
     </div>
   );

@@ -9,8 +9,12 @@ const ButtonBox: React.FC = () => (
     <div className="Column">
       <FileUpload />
       <Share />
-      <button type="button" className="Button">Format</button>
+      <button type="button" className="Button">
+        <i className="Icon fa fa-indent" />
+        <div className="buttonText">Format Code</div>
+      </button>
     </div>
+    <hr />
   </div>
 );
 
