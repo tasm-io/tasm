@@ -75,11 +75,11 @@ const Debugger: React.FC = () => {
   return (
     <div className="Column">
       <button className="Button" type="button" onClick={() => handleAssembleClick(code, dispatch)}>
-        <i className="Icon fa fa-cog" />
+        <i className="Icon fa fa-cog Rotate" />
         <div className="buttonText">Assemble</div>
       </button>
       <button className="Button" type="button" onClick={() => handleStepClick(dispatch)}>
-        <i className="Icon fa fa-arrow-right" />
+        <i className="Icon fa fa-arrow-right Step" />
         <div className="buttonText">Step</div>
       </button>
       <button className="Button" type="button" onClick={() => handleRunClick(dispatch)}>

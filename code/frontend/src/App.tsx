@@ -58,17 +58,29 @@ const App: React.FC = () => {
   return (
     <div className="Root">
       <div className="Row">
-        <div className="Column" style={{width: '15em', marginTop: '8em', float: 'right', marginLeft: '5em'}}>
+        <div
+          className="Column"
+          style={{
+            width: '15em', marginTop: '8em', float: 'right', marginLeft: '5em',
+          }}
+        >
+          <h1 className="SiteTitle">tasm.io</h1>
           <ButtonBox />
           <Debugger />
         </div>
         <div className="Column">
           <Editor />
         </div>
-        <div className="Column" style={{width: '33%', marginLeft: '5em', marginTop: '10em'}}>
+        <div className="Column" style={{ width: '33%', marginLeft: '5em', marginTop: '10em' }}>
           <StateDisplay />
           <hr />
-          <div>Tabs</div>
+          <div style={{ marginLeft: '2em' }}>
+            <button type="button" className="EditorTab">RAM</button>
+            <button type="button">Text Display</button>
+            <button type="button">Virtual Keyboard</button>
+            <button type="button">7 Segment Display</button>
+            <button type="button">Traffic Lights</button>
+          </div>
           <RamDisplay />
         </div>
       </div>
