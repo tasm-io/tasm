@@ -8,7 +8,7 @@ export interface RegisterDisplayProps {
 
 const RegisterDisplay: React.FC <RegisterDisplayProps> = (register : RegisterDisplayProps) => (
   <div className="RegisterDisplay">
-    {register.name}
+    <span style={{color: '#ff9f44'}}>{register.name}</span>
       :&nbsp;
     {register.value}
   </div>

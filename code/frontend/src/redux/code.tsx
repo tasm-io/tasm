@@ -3,6 +3,7 @@ export const SET_CODE = 'SET_CODE';
 export const UPLOAD_ERROR = 'UPLOAD_ERROR';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const UPLOADING = 'UPLOADING';
+export const SET_CODE_DISPLAY = 'SET_CODE_DISPLAY';
 
 /**
  * CodeInterface represents of the user's code in the redux central store.
@@ -16,6 +17,7 @@ export const UPLOADING = 'UPLOADING';
 
 export interface CodeInterface {
     code: string
+    isDisplayed: boolean
     isUploading: boolean
     uploadErrorMessage: string
     shared: boolean
@@ -25,6 +27,7 @@ export interface CodeInterface {
 
 const defaultState: CodeInterface = {
   code: '',
+  isDisplayed: true,
   isUploading: false,
   shared: false,
   uploadErrorMessage: '',
@@ -32,7 +35,7 @@ const defaultState: CodeInterface = {
   markers: [],
 };
 
-type CodeActions = SetCode | UploadError | UploadSuccess | Uploading
+type CodeActions = SetCode | UploadError | UploadSuccess | Uploading | SetCodeDisplay
 
 /* Actions */
 
@@ -43,6 +46,11 @@ export interface SetCode {
 
 export interface Uploading {
   type: typeof UPLOADING
+  payload: boolean
+}
+
+export interface SetCodeDisplay {
+  type: typeof SET_CODE_DISPLAY
   payload: boolean
 }
 
@@ -83,6 +91,9 @@ export const codeReducer = (state = defaultState, action: CodeActions) => {
   }
   case (UPLOAD_ERROR): {
     return { ...state, uploadErrorMessage: action.payload };
+  }
+  case (SET_CODE_DISPLAY): {
+    return { ...state, isDisplayed: action.payload };
   }
   default:
     return state;

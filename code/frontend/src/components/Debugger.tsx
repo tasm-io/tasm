@@ -14,13 +14,19 @@ import {
   // eslint-disable-next-line no-unused-vars
   ASSEMBLE, Assemble, STEP, Step,
 } from '../redux/simulator';
+import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
 
 function handleAssembleClick(code: string, dispatch: Function) {
-  const action: Assemble = {
+  const assembleAction: Assemble = {
     type: ASSEMBLE,
     payload: code,
   };
-  dispatch(action);
+  dispatch(assembleAction);
+  const debuggerResetAction: SetSimulatorRunning = {
+    type: SET_SIMULATOR_RUNNING,
+    payload: -2,
+  };
+  dispatch(debuggerResetAction);
 }
 
 function handleStepClick(dispatch: Function) {
@@ -32,45 +38,46 @@ function handleStepClick(dispatch: Function) {
   dispatch(action);
 }
 
-function handleRunClick(dispatch: Function) {
+function runInterval(dispatch: Function) {
+  const action: Step = {
+    type: STEP,
+    payload: undefined,
+  };
+  dispatch(action);
+}
+
+function handleRunClick(dispatch: Function, running: number, speed: number) {
+  const handle: number = setInterval(runInterval, speed, dispatch, running);
   const action: SetSimulatorRunning = {
     type: SET_SIMULATOR_RUNNING,
-    payload: true,
-  };
-  // ToDo(Fraz): Create an interval function that steps the same frequency as debugger speed.
-  dispatch(action);
-}
-
-// increase the frequency of the run operation.
-function handleFasterClick(dispatch: Function) {
-  const action: ModifyDebuggerSpeed = {
-    type: MODIFY_SPEED,
-    payload: 250,
+    payload: handle,
   };
   dispatch(action);
 }
 
-// decrease the frequency of the run operation.
-function handleSlowerClick(dispatch: Function) {
-  const action: ModifyDebuggerSpeed = {
-    type: MODIFY_SPEED,
-    payload: -250,
-  };
-  dispatch(action);
-}
-
-function handleStopClick(dispatch: Function) {
+function handleStopClick(dispatch: Function, running: number) {
   const action: SetSimulatorRunning = {
     type: SET_SIMULATOR_RUNNING,
-    payload: false,
+    payload: -1,
   };
-  // ToDo(Fraz): Stop the interval function that steps the same frequency as debugger speed.
+  clearInterval(running);
+  dispatch(action);
+}
+
+function handleSettingsClick(value: boolean, dispatch: Function) {
+  const action: SetCodeDisplay = {
+    type: SET_CODE_DISPLAY,
+    payload: value,
+  };
   dispatch(action);
 }
 
 
 const Debugger: React.FC = () => {
   const code: string = useSelector((state : RootState) => state.code.code);
+  const running: number = useSelector((state : RootState) => state.debugger.running);
+  const speed: number = useSelector((state : RootState) => state.debugger.speed);
+  const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   const dispatch = useDispatch();
   return (
     <div className="Column">
@@ -82,21 +89,22 @@ const Debugger: React.FC = () => {
         <i className="Icon fa fa-arrow-right Step" />
         <div className="buttonText">Step</div>
       </button>
-      <button className="Button" type="button" onClick={() => handleRunClick(dispatch)}>
+      <button className="Button" type="button" style={running > 0 ? { color: '#11ac84' } : {}} onClick={() => handleRunClick(dispatch, running, speed)}>
         <i className="Icon fa fa-play" />
         <div className="buttonText">Run</div>
       </button>
-      <button className="Button" type="button" onClick={() => handleStopClick(dispatch)}>
+      <button className="Button" style={running === -1 ? { color: 'tomato' } : {}} type="button" onClick={() => handleStopClick(dispatch, running)}>
         <i className="Icon fa fa-stop" />
         <div className="buttonText">Stop</div>
       </button>
-      <button className="Button" type="button" onClick={() => handleFasterClick(dispatch)}>
-        <i className="Icon fa fa-fast-forward" />
-        <div className="buttonText">Faster</div>
+      <hr style={{width: '100%'}} />
+      <button className="Button" type="button">
+        <i className="Icon fa fa-info-circle" />
+        <div className="buttonText">User Guide</div>
       </button>
-      <button className="Button" type="button" onClick={() => handleSlowerClick(dispatch)}>
-        <i className="Icon fa fa-fast-backward" />
-        <div className="buttonText">Slower</div>
+      <button className="Button" type="button" onClick={() => handleSettingsClick(!displayEditor, dispatch)}>
+        <i className="Icon fa fa-wrench" />
+        <div className="buttonText">Settings</div>
       </button>
     </div>
   );

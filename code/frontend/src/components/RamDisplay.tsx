@@ -3,41 +3,71 @@ import '../App.css';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from '../redux/root';
+import {
+  Register, Opcode, OperandTypes, Operand,
+} from '../instructionset/instructionset';
 
 function displayTableTop() {
   const res: any = [];
   res.push(<th>&nbsp;</th>);
   for (let i = 0; i < 16; i += 1) {
-    res.push(<th>{Number(i).toString(16).toUpperCase()}</th>);
+    res.push(<th>{`0${Number(i).toString(16).toUpperCase()}`}</th>);
   }
   return res;
 }
 
-function mapRow(numbers: Uint8Array) {
+function styleArgs(address: number, ip: number, ram: Uint8Array) {
+  const args: Operand[] = OperandTypes[ram[ip] as Opcode] || [];
+  if (address === ip + 1 && args.length > 0) {
+    return true;
+  } if (address === ip + 2 && args.length > 1) {
+    return true;
+  }
+  return false;
+}
+
+function styleAddress(address: number, ram: Uint8Array, ip: number, sp: number) {
+  if (address === ip || styleArgs(address, ip, ram)) {
+    return 'IP';
+  } if (address === sp) {
+    return 'SP';
+  }
+  return '';
+}
+
+function formatRamValue(val: number) {
+  let s: string = Number(val).toString(16).toUpperCase();
+  if (s.length === 1) s = `0${s}`;
+  return s;
+}
+
+function mapRows(start: number, ram: Uint8Array, ip:number, sp:number) {
   const res: any = [];
-  for (let i = 0; i < numbers.length; i += 1) {
-    res.push(<td>{Number(numbers[i]).toString(16).toUpperCase()}</td>);
+  for (let i = 0; i < 16; i += 1) {
+    res.push(
+      <td className={styleAddress(start + i, ram, ip, sp)}>{formatRamValue(ram[start + i])}</td>,
+    );
   }
   return res;
 }
 
-function mapRam(ram: Uint8Array) {
+function mapRam(ram: Uint8Array, ip:number, sp:number) {
   const res: any = [];
-  let j = 0;
-  for (let i = 0; i < 256; i += 16) {
+  for (let i = 0; i < 16; i += 1) {
     res.push(
       <tr>
-        <th scope="row" className="leftCol">{Number(j).toString(16).toUpperCase()}</th>
-        {mapRow(ram.slice(i, i + 16))}
+        <th scope="row">{`${Number(i).toString(16).toUpperCase()}0`}</th>
+        {mapRows(i * 16, ram, ip, sp)}
       </tr>,
     );
-    j += 1;
   }
   return res;
 }
 
 const RamDisplay: React.FC = () => {
   const ram: Uint8Array = useSelector((state : RootState) => state.simulator.ram);
+  const ip: number = useSelector((state : RootState) => state.simulator.registers[Register.IP]);
+  const sp: number = useSelector((state : RootState) => state.simulator.registers[Register.SP]);
   return (
     <table className="RamDisplay">
       <thead>
@@ -46,8 +76,14 @@ const RamDisplay: React.FC = () => {
         </tr>
       </thead>
       <tbody>
-        {mapRam(ram)}
+        {mapRam(ram, ip, sp)}
       </tbody>
+      <tfoot>
+        <tr>
+          <td className="IP">Instruction Pointer</td>
+          <td className="SP">Stack Pointer</td>
+        </tr>
+      </tfoot>
     </table>
   );
 };

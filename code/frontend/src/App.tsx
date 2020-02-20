@@ -16,6 +16,8 @@ import { RootState } from './redux/root';
 // eslint-disable-next-line no-unused-vars
 import { SET_CODE, SetCode } from './redux/code';
 import RamDisplay from './components/RamDisplay';
+import DeviceDisplayTabs from './components/DeviceDisplayTabs';
+import Settings from './components/Settings';
 
 function setCode(code: string, dispatch: Function) {
   const action: SetCode = {
@@ -38,49 +40,35 @@ function checkURL(dispatch: Function) {
   if (s.length >= 4 && s[3].toLowerCase() === 'share') {
     setCode('Loading Code...', dispatch);
     fetchCode(s[4], dispatch);
+  } else if (localStorage.getItem('code')) {
+    setCode(localStorage.getItem('code') as string, dispatch);
   }
 }
 
-function displayNotices(noticesState: NoticesInterface) {
-  const notices: any = [];
-  noticesState.notices.map((n: NoticeInterface) => {
-    if (n.dismissed === false) {
-      notices.push(<Notice message={n.message} />);
-    }
-    return undefined;
-  });
-  return notices;
-}
-
 const App: React.FC = () => {
+  const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   const dispatch = useDispatch();
-  const noticesState: NoticesInterface = useSelector((state : RootState) => state.notices);
   return (
     <div className="Root">
+      {checkURL(dispatch)}
       <div className="Row">
         <div
           className="Column"
           style={{
-            width: '15em', marginTop: '8em', float: 'right', marginLeft: '5em',
+            marginTop: '8em', marginLeft: '5em',
           }}
         >
-          <h1 className="SiteTitle">tasm.io</h1>
+          <h1 className="SiteTitle text-shadow-drop-center">tasm.io</h1>
           <ButtonBox />
           <Debugger />
         </div>
         <div className="Column">
-          <Editor />
+          {displayEditor ? <Editor /> : <Settings />}
         </div>
-        <div className="Column" style={{ width: '33%', marginLeft: '5em', marginTop: '10em' }}>
+        <div className="Column" style={{ marginLeft: '5em', marginTop: '6.5em' }}>
           <StateDisplay />
-          <hr />
-          <div style={{ marginLeft: '2em' }}>
-            <button type="button" className="EditorTab">RAM</button>
-            <button type="button">Text Display</button>
-            <button type="button">Virtual Keyboard</button>
-            <button type="button">7 Segment Display</button>
-            <button type="button">Traffic Lights</button>
-          </div>
+          <br />
+          <DeviceDisplayTabs />
           <RamDisplay />
         </div>
       </div>
