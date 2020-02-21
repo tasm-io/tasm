@@ -10,6 +10,7 @@ export enum Operand {
 
 // Opcode represents the opcode for an instruction.
 export enum Opcode {
+  HALT = 0,
   NOP = 1,
   MOV_REG_REG = 2,
   MOV_REG_MEMABS = 3,
@@ -52,6 +53,7 @@ export enum Opcode {
 }
 
 export const OpcodeMapping: { [key: string]: Opcode[] } = {
+  halt: [Opcode.HALT],
   nop: [Opcode.NOP],
   mov: [
     Opcode.MOV_REG_REG,
@@ -89,6 +91,7 @@ export const OpcodeMapping: { [key: string]: Opcode[] } = {
 
 // OperandTypes maps each opcode to its operand's types.
 export const OperandTypes = {
+  [Opcode.HALT]: [],
   [Opcode.NOP]: [],
   [Opcode.MOV_REG_REG]: [Operand.REGISTER, Operand.REGISTER],
   [Opcode.MOV_REG_MEMABS]: [Operand.REGISTER, Operand.MEMORY],
