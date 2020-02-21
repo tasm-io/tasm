@@ -2,7 +2,9 @@ import React from 'react';
 import '../App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { MODIFY_SPEED, MODIFY_REGISTER_DISPLAY } from '../redux/debugger';
+// eslint-disable-next-line no-unused-vars
 import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
+// eslint-disable-next-line no-unused-vars
 import { RootState } from '../redux/root';
 
 function handleSpeedChange(speed: number, dispatch: Function) {
@@ -33,7 +35,9 @@ function handleExit(dispatch: Function) {
 const Settings: React.FC = () => {
   const dispatch = useDispatch();
   const speed: number = useSelector((state : RootState) => state.debugger.speed);
-  const registerDisplay: number = useSelector((state : RootState) => state.debugger.registerDisplay);
+  const registerDisplay: number = useSelector(
+    (state : RootState) => state.debugger.registerDisplay,
+  );
   return (
     <div className="Settings">
       <h3>Settings</h3>

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from '../redux/root';
 import {
+  // eslint-disable-next-line no-unused-vars
   Register, Opcode, OperandTypes, Operand,
 } from '../instructionset/instructionset';
 

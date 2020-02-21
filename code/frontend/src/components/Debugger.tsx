@@ -14,6 +14,7 @@ import {
   // eslint-disable-next-line no-unused-vars
   ASSEMBLE, Assemble, STEP, Step,
 } from '../redux/simulator';
+// eslint-disable-next-line no-unused-vars
 import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
 
 function handleAssembleClick(code: string, dispatch: Function) {
@@ -97,7 +98,7 @@ const Debugger: React.FC = () => {
         <i className="Icon fa fa-stop" />
         <div className="buttonText">Stop</div>
       </button>
-      <hr style={{width: '100%'}} />
+      <hr style={{ width: '100%' }} />
       <button className="Button" type="button">
         <i className="Icon fa fa-info-circle" />
         <div className="buttonText">User Guide</div>
