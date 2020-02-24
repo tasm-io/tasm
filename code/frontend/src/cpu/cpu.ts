@@ -233,7 +233,10 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
     }
     break;
   default:
-    throw new Error('uh oh!');
+    throw new Error('Well, well, well. Here we are. Some idiot^W^W^W^W^W developer has forgotten ' +
+                    'to add their new opcode to the executeInstruction function. If we were using ' +
+                    'a half decent programming language, we probably could\'ve caught this at ' +
+                    'compile time! But alas, we are not.');
   }
 }
 
