@@ -16,6 +16,7 @@ import RamDisplay from './components/RamDisplay';
 import DeviceDisplayTabs from './components/DeviceDisplayTabs';
 import Settings from './components/Settings';
 import Error from './components/Error';
+// eslint-disable-next-line no-unused-vars
 import { SimulatorError } from './redux/errors';
 
 function setCode(code: string, dispatch: Function) {
@@ -45,9 +46,9 @@ function checkURL(dispatch: Function) {
 }
 
 function changeTitle() {
-  if(Math.floor(Math.random() * 10) == 1){
-  const i: number = Math.floor(Math.random() * siteTitle.length);
-  document.title = siteTitle[i];
+  if (Math.floor(Math.random() * 10) === 1) {
+    const i: number = Math.floor(Math.random() * siteTitle.length);
+    document.title = siteTitle[i];
   }
 }
 
@@ -60,7 +61,7 @@ const App: React.FC = () => {
       {checkURL(dispatch)}
       {changeTitle()}
       <div className="Row">
-        <div className="Column LeftBar" >
+        <div className="Column LeftBar">
           <h1 className="SiteTitle">tasm.io</h1>
           <ButtonBox />
           <Debugger />

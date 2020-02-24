@@ -16,13 +16,29 @@ import {
 } from '../redux/simulator';
 // eslint-disable-next-line no-unused-vars
 import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
+import { ADD_ERROR, ErrorTypes } from '../redux/errors';
+
+function handleError(err: Error, dispatch: Function) {
+  dispatch({
+    type: ADD_ERROR,
+    payload: {
+      type: ErrorTypes.Bad,
+      title: 'CPU Error',
+      message: err.message,
+    },
+  });
+}
 
 function handleAssembleClick(code: string, dispatch: Function) {
   const assembleAction: Assemble = {
     type: ASSEMBLE,
     payload: code,
   };
-  dispatch(assembleAction);
+  try {
+    dispatch(assembleAction);
+  } catch (error) {
+    handleError(error, dispatch);
+  }
   const debuggerResetAction: SetSimulatorRunning = {
     type: SET_SIMULATOR_RUNNING,
     payload: -2,
@@ -36,7 +52,11 @@ function handleStepClick(dispatch: Function) {
     type: STEP,
     payload: undefined,
   };
-  dispatch(action);
+  try {
+    dispatch(action);
+  } catch (error) {
+    handleError(error, dispatch);
+  }
 }
 
 function runInterval(dispatch: Function) {
@@ -44,7 +64,11 @@ function runInterval(dispatch: Function) {
     type: STEP,
     payload: undefined,
   };
-  dispatch(action);
+  try {
+    dispatch(action);
+  } catch (error) {
+    handleError(error, dispatch);
+  }
 }
 
 function handleRunClick(dispatch: Function, running: number, speed: number) {
@@ -53,7 +77,11 @@ function handleRunClick(dispatch: Function, running: number, speed: number) {
     type: SET_SIMULATOR_RUNNING,
     payload: handle,
   };
-  dispatch(action);
+  try {
+    dispatch(action);
+  } catch (error) {
+    handleError(error, dispatch);
+  }
 }
 
 function handleStopClick(dispatch: Function, running: number) {

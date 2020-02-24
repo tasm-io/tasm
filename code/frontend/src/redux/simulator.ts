@@ -1,10 +1,6 @@
 import assemble from '../assembler/assemble';
 // eslint-disable-next-line no-unused-vars
 import { State, step } from '../cpu/cpu';
-import { parse } from '../assembler/parser';
-import {
-  removeCharacters, removeStrings, removeConstants, createPipeline,
-} from '../assembler/transform';
 import { Register } from '../instructionset/instructionset';
 
 /* Action Types */
@@ -13,7 +9,7 @@ export const STEP = 'STEP';
 export const RUN = 'RUN';
 
 export interface SimulatorStoreInterface {
-    byteCode: number[]
+    byteCode: Uint8Array
     ram: Uint8Array
     registers: Uint8Array
     cycles: number
@@ -21,7 +17,7 @@ export interface SimulatorStoreInterface {
 }
 
 const defaultState: SimulatorStoreInterface = {
-  byteCode: [],
+  byteCode: new Uint8Array(256),
   ram: new Uint8Array(256),
   registers: new Uint8Array(7),
   cycles: 0,
@@ -49,41 +45,25 @@ export interface Run {
 export const simulatorReducer = (state = defaultState, action: SimulatorActions) => {
   switch (action.type) {
   case (ASSEMBLE): {
-    try {
-      const pipeline = createPipeline(removeCharacters, removeConstants, removeStrings);
-      const node = parse(action.payload.toLowerCase());
-      const transformed = pipeline(node);
-      const byteCode = assemble(transformed);
-      const { registers } = defaultState;
-      registers[Register.SP] = 255;
-      return {
-        ...state, byteCode, ram: new Uint8Array(byteCode), registers,
-      };
-    } catch (error) {
-      // TODO(Fraz): handle errors
-      console.log(error);
-      return {
-        ...state, error,
-      };
-    }
+    const [byteCode, _] = assemble(action.payload);
+    const { registers } = defaultState;
+    registers[Register.SP] = 255;
+    return {
+      ...state, byteCode, ram: new Uint8Array(byteCode), registers,
+    };
   }
   case (STEP): {
-    try {
-      const simulatorState: State = {
-        registers: state.registers,
-        memory: state.ram,
-      };
-      step(simulatorState);
-      return {
-        ...state,
-        registers: new Uint8Array(simulatorState.registers),
-        ram: new Uint8Array(simulatorState.memory),
-        cycles: state.cycles + 1,
-      };
-    } catch (error) {
-      // TODO(Fraz): handle errors
-      return { ...state, error };
-    }
+    const simulatorState: State = {
+      registers: state.registers,
+      memory: state.ram,
+    };
+    step(simulatorState);
+    return {
+      ...state,
+      registers: new Uint8Array(simulatorState.registers),
+      ram: new Uint8Array(simulatorState.memory),
+      cycles: state.cycles + 1,
+    };
   }
   default:
     return { ...state };
