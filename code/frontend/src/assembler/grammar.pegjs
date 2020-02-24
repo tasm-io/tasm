@@ -49,7 +49,7 @@ Ascii
     }
 Asciiz
     = "asciiz" _ value:String {
-        return new ast.Asciiz(location().start, value);
+        return new ast.Asciiz(location().start, value.join(""));
     }
 Break
     = "break" {

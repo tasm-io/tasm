@@ -209,7 +209,7 @@ function peg$parse(input: string, options?: IParseOptions) {
   const peg$c15 = "asciiz";
   const peg$c16 = peg$literalExpectation("asciiz", false);
   const peg$c17 = function(value: any): any {
-          return new ast.Asciiz(location().start, value);
+          return new ast.Asciiz(location().start, value.join(""));
       };
   const peg$c18 = "break";
   const peg$c19 = peg$literalExpectation("break", false);

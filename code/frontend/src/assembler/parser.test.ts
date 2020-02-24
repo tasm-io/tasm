@@ -40,7 +40,7 @@ it('parses a full program', () => {
     Ascii { source: { offset: 23, line: 4, column: 3 }, value: 'Hey' },
     Asciiz {
       source: { offset: 37, line: 5, column: 3 },
-      value: [ 'e', 'l', 'l', 'o' ]
+      value: 'ello'
     },
     Break { source: { offset: 53, line: 6, column: 3 } },
     Org {
