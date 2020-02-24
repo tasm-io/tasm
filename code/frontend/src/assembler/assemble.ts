@@ -2,7 +2,6 @@ import { semanticCheck } from './semantic';
 import { transformationPipeline } from './transform';
 import { parse } from './parser';
 import generateCode from './codegen';
-import { inspect } from 'util';;
 
 type Nullable<T> = null | T;
 
