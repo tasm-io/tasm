@@ -4,8 +4,8 @@ import { Register, Opcode } from '../instructionset/instructionset';
 
 const source = { line: 0, column: 0, offset: 0 };
 
-function buildMemory(...commands: [number, number][]): number[] {
-  const buffer = new Array(256).fill(0);
+function buildMemory(...commands: [number, number][]): Uint8Array {
+  const buffer = new Uint8Array(256);
   commands.forEach(([i, v]) => {
     buffer[i] = v;
   });

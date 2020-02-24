@@ -12,7 +12,7 @@ import {
 
 class State {
   // memory is the 256 bytes of memory that we have available.
-  private memory: number[];
+  private memory: Uint8Array;
 
   // toFill consists of pairs of addresses which are due to have the
   // location of labels filled in.
@@ -25,7 +25,7 @@ class State {
   private position: number;
 
   constructor() {
-    this.memory = new Array(256).fill(0);
+    this.memory = new Uint8Array(256);
     this.toFill = [];
     this.labels = new Map();
     this.position = 0;
@@ -65,7 +65,7 @@ class State {
   }
 
   // Extract extracs the underlying memory.
-  extract(): number[] {
+  extract(): Uint8Array {
     return this.memory;
   }
 }
@@ -152,7 +152,7 @@ const statementVisitor = ast.createNullableVisitor<void, State>({
   },
 });
 
-export default function generateCode(program: ast.Node): number[] {
+export default function generateCode(program: ast.Node): Uint8Array[] {
   const state = new State();
   program.accept(statementVisitor, state);
   state.fillLabels();
