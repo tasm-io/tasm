@@ -42,7 +42,7 @@ function updateFlags(state: State, lastResult: number) {
     // Zero
     state.registers[Register.SR] |= 128;
   } else if (lastResult >= 128) {
-    // Overflow
+    // Negative
     state.registers[Register.SR] |= 64;
   }
 }
@@ -59,6 +59,7 @@ const operatorFunctionFor = {
   [Opcode.AND_REG_REG]: (x: number, y: number) => x & y,
   [Opcode.OR_REG_REG]: (x: number, y: number) => x | y,
   [Opcode.XOR_REG_REG]: (x: number, y: number) => x ^ y,
+  [Opcode.CMP_REG_REG]: (x: number, y: number) => x - y,
   [Opcode.ADD_REG_INT]: (x: number, y: number) => x + y,
   [Opcode.SUB_REG_INT]: (x: number, y: number) => x - y,
   [Opcode.MUL_REG_INT]: (x: number, y: number) => x * y,
@@ -66,6 +67,16 @@ const operatorFunctionFor = {
   [Opcode.AND_REG_INT]: (x: number, y: number) => x & y,
   [Opcode.OR_REG_INT]: (x: number, y: number) => x | y,
   [Opcode.XOR_REG_INT]: (x: number, y: number) => x ^ y,
+  [Opcode.CMP_REG_INT]: (x: number, y: number) => x - y,
+  [Opcode.NOT]: (x: number) => ~x & 0b11111111,
+};
+
+const predicateFunctionFor = {
+  [Opcode.JMP]: (flags: number) => true,
+  [Opcode.JS]: (flags: number) => (flags & 64) !== 0,
+  [Opcode.JNS]: (flags: number) => (flags & 64) === 0,
+  [Opcode.JZ]: (flags: number) => (flags & 128) !== 0,
+  [Opcode.JNZ]: (flags: number) => (flags & 128) === 0,
 };
 
 export function executeInstruction(state: State, opcode: Opcode, operands: Uint8Array) {
@@ -90,11 +101,46 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
   case Opcode.MOV_REG_MEMREGOFFSET:
     {
       const register = operands[1] >> 5;
-      if (!isRegister(register)) {
+      if (!isRegister(register) || !isRegister(operands[0])) {
         throw new IllegalOperandError(opcode, operands);
       }
       const offset = operands[1] & 0b00011111;
       state.registers[operands[0]] = state.memory[state.registers[register] + offset];
+    }
+    break;
+  case Opcode.MOV_REG_INT:
+    if (!isRegister(operands[0])) {
+        throw new IllegalOperandError(opcode, operands);
+    }
+    state.registers[operands[0]] = operands[1];
+    break;
+  case Opcode.MOV_MEMABS_REG:
+    if (!isRegister(operands[1])) {
+        throw new IllegalOperandError(opcode, operands);
+    }
+    state.memory[operands[0]] = state.registers[operands[1]];
+    break;
+  case Opcode.MOV_MEMREGOFFSET_REG:
+    {
+      const register = operands[0] >> 5;
+      if (!isRegister(register) || !isRegister(operands[1])) {
+          throw new IllegalOperandError(opcode, operands);
+      }
+      const offset = operands[0] & 0b00011111;
+      state.memory[state.registers[register] + offset] = state.registers[operands[1]];
+    }
+    break;
+  case Opcode.MOV_MEMABS_INT:
+    state.memory[operands[0]] = state.registers[operands[0]];
+    break;
+  case Opcode.MOV_MEMREGOFFSET_INT:
+    {
+      const register = operands[0] >> 5;
+      if (!isRegister(register)) {
+          throw new IllegalOperandError(opcode, operands);
+      }
+      const offset = operands[0] & 0b00011111;
+      state.memory[state.registers[register] + offset] = operands[1];
     }
     break;
   case Opcode.ADD_REG_REG:
@@ -104,6 +150,7 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
   case Opcode.AND_REG_REG:
   case Opcode.OR_REG_REG:
   case Opcode.XOR_REG_REG:
+  case Opcode.CMP_REG_REG:
     if (!isRegister(operands[0]) || !isRegister(operands[1])) {
       throw new IllegalOperandError(opcode, operands);
     }
@@ -120,6 +167,7 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
   case Opcode.AND_REG_INT:
   case Opcode.OR_REG_INT:
   case Opcode.XOR_REG_INT:
+  case Opcode.CMP_REG_INT:
     if (!isRegister(operands[0])) {
       throw new IllegalOperandError(opcode, operands);
     }
@@ -129,7 +177,70 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
     );
     updateFlags(state, state.registers[operands[0]]);
     break;
+  case Opcode.NOT:
+    if (!isRegister(operands[0])) {
+      throw new IllegalOperandError(opcode, operands);
+    }
+    const value = state.registers[operands[0]];
+    state.registers[operands[0]] = ~state.registers[operands[0]];
+    updateFlags(state, state.registers[operands[0]]);
+    break;
+  case Opcode.PUSH:
+    if (!isRegister(operands[0])) {
+      throw new IllegalOperandError(opcode, operands);
+    }
+    state.memory[state.registers[Register.SP]] = state.registers[operands[0]];
+    state.registers[Register.SP] -= 1;
+    break;
+  case Opcode.POP:
+    if (!isRegister(operands[0])) {
+      throw new IllegalOperandError(opcode, operands);
+    }
+    state.registers[Register.SP] += 1;
+    state.registers[operands[0]] = state.memory[state.registers[Register.SP]];
+    break;
+  case Opcode.CALL:
+    // Offset it by 2 because this instruction occupies 2 bytes, and we want to end
+    // up at the next instruction when we return.
+    state.memory[state.registers[Register.SP]] = state.registers[Register.IP] + 2;
+    state.registers[Register.SP] -= 1;
+    // The IP will be incremented by 2 after this instruction has been executed, so
+    // we have to bring it back by 2 places.
+    state.registers[Register.IP] = operands[0] - 2;
+    break;
+  case Opcode.RET:
+    {
+      state.registers[Register.SP] += 1;
+      const returnAddr = state.memory[state.registers[Register.SP]];
+      state.registers[Register.IP] = returnAddr;
+    }
+    break;
+  case Opcode.CLI:
+    state.registers[Register.SR] &= ~32;
+    break;
+  case Opcode.STI:
+    state.registers[Register.SR] |= 32;
+    break;
+  case Opcode.JMP:
+  case Opcode.JS:
+  case Opcode.JNS:
+  case Opcode.JZ:
+  case Opcode.JNZ:
+    if (predicateFunctionFor[opcode](state.registers[Register.SR])) {
+      // Offset by 2 because this instruction occupies 2 bytes, so the IP will be
+      // incremented by 2 bytes when it is finished.
+      state.registers[Register.IP] = operands[0] - 2;
+    }
+    break;
   default:
     throw new Error('uh oh!');
   }
 }
+
+export function step(state: State): void {
+  const [opcode, operands] = fetchNextInstruction(state);
+  executeInstruction(state, opcode, operands);
+  // The number of operands plus the opcode.
+  state.registers[Register.IP] += operands.length + 1;
+}
+
