@@ -1,5 +1,5 @@
 import * as ast from './ast';
-import assemble from './assemble';
+import generateCode from './codegen';
 import { Register, Opcode } from '../instructionset/instructionset';
 
 const source = { line: 0, column: 0, offset: 0 };
@@ -14,7 +14,7 @@ function buildMemory(...commands: [number, number][]): number[] {
 
 it('assembles a basic add', () => {
   expect(
-    assemble(
+    generateCode(
       new ast.Instruction(
         source,
         'add',
@@ -35,7 +35,7 @@ it('assembles a basic add', () => {
 
 it('implements all the arithmetic operators', () => {
   expect(
-    assemble(
+    generateCode(
       new ast.Block(
         source,
         [
@@ -95,7 +95,7 @@ it('implements all the arithmetic operators', () => {
 
 it('assembles mov correctly', () => {
   expect(
-    assemble(
+    generateCode(
       new ast.Block(
         source,
         [
@@ -218,7 +218,7 @@ it('assembles mov correctly', () => {
 
 it('assembles labels correctly', () => {
   expect(
-    assemble(
+    generateCode(
       new ast.Block(
         source,
         [
@@ -255,7 +255,7 @@ it('assembles labels correctly', () => {
 
 it('assembles org correctly', () => {
   expect(
-    assemble(
+    generateCode(
       new ast.Block(
         source,
         [
@@ -295,7 +295,7 @@ it('assembles org correctly', () => {
 
 it('assembles bytes correctly', () => {
   expect(
-    assemble(
+    generateCode(
       new ast.Block(
         source,
         [

@@ -152,7 +152,7 @@ const statementVisitor = ast.createNullableVisitor<void, State>({
   },
 });
 
-export default function assemble(program: ast.Node): number[] {
+export default function generateCode(program: ast.Node): number[] {
   const state = new State();
   program.accept(statementVisitor, state);
   state.fillLabels();
