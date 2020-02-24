@@ -8,7 +8,11 @@ export interface State {
   memory: Uint8Array,
 }
 
-export class Halt extends Error {}
+export class Halt extends Error {
+  constructor() {
+    super('Program has halted');
+  }
+}
 
 export class IllegalOpcodeError extends Error {
   constructor(opcode: number) {
@@ -25,7 +29,7 @@ export class IllegalOperandError extends Error {
 export function fetchNextInstruction(state: State): [Opcode, Uint8Array] {
   const pos = state.registers[Register.IP];
   const untypedOpcode = state.memory[pos];
-  if (Opcode[untypedOpcode] === 'undefined') {
+  if (typeof Opcode[untypedOpcode] === 'undefined') {
     throw new IllegalOpcodeError(state.memory[pos]);
   }
   const typedOpcode = untypedOpcode as Opcode;
@@ -49,7 +53,7 @@ function updateFlags(state: State, lastResult: number) {
 }
 
 function isRegister(value: number) {
-  return Register[value] !== 'undefined';
+  return typeof Register[value] !== 'undefined';
 }
 
 const operatorFunctionFor = {
