@@ -222,6 +222,9 @@ function peg$parse(input: string, options?: IParseOptions) {
           return new ast.Label(location().start, name);
       };
   const peg$c24 = function(opcode: any, operands: any): any {
+          if (operands === null) {
+            operands = [];
+          }
           return new ast.Instruction(location().start, opcode, operands);
       };
   const peg$c25 = ",";
