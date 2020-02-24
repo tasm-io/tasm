@@ -1,5 +1,6 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable no-param-reassign */
+/* eslint-disable prefer-destructuring */
 import { Register, Opcode, OperandTypes } from '../instructionset/instructionset';
 
 export interface State {
@@ -72,7 +73,7 @@ const operatorFunctionFor = {
 };
 
 const predicateFunctionFor = {
-  [Opcode.JMP]: (flags: number) => true,
+  [Opcode.JMP]: (_flags: number) => true,
   [Opcode.JS]: (flags: number) => (flags & 64) !== 0,
   [Opcode.JNS]: (flags: number) => (flags & 64) === 0,
   [Opcode.JZ]: (flags: number) => (flags & 128) !== 0,
@@ -110,13 +111,13 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
     break;
   case Opcode.MOV_REG_INT:
     if (!isRegister(operands[0])) {
-        throw new IllegalOperandError(opcode, operands);
+      throw new IllegalOperandError(opcode, operands);
     }
     state.registers[operands[0]] = operands[1];
     break;
   case Opcode.MOV_MEMABS_REG:
     if (!isRegister(operands[1])) {
-        throw new IllegalOperandError(opcode, operands);
+      throw new IllegalOperandError(opcode, operands);
     }
     state.memory[operands[0]] = state.registers[operands[1]];
     break;
@@ -124,7 +125,7 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
     {
       const register = operands[0] >> 5;
       if (!isRegister(register) || !isRegister(operands[1])) {
-          throw new IllegalOperandError(opcode, operands);
+        throw new IllegalOperandError(opcode, operands);
       }
       const offset = operands[0] & 0b00011111;
       state.memory[state.registers[register] + offset] = state.registers[operands[1]];
@@ -137,7 +138,7 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
     {
       const register = operands[0] >> 5;
       if (!isRegister(register)) {
-          throw new IllegalOperandError(opcode, operands);
+        throw new IllegalOperandError(opcode, operands);
       }
       const offset = operands[0] & 0b00011111;
       state.memory[state.registers[register] + offset] = operands[1];
@@ -181,7 +182,6 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
     if (!isRegister(operands[0])) {
       throw new IllegalOperandError(opcode, operands);
     }
-    const value = state.registers[operands[0]];
     state.registers[operands[0]] = ~state.registers[operands[0]];
     updateFlags(state, state.registers[operands[0]]);
     break;
@@ -243,4 +243,3 @@ export function step(state: State): void {
   // The number of operands plus the opcode.
   state.registers[Register.IP] += operands.length + 1;
 }
-
