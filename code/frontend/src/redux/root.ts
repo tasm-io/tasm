@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import { codeReducer } from './code';
-import { noticeReducer } from './notices';
 import { simulatorReducer } from './simulator';
 import { debuggerReducer } from './debugger';
+import ErrorsReducer from './errors';
 
 const rootReducer = combineReducers({
   code: codeReducer,
-  notices: noticeReducer,
   simulator: simulatorReducer,
   debugger: debuggerReducer,
+  errors: ErrorsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>

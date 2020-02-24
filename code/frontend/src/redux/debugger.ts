@@ -16,9 +16,9 @@ export interface DebuggerInterface {
 }
 
 const defaultDebuggerState = {
-  speed: 1000,
+  speed: Number(localStorage.getItem('debuggerSpeed')) || 1000,
   running: -2,
-  registerDisplay: 2,
+  registerDisplay: Number(localStorage.getItem('registerDisplay')) || 2,
 };
 
 export interface ModifyDebuggerSpeed {
@@ -49,12 +49,14 @@ export function debuggerReducer(
     if (newSpeed < 250) {
       newSpeed = 250;
     } else if (newSpeed > 5000) newSpeed = 5000;
+    localStorage.setItem('debuggerSpeed', String(newSpeed));
     return { ...state, speed: newSpeed };
   }
   case (SET_SIMULATOR_RUNNING): {
     return { ...state, running: action.payload };
   }
   case (MODIFY_REGISTER_DISPLAY): {
+    localStorage.setItem('registerDisplay', String(action.payload));
     return { ...state, registerDisplay: action.payload };
   }
   default:

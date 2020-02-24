@@ -8,9 +8,6 @@ import ButtonBox from './components/ButtonBox';
 import Editor from './components/Editor';
 
 import { serverURL } from './constants';
-import Notice from './components/Notice';
-// eslint-disable-next-line no-unused-vars
-import { NoticesInterface, NoticeInterface } from './redux/notices';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from './redux/root';
 // eslint-disable-next-line no-unused-vars
@@ -18,6 +15,8 @@ import { SET_CODE, SetCode } from './redux/code';
 import RamDisplay from './components/RamDisplay';
 import DeviceDisplayTabs from './components/DeviceDisplayTabs';
 import Settings from './components/Settings';
+import Error from './components/Error';
+import { SimulatorError } from './redux/errors';
 
 function setCode(code: string, dispatch: Function) {
   const action: SetCode = {
@@ -47,6 +46,7 @@ function checkURL(dispatch: Function) {
 
 const App: React.FC = () => {
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
+  const error: SimulatorError = useSelector((state : RootState) => state.errors.errors[0]);
   const dispatch = useDispatch();
   return (
     <div className="Root">
@@ -58,11 +58,12 @@ const App: React.FC = () => {
             marginTop: '8em', marginLeft: '5em',
           }}
         >
-          <h1 className="SiteTitle text-shadow-drop-center">tasm.io</h1>
+          <h1 className="SiteTitle">tasm.io</h1>
           <ButtonBox />
           <Debugger />
         </div>
         <div className="Column">
+          {error ? <Error error={error} /> : ''}
           {displayEditor ? <Editor /> : <Settings />}
         </div>
         <div className="Column" style={{ marginLeft: '5em', marginTop: '6.5em' }}>

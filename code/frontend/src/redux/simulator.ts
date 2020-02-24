@@ -16,6 +16,7 @@ export interface SimulatorStoreInterface {
     ram: Uint8Array
     registers: Uint8Array
     cycles: number
+    error?: {message: string}
 }
 
 const defaultState: SimulatorStoreInterface = {
@@ -24,6 +25,7 @@ const defaultState: SimulatorStoreInterface = {
   ram: new Uint8Array(256),
   registers: new Uint8Array(7),
   cycles: 0,
+  error: undefined,
 };
 
 
@@ -47,23 +49,33 @@ export interface Run {
 export const simulatorReducer = (state = defaultState, action: SimulatorActions) => {
   switch (action.type) {
   case (ASSEMBLE): {
-    const pipeline = createPipeline(removeCharacters, removeConstants, removeStrings);
-    const node = parse(action.payload.toLowerCase());
-    const transformed = pipeline(node);
-    const byteCode = assemble(transformed);
-    const cpu = new CPU([...byteCode]);
-    return {
-      ...state, byteCode, cpu, registers: cpu.registers, ram: cpu.RAM,
-    };
+    try {
+      const pipeline = createPipeline(removeCharacters, removeConstants, removeStrings);
+      const node = parse(action.payload.toLowerCase());
+      const transformed = pipeline(node);
+      const byteCode = assemble(transformed);
+      const cpu = new CPU([...byteCode]);
+      return {
+        ...state, byteCode, cpu, registers: cpu.registers, ram: cpu.RAM,
+      };
+    } catch (error) {
+      return {
+        ...state, error,
+      };
+    }
   }
   case (STEP): {
-    state.cpu.step();
-    return {
-      ...state,
-      registers: new Uint8Array(state.cpu.registers),
-      ram: new Uint8Array(state.cpu.RAM),
-      cycles: state.cycles + 1,
-    };
+    try {
+      state.cpu.step();
+      return {
+        ...state,
+        registers: new Uint8Array(state.cpu.registers),
+        ram: new Uint8Array(state.cpu.RAM),
+        cycles: state.cycles + 1,
+      };
+    } catch (error) {
+      return { ...state, error };
+    }
   }
   default:
     return { ...state };

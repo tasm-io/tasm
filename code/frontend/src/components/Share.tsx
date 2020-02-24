@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/root';
 import {serverURL} from '../constants';
 import { UploadError, UPLOADING, UPLOAD_ERROR, UPLOAD_SUCCESS, UploadSuccess } from '../redux/code';
-import { AddNotice, ADD_NOTICE } from '../redux/notices';
+import { ADD_ERROR, ErrorTypes, SimulatorError, AddError } from '../redux/errors';
 /* eslint-enable */
 
 const shareEndpoint: string = `${serverURL}/submit`;
@@ -19,19 +19,8 @@ async function uploadCode(code: string) {
     });
     return await response.text();
   } catch (_e) {
-    const e: Error = _e;
-    console.log(`error: ${e.message}`);
     return 'error: Failed to contact the server';
   }
-}
-
-function ShareURLNotice(id: string) : AddNotice {
-  const shareURL = `Shared Sucessfully to URL: ${serverURL}/share/${id}`;
-  const action: AddNotice = {
-    type: ADD_NOTICE,
-    payload: shareURL,
-  };
-  return action;
 }
 
 function handleShareSuccess(response: string) : UploadSuccess {
@@ -42,6 +31,35 @@ function handleShareSuccess(response: string) : UploadSuccess {
   return action;
 }
 
+function NotifyUser(id: string) {
+  const error: SimulatorError = {
+    type: ErrorTypes.Good,
+    title: 'Code Uploaded & Shared',
+    message: `The url is: ${serverURL}/share/${id} and has been automatically copied!`,
+  };
+  const payload: AddError = {
+    type: ADD_ERROR,
+    payload: error,
+  };
+  return payload;
+}
+
+function NotifyUserError(resp: string) {
+  const error: SimulatorError = {
+    type: ErrorTypes.Bad,
+    title: 'Error Sharing Code',
+    message: `${resp.split(':')[1]}`,
+  };
+  const payload: AddError = {
+    type: ADD_ERROR,
+    payload: error,
+  };
+  return payload;
+}
+
+function copyToClipboard(id: string) {
+  navigator.clipboard.writeText(`${serverURL}/share/${id}`);
+}
 
 function handleShareFailure(response: string) : UploadError {
   const action: UploadError = {
@@ -61,9 +79,11 @@ function handleShareCode(code: string, dispatch: Function) {
     const response = resp;
     if (response.includes('error') !== true) {
       dispatch(handleShareSuccess(response));
-      dispatch(ShareURLNotice(response));
+      dispatch(NotifyUser(response));
+      copyToClipboard(response);
     } else {
       dispatch(handleShareFailure(response));
+      dispatch(NotifyUserError(response));
     }
   });
 }

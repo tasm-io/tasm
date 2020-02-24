@@ -8,7 +8,6 @@ import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
 import { RootState } from '../redux/root';
 
 function handleSpeedChange(speed: number, dispatch: Function) {
-  console.log(speed);
   const action = {
     type: MODIFY_SPEED,
     payload: speed,

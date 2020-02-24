@@ -10,9 +10,9 @@ import {
 
 function displayTableTop() {
   const res: any = [];
-  res.push(<th>&nbsp;</th>);
+  res.push(<th key="blank">&nbsp;</th>);
   for (let i = 0; i < 16; i += 1) {
-    res.push(<th>{`0${Number(i).toString(16).toUpperCase()}`}</th>);
+    res.push(<th key={i}>{`0${Number(i).toString(16).toUpperCase()}`}</th>);
   }
   return res;
 }
@@ -46,7 +46,9 @@ function mapRows(start: number, ram: Uint8Array, ip:number, sp:number) {
   const res: any = [];
   for (let i = 0; i < 16; i += 1) {
     res.push(
-      <td className={styleAddress(start + i, ram, ip, sp)}>{formatRamValue(ram[start + i])}</td>,
+      <td key={start + i} className={styleAddress(start + i, ram, ip, sp)}>
+        {formatRamValue(ram[start + i])}
+      </td>,
     );
   }
   return res;
@@ -56,8 +58,8 @@ function mapRam(ram: Uint8Array, ip:number, sp:number) {
   const res: any = [];
   for (let i = 0; i < 16; i += 1) {
     res.push(
-      <tr>
-        <th scope="row">{`${Number(i).toString(16).toUpperCase()}0`}</th>
+      <tr key={i}>
+        <th key={`${i}0`} scope="row">{`${Number(i).toString(16).toUpperCase()}0`}</th>
         {mapRows(i * 16, ram, ip, sp)}
       </tr>,
     );
