@@ -60,12 +60,7 @@ const App: React.FC = () => {
       {checkURL(dispatch)}
       {changeTitle()}
       <div className="Row">
-        <div
-          className="Column"
-          style={{
-            marginTop: '8em', marginLeft: '5em',
-          }}
-        >
+        <div className="Column LeftBar" >
           <h1 className="SiteTitle">tasm.io</h1>
           <ButtonBox />
           <Debugger />
