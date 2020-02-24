@@ -147,3 +147,71 @@ export function detectLabelsUsedInOrg(program: ast.Node): ast.Org[] {
   program.accept(findOrgsWithLabelNames, badOrgs);
   return badOrgs;
 }
+
+export class UndefinedIdentifierError extends Error {
+  public identifiers: ast.Identifier[];
+
+  constructor(identifiers: ast.Identifier[]) {
+    super(`undefined identifiers: ${identifiers}`);
+    this.identifiers = identifiers;
+  }
+}
+
+export class DuplicateDefinitionError extends Error {
+  public definitions: Map<string, Definition[]>;
+
+  constructor(definitions: Map<string, Definition[]>) {
+    super(`duplicate definitions: ${definitions}`);
+    this.definitions = definitions;
+  }
+}
+
+export class InvalidOpcodesError extends Error {
+  public instructions: ast.Instruction[];
+
+  constructor(instructions: ast.Instruction[]) {
+    super(`invalid opcodes: ${instructions}`);
+    this.instructions = instructions;
+  }
+}
+
+export class BadlyTypedInstructionsError extends Error {
+  public instructions: ast.Instruction[];
+
+  constructor(instructions: ast.Instruction[]) {
+    super(`badly typed instructions: ${instructions}`);
+    this.instructions = instructions;
+  }
+}
+
+export class LabelsUsedInOrgError extends Error {
+  public orgs: ast.Org[];
+
+  constructor(orgs: ast.Org[]) {
+    super(`labels used in orgs: ${orgs}`);
+    this.orgs = orgs;
+  }
+}
+
+export function semanticCheck(program: ast.Node) {
+  const undefinedIdentifiers = detectUndefinedIdentifiers(program);
+  if (undefinedIdentifiers.length > 0) {
+    throw new UndefinedIdentifierError(undefinedIdentifiers);
+  }
+  const duplicateDefinitions = detectDuplicateDefinitions(program);
+  if (duplicateDefinitions.size > 0) {
+    throw new DuplicateDefinitionError(duplicateDefinitions);
+  }
+  const invalidOpcodes = detectInvalidOpcodes(program);
+  if (invalidOpcodes.length > 0) {
+    throw new InvalidOpcodesError(invalidOpcodes);
+  }
+  const badlyTypedInstructions = detectBadlyTypedInstructions(program);
+  if (badlyTypedInstructions.length > 0) {
+    throw new BadlyTypedInstructionsError(badlyTypedInstructions);
+  }
+  const labelsUsedInOrg = detectLabelsUsedInOrg(program);
+  if (labelsUsedInOrg.length > 0) {
+    throw new LabelsUsedInOrgError(labelsUsedInOrg);
+  }
+}

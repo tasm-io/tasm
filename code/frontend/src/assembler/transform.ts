@@ -42,7 +42,7 @@ export function removeStrings(program: ast.Node): ast.Node {
     visitAscii: (_visitor, node, _context) => new ast.Block(
       node.source,
       // TODO(cmgn): Maybe adjust the column here?
-      node.value.split('').map((c) => new ast.Integer(node.source, c.charCodeAt(0))),
+      node.value.split('').map((c) => new ast.Byte(node.source, new ast.Integer(node.source, c.charCodeAt(0)))),
     ),
     visitAsciiz: (visitor, node, context) => new ast.Ascii(
       node.source,
@@ -121,3 +121,9 @@ export function createPipeline(...transformations: Transformation[]): Transforma
     (x) => x,
   );
 }
+
+export const transformationPipeline = createPipeline(
+  removeCharacters,
+  removeStrings,
+  removeConstants,
+);
