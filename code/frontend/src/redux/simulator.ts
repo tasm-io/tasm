@@ -1,4 +1,5 @@
 import assemble from '../assembler/assemble';
+// eslint-disable-next-line no-unused-vars
 import { State, step } from '../cpu/cpu';
 import { parse } from '../assembler/parser';
 import {
@@ -59,6 +60,7 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
         ...state, byteCode, ram: new Uint8Array(byteCode), registers,
       };
     } catch (error) {
+      // TODO(Fraz): handle errors
       console.log(error);
       return {
         ...state, error,
@@ -79,6 +81,7 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
         cycles: state.cycles + 1,
       };
     } catch (error) {
+      // TODO(Fraz): handle errors
       return { ...state, error };
     }
   }

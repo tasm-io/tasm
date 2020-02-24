@@ -7,7 +7,7 @@ import Debugger from './components/Debugger';
 import ButtonBox from './components/ButtonBox';
 import Editor from './components/Editor';
 
-import { serverURL } from './constants';
+import { serverURL, siteTitle } from './constants';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from './redux/root';
 // eslint-disable-next-line no-unused-vars
@@ -44,6 +44,13 @@ function checkURL(dispatch: Function) {
   }
 }
 
+function changeTitle() {
+  if(Math.floor(Math.random() * 10) == 1){
+  const i: number = Math.floor(Math.random() * siteTitle.length);
+  document.title = siteTitle[i];
+  }
+}
+
 const App: React.FC = () => {
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   const error: SimulatorError = useSelector((state : RootState) => state.errors.errors[0]);
@@ -51,6 +58,7 @@ const App: React.FC = () => {
   return (
     <div className="Root">
       {checkURL(dispatch)}
+      {changeTitle()}
       <div className="Row">
         <div
           className="Column"
