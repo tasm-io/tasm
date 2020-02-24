@@ -121,3 +121,9 @@ export function createPipeline(...transformations: Transformation[]): Transforma
     (x) => x,
   );
 }
+
+export const transformationPipeline = createPipeline(
+  removeCharacters,
+  removeStrings,
+  removeConstants,
+);

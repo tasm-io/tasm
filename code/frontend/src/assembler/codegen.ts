@@ -152,7 +152,7 @@ const statementVisitor = ast.createNullableVisitor<void, State>({
   },
 });
 
-export default function generateCode(program: ast.Node): Uint8Array[] {
+export default function generateCode(program: ast.Node): Uint8Array {
   const state = new State();
   program.accept(statementVisitor, state);
   state.fillLabels();
