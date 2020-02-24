@@ -2,7 +2,7 @@
 // tspegjs -o parser.ts --custom-header "import * as ast from './ast';" grammar.pegjs
 
 Program
-    = _ commands:ProgramRec? _ {
+    = nl? commands:ProgramRec? nl? {
         if (commands === null) {
             commands = [];
         }
@@ -10,7 +10,7 @@ Program
     }
     
 ProgramRec
-    = head:Command _ tail:ProgramRec _ {
+    = head:Command nl tail:ProgramRec {
         tail.unshift(head);
         return tail;
     }
@@ -49,7 +49,7 @@ Ascii
     }
 Asciiz
     = "asciiz" _ value:String {
-        return new ast.Asciiz(location().start, value);
+        return new ast.Asciiz(location().start, value.join(""));
     }
 Break
     = "break" {
@@ -85,7 +85,7 @@ Operand
     / DirectMemoryAccess
 
 DirectMemoryAccess
-    = "[" _ address:Integer _ "]" {
+    = "[" _ address:Constant _ "]" {
         return new ast.DirectAddress(location().start, address);
     }
 RegisterMemoryAccess
@@ -157,5 +157,5 @@ EscapeSequence
     / "t"  { return "\t"; }
     / "v"  { return "\x0B"; }
 
-// Whitespace & comments
-_ = ([ \r\n\t\v] / ";" (!"\n" .)*)*
+_ = [ \r\t]*
+nl = [\n] ([ \n\r\t] / ";" (!"\n" .)*)*
