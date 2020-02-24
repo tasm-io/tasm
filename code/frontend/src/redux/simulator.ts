@@ -1,9 +1,10 @@
 import assemble from '../assembler/assemble';
-import CPU from '../cpu/cpu';
+import { State, step } from '../cpu/cpu';
 import { parse } from '../assembler/parser';
 import {
   removeCharacters, removeStrings, removeConstants, createPipeline,
 } from '../assembler/transform';
+import { Register } from '../instructionset/instructionset';
 
 /* Action Types */
 export const ASSEMBLE = 'ASSEMBLE';
@@ -12,7 +13,6 @@ export const RUN = 'RUN';
 
 export interface SimulatorStoreInterface {
     byteCode: number[]
-    cpu: CPU
     ram: Uint8Array
     registers: Uint8Array
     cycles: number
@@ -21,7 +21,6 @@ export interface SimulatorStoreInterface {
 
 const defaultState: SimulatorStoreInterface = {
   byteCode: [],
-  cpu: new CPU([]),
   ram: new Uint8Array(256),
   registers: new Uint8Array(7),
   cycles: 0,
@@ -54,11 +53,13 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
       const node = parse(action.payload.toLowerCase());
       const transformed = pipeline(node);
       const byteCode = assemble(transformed);
-      const cpu = new CPU([...byteCode]);
+      const { registers } = defaultState;
+      registers[Register.SP] = 255;
       return {
-        ...state, byteCode, cpu, registers: cpu.registers, ram: cpu.RAM,
+        ...state, byteCode, ram: new Uint8Array(byteCode), registers,
       };
     } catch (error) {
+      console.log(error);
       return {
         ...state, error,
       };
@@ -66,11 +67,15 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
   }
   case (STEP): {
     try {
-      state.cpu.step();
+      const simulatorState: State = {
+        registers: state.registers,
+        memory: state.ram,
+      };
+      step(simulatorState);
       return {
         ...state,
-        registers: new Uint8Array(state.cpu.registers),
-        ram: new Uint8Array(state.cpu.RAM),
+        registers: new Uint8Array(simulatorState.registers),
+        ram: new Uint8Array(simulatorState.memory),
         cycles: state.cycles + 1,
       };
     } catch (error) {

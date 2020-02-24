@@ -5,8 +5,11 @@ export const MODIFY_REGISTER_DISPLAY = 'MODIFY_REGISTER_DISPLAY';
 /**
  * DebuggerInterface represents of the user's code in the redux central store.
  * @param speed represents the time between steps (in ms) when code the running.
- * @param running represents if the simulator is currently running and
- * * @param registerDisplay represents the base of the register display (default binary)
+ * @param running represents if the simulator is currently running
+ * If the value is greater then equal it is a handle to a setInterval call
+ * -1 represents it has stopped but has ran.
+ * -2 is freshly assembled code that hasn't been ran yet.
+ * @param registerDisplay represents the base of the register display (default binary)
  * stepping through instructions.
  */
 export interface DebuggerInterface {
@@ -56,8 +59,12 @@ export function debuggerReducer(
     return { ...state, running: action.payload };
   }
   case (MODIFY_REGISTER_DISPLAY): {
-    localStorage.setItem('registerDisplay', String(action.payload));
-    return { ...state, registerDisplay: action.payload };
+    const valid: number[] = [2, 8, 16];
+    if (valid.includes(action.payload) as boolean) {
+      localStorage.setItem('registerDisplay', String(action.payload));
+      return { ...state, registerDisplay: action.payload };
+    }
+    return { ...state, registerDisplay: 2 };
   }
   default:
     return state;
