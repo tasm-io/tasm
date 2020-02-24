@@ -85,7 +85,7 @@ Operand
     / DirectMemoryAccess
 
 DirectMemoryAccess
-    = "[" _ address:Integer _ "]" {
+    = "[" _ address:Constant _ "]" {
         return new ast.DirectAddress(location().start, address);
     }
 RegisterMemoryAccess
