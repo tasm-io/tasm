@@ -144,6 +144,12 @@ const statementVisitor = ast.createNullableVisitor<void, State>({
   visitLabel: (_visitor, node, context) => {
     context.label(node.name);
   },
+  visitOrg: (_visitor, node, context) => {
+    const fakeState = new State();
+    node.addr.accept(operandVisitor, fakeState);
+    const offset = fakeState.extract()[0];
+    context.seek(offset);
+  },
 });
 
 export default function assemble(program: ast.Node): number[] {

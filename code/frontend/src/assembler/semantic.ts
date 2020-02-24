@@ -121,3 +121,29 @@ export function detectBadlyTypedInstructions(program: ast.Node): ast.Instruction
     });
   });
 }
+
+export function detectLabelsUsedInOrg(program: ast.Node): ast.Org[] {
+  const collectLabelNames = ast.createNullableVisitor<void, Set<string>>({
+    visitLabel: (_visitor, node, context) => { context.add(node.name); },
+  });
+  const labelNames = new Set<string>();
+  program.accept(collectLabelNames, labelNames);
+  const collectIdentifierName = ast.createNullableVisitor<
+    void,
+    { parentNode: ast.Org, context: ast.Org[] }
+  >({
+    visitIdentifier: (_visitor, node, { parentNode, context }) => {
+      if (labelNames.has(node.name)) {
+        context.push(parentNode);
+      }
+    },
+  });
+  const findOrgsWithLabelNames = ast.createNullableVisitor<void, ast.Org[]>({
+    visitOrg: (_visitor, node, context) => {
+      node.addr.accept(collectIdentifierName, { parentNode: node, context });
+    },
+  });
+  const badOrgs: ast.Org[] = [];
+  program.accept(findOrgsWithLabelNames, badOrgs);
+  return badOrgs;
+}

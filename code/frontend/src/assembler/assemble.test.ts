@@ -252,3 +252,65 @@ it('assembles labels correctly', () => {
     ),
   );
 });
+
+it('assembles org correctly', () => {
+  expect(
+    assemble(
+      new ast.Block(
+        source,
+        [
+          new ast.Org(source, new ast.Integer(source, 25)),
+          new ast.Instruction(
+            source,
+            'add',
+            [
+              new ast.Register(source, 'al'),
+              new ast.Integer(source, 50),
+            ],
+          ),
+          new ast.Org(source, new ast.Integer(source, 50)),
+          new ast.Instruction(
+            source,
+            'add',
+            [
+              new ast.Register(source, 'al'),
+              new ast.Integer(source, 20),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    buildMemory(
+      [25, Opcode.ADD_REG_INT],
+      [26, Register.AL],
+      [27, 50],
+      [50, Opcode.ADD_REG_INT],
+      [51, Register.AL],
+      [52, 20],
+    ),
+  );
+});
+
+
+it('assembles bytes correctly', () => {
+  expect(
+    assemble(
+      new ast.Block(
+        source,
+        [
+          new ast.Byte(source, new ast.Integer(source, 'a'.charCodeAt(0))),
+          new ast.Byte(source, new ast.Integer(source, ' '.charCodeAt(0))),
+          new ast.Byte(source, new ast.Integer(source, 'b'.charCodeAt(0))),
+        ],
+      ),
+    ),
+  ).toStrictEqual(
+    buildMemory(
+      [0, 97],
+      [1, 32],
+      [2, 98],
+    ),
+  );
+});
+

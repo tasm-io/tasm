@@ -45,7 +45,7 @@ Byte
     }
 Ascii
     = "ascii" _ value:String {
-        return new ast.Ascii(location().start, value);
+        return new ast.Ascii(location().start, value.join(""));
     }
 Asciiz
     = "asciiz" _ value:String {
