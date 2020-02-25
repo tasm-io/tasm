@@ -72,12 +72,12 @@ it('parses a full program', () => {
     Instruction {
       source: { offset: 101, line: 11, column: 3 },
       opcode: 'ret',
-      operands: null
+      operands: []
     },
     Instruction {
       source: { offset: 107, line: 12, column: 3 },
       opcode: 'iret',
-      operands: null
+      operands: []
     },
     Instruction {
       source: { offset: 123, line: 14, column: 3 },
