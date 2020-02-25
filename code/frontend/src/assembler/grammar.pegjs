@@ -10,11 +10,11 @@ Program
     }
     
 ProgramRec
-    = head:Command nl tail:ProgramRec {
+    = head:Command _ nl _ tail:ProgramRec _ {
         tail.unshift(head);
         return tail;
     }
-    / head:Command {
+    / head:Command _ {
         return [head];
     }
 
@@ -75,7 +75,7 @@ OperandsRec
         tail.unshift(head);
         return tail;
     }
-    / head:Operand {
+    / head:Operand _ {
         return [head];
     }
 
@@ -161,5 +161,6 @@ EscapeSequence
     / "v"  { return "\x0B"; }
 
 _ = [ \r\t]*
-nl = ([\n] / [\r][\n]) ([ \n\r\t] / ";" (!"\n" .)*)*
+comment = ";" (!"\n" .)*
+nl = comment? ([\n] / [\r][\n]) ([ \n\r\t] / comment)*
 
