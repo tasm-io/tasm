@@ -77,10 +77,11 @@ function handleShareCode(code: string, dispatch: Function) {
   dispatch(uploadingAction);
   uploadCode(code).then((resp) => {
     const response = resp;
-    if (response.includes('error') !== true) {
-      dispatch(handleShareSuccess(response));
-      dispatch(NotifyUser(response));
-      copyToClipboard(response);
+    if (!response.includes('error')) {
+      const uri: string = encodeURIComponent(response);
+      dispatch(handleShareSuccess(uri));
+      dispatch(NotifyUser(uri));
+      copyToClipboard(uri);
     } else {
       dispatch(handleShareFailure(response));
       dispatch(NotifyUserError(response));

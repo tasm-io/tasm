@@ -8,10 +8,14 @@ export const ASSEMBLE = 'ASSEMBLE';
 export const STEP = 'STEP';
 export const RUN = 'RUN';
 
+type Nullable<T> = null | T;
+
+
 export interface SimulatorStoreInterface {
     byteCode: Uint8Array
     ram: Uint8Array
     registers: Uint8Array
+    editorLines: Nullable<number>[];
     cycles: number
     error?: {message: string}
 }
@@ -19,6 +23,7 @@ export interface SimulatorStoreInterface {
 const defaultState: SimulatorStoreInterface = {
   byteCode: new Uint8Array(256),
   ram: new Uint8Array(256),
+  editorLines: new Array(256),
   registers: new Uint8Array(7),
   cycles: 0,
   error: undefined,
@@ -45,11 +50,11 @@ export interface Run {
 export const simulatorReducer = (state = defaultState, action: SimulatorActions) => {
   switch (action.type) {
   case (ASSEMBLE): {
-    const [byteCode, _] = assemble(action.payload);
+    const [byteCode, editorLines] = assemble(action.payload);
     const { registers } = defaultState;
     registers[Register.SP] = 255;
     return {
-      ...state, byteCode, ram: new Uint8Array(byteCode), registers,
+      ...state, byteCode, ram: new Uint8Array(byteCode), registers, editorLines,
     };
   }
   case (STEP): {
