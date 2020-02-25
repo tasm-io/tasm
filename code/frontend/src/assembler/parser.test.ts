@@ -5,222 +5,193 @@ import { SyntaxError, parse } from './parser';
 
 it('parses a full program', () => {
   const program = `
-    org 50
-    org XX
-    org 'e'
-      const
-    X 30
-    const Y 'b'
-  aaaa: byte 'x'
-  bbbb: ascii "hello\\n\\""
-  cccc: byte 30
-        byte 20
-        byte 30
-  label:
-    mov al, 100
-    mov bl, [10]
-    mov cl, [al+10];    comment
-    mov FOO, bar, BAZ
-    mov dl, 
-      ; and another one!
-  [al+ABC]
-    jmp label
-  ; comment
-    inc
-    dec
+  byte 'x'
+  byte 0
+  ascii "Hey"
+  asciiz "ello"
   break
-  `;
-  const expectedOutput = `Block {
+  org 10
+  byte 5
+  org 0
+  mov al, 100
+  ret
+  iret
+  ; heyo
+  mov [al+3], 4
+  mov [al], 3
+  mov [X], 3
+  mov al, [al+3]
+  mov bl, [al]
+  mov cl, [40]`;
+  const expected = `Block {
   source: { offset: 0, line: 1, column: 1 },
   statements: [
-    Org {
-      source: { offset: 5, line: 2, column: 5 },
-      addr: Integer { source: { offset: 9, line: 2, column: 9 }, value: 50 }
-    },
-    Org {
-      source: { offset: 16, line: 3, column: 5 },
-      addr: Identifier {
-        source: { offset: 20, line: 3, column: 9 },
-        name: 'XX'
-      }
-    },
-    Org {
-      source: { offset: 27, line: 4, column: 5 },
-      addr: Character {
-        source: { offset: 31, line: 4, column: 9 },
-        value: 'e'
-      }
-    },
-    Constant {
-      source: { offset: 41, line: 5, column: 7 },
-      name: 'X',
-      value: Integer { source: { offset: 53, line: 6, column: 7 }, value: 30 }
-    },
-    Constant {
-      source: { offset: 60, line: 7, column: 5 },
-      name: 'Y',
-      value: Character {
-        source: { offset: 68, line: 7, column: 13 },
-        value: 'b'
-      }
-    },
-    Label { source: { offset: 74, line: 8, column: 3 }, name: 'aaaa' },
     Byte {
-      source: { offset: 80, line: 8, column: 9 },
+      source: { offset: 3, line: 2, column: 3 },
       value: Character {
-        source: { offset: 85, line: 8, column: 14 },
+        source: { offset: 8, line: 2, column: 8 },
         value: 'x'
       }
     },
-    Label { source: { offset: 91, line: 9, column: 3 }, name: 'bbbb' },
-    Ascii {
-      source: { offset: 97, line: 9, column: 9 },
-      value: 'hello\\n"'
+    Byte {
+      source: { offset: 14, line: 3, column: 3 },
+      value: Integer { source: { offset: 19, line: 3, column: 8 }, value: 0 }
     },
-    Label {
-      source: { offset: 117, line: 10, column: 3 },
-      name: 'cccc'
+    Ascii { source: { offset: 23, line: 4, column: 3 }, value: 'Hey' },
+    Asciiz {
+      source: { offset: 37, line: 5, column: 3 },
+      value: 'ello'
+    },
+    Break { source: { offset: 53, line: 6, column: 3 } },
+    Org {
+      source: { offset: 61, line: 7, column: 3 },
+      addr: Integer { source: { offset: 65, line: 7, column: 7 }, value: 10 }
     },
     Byte {
-      source: { offset: 123, line: 10, column: 9 },
-      value: Integer {
-        source: { offset: 128, line: 10, column: 14 },
-        value: 30
-      }
+      source: { offset: 70, line: 8, column: 3 },
+      value: Integer { source: { offset: 75, line: 8, column: 8 }, value: 5 }
     },
-    Byte {
-      source: { offset: 139, line: 11, column: 9 },
-      value: Integer {
-        source: { offset: 144, line: 11, column: 14 },
-        value: 20
-      }
-    },
-    Byte {
-      source: { offset: 155, line: 12, column: 9 },
-      value: Integer {
-        source: { offset: 160, line: 12, column: 14 },
-        value: 30
-      }
-    },
-    Label {
-      source: { offset: 165, line: 13, column: 3 },
-      name: 'label'
+    Org {
+      source: { offset: 79, line: 9, column: 3 },
+      addr: Integer { source: { offset: 83, line: 9, column: 7 }, value: 0 }
     },
     Instruction {
-      source: { offset: 176, line: 14, column: 5 },
+      source: { offset: 87, line: 10, column: 3 },
       opcode: 'mov',
       operands: [
         Register {
-          source: { offset: 180, line: 14, column: 9 },
+          source: { offset: 91, line: 10, column: 7 },
           name: 'al'
         },
         Integer {
-          source: { offset: 184, line: 14, column: 13 },
+          source: { offset: 95, line: 10, column: 11 },
           value: 100
         }
       ]
     },
     Instruction {
-      source: { offset: 192, line: 15, column: 5 },
-      opcode: 'mov',
-      operands: [
-        Register {
-          source: { offset: 196, line: 15, column: 9 },
-          name: 'bl'
-        },
-        DirectAddress {
-          source: { offset: 200, line: 15, column: 13 },
-          value: Integer {
-            source: { offset: 201, line: 15, column: 14 },
-            value: 10
-          }
-        }
-      ]
+      source: { offset: 101, line: 11, column: 3 },
+      opcode: 'ret',
+      operands: null
     },
     Instruction {
-      source: { offset: 209, line: 16, column: 5 },
+      source: { offset: 107, line: 12, column: 3 },
+      opcode: 'iret',
+      operands: null
+    },
+    Instruction {
+      source: { offset: 123, line: 14, column: 3 },
       opcode: 'mov',
       operands: [
-        Register {
-          source: { offset: 213, line: 16, column: 9 },
-          name: 'cl'
-        },
         RegisterOffsetAddress {
-          source: { offset: 217, line: 16, column: 13 },
+          source: { offset: 127, line: 14, column: 7 },
           register: Register {
-            source: { offset: 218, line: 16, column: 14 },
+            source: { offset: 128, line: 14, column: 8 },
             name: 'al'
           },
           offset: Integer {
-            source: { offset: 221, line: 16, column: 17 },
-            value: 10
+            source: { offset: 131, line: 14, column: 11 },
+            value: 3
           }
+        },
+        Integer {
+          source: { offset: 135, line: 14, column: 15 },
+          value: 4
         }
       ]
     },
     Instruction {
-      source: { offset: 241, line: 17, column: 5 },
+      source: { offset: 139, line: 15, column: 3 },
       opcode: 'mov',
       operands: [
-        Identifier {
-          source: { offset: 245, line: 17, column: 9 },
-          name: 'FOO'
+        RegisterAddress {
+          source: { offset: 143, line: 15, column: 7 },
+          register: Register {
+            source: { offset: 144, line: 15, column: 8 },
+            name: 'al'
+          }
         },
-        Identifier {
-          source: { offset: 250, line: 17, column: 14 },
-          name: 'bar'
-        },
-        Identifier {
-          source: { offset: 255, line: 17, column: 19 },
-          name: 'BAZ'
+        Integer {
+          source: { offset: 149, line: 15, column: 13 },
+          value: 3
         }
       ]
     },
     Instruction {
-      source: { offset: 263, line: 18, column: 5 },
+      source: { offset: 153, line: 16, column: 3 },
+      opcode: 'mov',
+      operands: [
+        RegisterAddress {
+          source: { offset: 157, line: 16, column: 7 },
+          register: Identifier {
+            source: { offset: 158, line: 16, column: 8 },
+            name: 'X'
+          }
+        },
+        Integer {
+          source: { offset: 162, line: 16, column: 12 },
+          value: 3
+        }
+      ]
+    },
+    Instruction {
+      source: { offset: 166, line: 17, column: 3 },
       opcode: 'mov',
       operands: [
         Register {
-          source: { offset: 267, line: 18, column: 9 },
-          name: 'dl'
+          source: { offset: 170, line: 17, column: 7 },
+          name: 'al'
         },
         RegisterOffsetAddress {
-          source: { offset: 299, line: 20, column: 3 },
+          source: { offset: 174, line: 17, column: 11 },
           register: Register {
-            source: { offset: 300, line: 20, column: 4 },
+            source: { offset: 175, line: 17, column: 12 },
             name: 'al'
           },
-          offset: Identifier {
-            source: { offset: 303, line: 20, column: 7 },
-            name: 'ABC'
+          offset: Integer {
+            source: { offset: 178, line: 17, column: 15 },
+            value: 3
           }
         }
       ]
     },
     Instruction {
-      source: { offset: 312, line: 21, column: 5 },
-      opcode: 'jmp',
+      source: { offset: 183, line: 18, column: 3 },
+      opcode: 'mov',
       operands: [
-        Identifier {
-          source: { offset: 316, line: 21, column: 9 },
-          name: 'label'
+        Register {
+          source: { offset: 187, line: 18, column: 7 },
+          name: 'bl'
+        },
+        RegisterAddress {
+          source: { offset: 191, line: 18, column: 11 },
+          register: Register {
+            source: { offset: 192, line: 18, column: 12 },
+            name: 'al'
+          }
         }
       ]
     },
     Instruction {
-      source: { offset: 338, line: 23, column: 5 },
-      opcode: 'inc',
+      source: { offset: 198, line: 19, column: 3 },
+      opcode: 'mov',
       operands: [
-        Identifier {
-          source: { offset: 346, line: 24, column: 5 },
-          name: 'dec'
+        Register {
+          source: { offset: 202, line: 19, column: 7 },
+          name: 'cl'
+        },
+        DirectAddress {
+          source: { offset: 206, line: 19, column: 11 },
+          value: Integer {
+            source: { offset: 207, line: 19, column: 12 },
+            value: 40
+          }
         }
       ]
-    },
-    Break { source: { offset: 352, line: 25, column: 3 } }
+    }
   ]
 }`;
-  expect(inspect(parse(program), false, null, false)).toBe(expectedOutput);
+  expect(inspect(parse(program), false, null, false)).toBe(expected);
 });
 
 it('rejects an invalid program', () => {
