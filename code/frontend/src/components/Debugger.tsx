@@ -16,7 +16,9 @@ import {
 } from '../redux/simulator';
 // eslint-disable-next-line no-unused-vars
 import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
-import { ADD_ERROR, ErrorTypes } from '../redux/errors';
+import {
+  ADD_ERROR, ErrorTypes, ResetErrors, RESET_ERRORS,
+} from '../redux/errors';
 
 function handleError(err: Error, dispatch: Function) {
   dispatch({
@@ -30,11 +32,16 @@ function handleError(err: Error, dispatch: Function) {
 }
 
 function handleAssembleClick(code: string, dispatch: Function) {
+  const resetErrorsAction: ResetErrors = {
+    type: RESET_ERRORS,
+    payload: undefined,
+  };
   const assembleAction: Assemble = {
     type: ASSEMBLE,
     payload: code,
   };
   try {
+    dispatch(resetErrorsAction);
     dispatch(assembleAction);
   } catch (error) {
     handleError(error, dispatch);
