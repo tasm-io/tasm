@@ -216,6 +216,35 @@ tbody {
   margin: .5em;
 }
 
+/* Devices */ 
+
+.Device {
+  min-width: 512px;
+  min-height: 512px;
+  padding: 16px;
+  background-color: #222230;
+  display: flex;
+  justify-content: center;
+  align-content: space-around;
+}
+
+.TextDisplay {
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 1.5em;
+  color: white;
+}
+
+.TextDisplay tr {
+  margin-top: 1em;
+}
+.TextDisplay td {
+  display: inline;
+  margin: auto;
+  border: 3px solid black;
+  margin-left: 10px !important;
+}
+
 /* Tabs */
 
 .Tabs {
@@ -224,7 +253,7 @@ tbody {
 }
 
 .ActiveTab {
-  color: #f368e0;
+  color: #f368e0 !important;
 }
 
 .Tab {
