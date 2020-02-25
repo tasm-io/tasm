@@ -38,7 +38,7 @@ const Settings: React.FC = () => {
     (state : RootState) => state.debugger.registerDisplay,
   );
   return (
-    <div className="Settings">
+    <div className="Settings" style={{ width: `${(window.screen.width / 3).toString()}px` }}>
       <h3>Settings</h3>
       <div className="Setting">
         <p>Run Speed:</p>
