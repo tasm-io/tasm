@@ -59,7 +59,7 @@ export function debuggerReducer(
     return { ...state, running: action.payload };
   }
   case (MODIFY_REGISTER_DISPLAY): {
-    const valid: number[] = [2, 8, 16];
+    const valid: number[] = [2, 10, 16];
     if (valid.includes(action.payload) as boolean) {
       localStorage.setItem('registerDisplay', String(action.payload));
       return { ...state, registerDisplay: action.payload };
