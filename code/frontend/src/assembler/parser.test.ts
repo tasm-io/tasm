@@ -9,11 +9,11 @@ it('parses a full program', () => {
   byte 0
   ascii "Hey"
   asciiz "ello"
-  break
+  break\r\n
   org 10
   byte 5
   org 0
-  mov al, 100
+  mov al, 100\r
   ret
   iret
   ; heyo
@@ -44,146 +44,146 @@ it('parses a full program', () => {
     },
     Break { source: { offset: 53, line: 6, column: 3 } },
     Org {
-      source: { offset: 61, line: 7, column: 3 },
-      addr: Integer { source: { offset: 65, line: 7, column: 7 }, value: 10 }
+      source: { offset: 63, line: 8, column: 3 },
+      addr: Integer { source: { offset: 67, line: 8, column: 7 }, value: 10 }
     },
     Byte {
-      source: { offset: 70, line: 8, column: 3 },
-      value: Integer { source: { offset: 75, line: 8, column: 8 }, value: 5 }
+      source: { offset: 72, line: 9, column: 3 },
+      value: Integer { source: { offset: 77, line: 9, column: 8 }, value: 5 }
     },
     Org {
-      source: { offset: 79, line: 9, column: 3 },
-      addr: Integer { source: { offset: 83, line: 9, column: 7 }, value: 0 }
+      source: { offset: 81, line: 10, column: 3 },
+      addr: Integer { source: { offset: 85, line: 10, column: 7 }, value: 0 }
     },
     Instruction {
-      source: { offset: 87, line: 10, column: 3 },
+      source: { offset: 89, line: 11, column: 3 },
       opcode: 'mov',
       operands: [
         Register {
-          source: { offset: 91, line: 10, column: 7 },
+          source: { offset: 93, line: 11, column: 7 },
           name: 'al'
         },
         Integer {
-          source: { offset: 95, line: 10, column: 11 },
+          source: { offset: 97, line: 11, column: 11 },
           value: 100
         }
       ]
     },
     Instruction {
-      source: { offset: 101, line: 11, column: 3 },
+      source: { offset: 104, line: 12, column: 3 },
       opcode: 'ret',
       operands: []
     },
     Instruction {
-      source: { offset: 107, line: 12, column: 3 },
+      source: { offset: 110, line: 13, column: 3 },
       opcode: 'iret',
       operands: []
     },
     Instruction {
-      source: { offset: 123, line: 14, column: 3 },
+      source: { offset: 126, line: 15, column: 3 },
       opcode: 'mov',
       operands: [
         RegisterOffsetAddress {
-          source: { offset: 127, line: 14, column: 7 },
+          source: { offset: 130, line: 15, column: 7 },
           register: Register {
-            source: { offset: 128, line: 14, column: 8 },
+            source: { offset: 131, line: 15, column: 8 },
             name: 'al'
           },
           offset: Integer {
-            source: { offset: 131, line: 14, column: 11 },
+            source: { offset: 134, line: 15, column: 11 },
             value: 3
           }
         },
         Integer {
-          source: { offset: 135, line: 14, column: 15 },
+          source: { offset: 138, line: 15, column: 15 },
           value: 4
         }
       ]
     },
     Instruction {
-      source: { offset: 139, line: 15, column: 3 },
+      source: { offset: 142, line: 16, column: 3 },
       opcode: 'mov',
       operands: [
         RegisterAddress {
-          source: { offset: 143, line: 15, column: 7 },
+          source: { offset: 146, line: 16, column: 7 },
           register: Register {
-            source: { offset: 144, line: 15, column: 8 },
+            source: { offset: 147, line: 16, column: 8 },
             name: 'al'
           }
         },
         Integer {
-          source: { offset: 149, line: 15, column: 13 },
+          source: { offset: 152, line: 16, column: 13 },
           value: 3
         }
       ]
     },
     Instruction {
-      source: { offset: 153, line: 16, column: 3 },
+      source: { offset: 156, line: 17, column: 3 },
       opcode: 'mov',
       operands: [
         RegisterAddress {
-          source: { offset: 157, line: 16, column: 7 },
+          source: { offset: 160, line: 17, column: 7 },
           register: Identifier {
-            source: { offset: 158, line: 16, column: 8 },
+            source: { offset: 161, line: 17, column: 8 },
             name: 'X'
           }
         },
         Integer {
-          source: { offset: 162, line: 16, column: 12 },
+          source: { offset: 165, line: 17, column: 12 },
           value: 3
         }
       ]
     },
     Instruction {
-      source: { offset: 166, line: 17, column: 3 },
+      source: { offset: 169, line: 18, column: 3 },
       opcode: 'mov',
       operands: [
         Register {
-          source: { offset: 170, line: 17, column: 7 },
+          source: { offset: 173, line: 18, column: 7 },
           name: 'al'
         },
         RegisterOffsetAddress {
-          source: { offset: 174, line: 17, column: 11 },
+          source: { offset: 177, line: 18, column: 11 },
           register: Register {
-            source: { offset: 175, line: 17, column: 12 },
+            source: { offset: 178, line: 18, column: 12 },
             name: 'al'
           },
           offset: Integer {
-            source: { offset: 178, line: 17, column: 15 },
+            source: { offset: 181, line: 18, column: 15 },
             value: 3
           }
         }
       ]
     },
     Instruction {
-      source: { offset: 183, line: 18, column: 3 },
+      source: { offset: 186, line: 19, column: 3 },
       opcode: 'mov',
       operands: [
         Register {
-          source: { offset: 187, line: 18, column: 7 },
+          source: { offset: 190, line: 19, column: 7 },
           name: 'bl'
         },
         RegisterAddress {
-          source: { offset: 191, line: 18, column: 11 },
+          source: { offset: 194, line: 19, column: 11 },
           register: Register {
-            source: { offset: 192, line: 18, column: 12 },
+            source: { offset: 195, line: 19, column: 12 },
             name: 'al'
           }
         }
       ]
     },
     Instruction {
-      source: { offset: 198, line: 19, column: 3 },
+      source: { offset: 201, line: 20, column: 3 },
       opcode: 'mov',
       operands: [
         Register {
-          source: { offset: 202, line: 19, column: 7 },
+          source: { offset: 205, line: 20, column: 7 },
           name: 'cl'
         },
         DirectAddress {
-          source: { offset: 206, line: 19, column: 11 },
+          source: { offset: 209, line: 20, column: 11 },
           value: Integer {
-            source: { offset: 207, line: 19, column: 12 },
+            source: { offset: 210, line: 20, column: 12 },
             value: 40
           }
         }
