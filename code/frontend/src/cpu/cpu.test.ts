@@ -267,7 +267,11 @@ it('executes RET', () => {
     registers: new Uint8Array([0, 0, 0, 0, 1, 0, 0]),
     memory: new Uint8Array([0, 0, 2]),
   };
+<<<<<<< HEAD
   executeInstruction(state, [], Opcode.RET, new Uint8Array([]));
+=======
+  executeInstruction(state, Opcode.RET, new Uint8Array([]));
+>>>>>>> fix(cpu): ret jumps one byte too much forward
   expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 2, 0, 1]));
   expect(state.memory).toStrictEqual(new Uint8Array([0, 0, 2]));
 });
