@@ -62,6 +62,9 @@ Label
 
 Instruction
     = opcode:Name _ operands:Operands {
+        if (operands === null) {
+          operands = [];
+        }
         return new ast.Instruction(location().start, opcode, operands);
     }
 

@@ -262,7 +262,7 @@ it('executes RET', () => {
     memory: new Uint8Array([0, 0, 2]),
   };
   executeInstruction(state, Opcode.RET, new Uint8Array([]));
-  expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 2, 0, 2]));
+  expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 2, 0, 1]));
   expect(state.memory).toStrictEqual(new Uint8Array([0, 0, 2]));
 });
 
