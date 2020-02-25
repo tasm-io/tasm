@@ -51,7 +51,7 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
   switch (action.type) {
   case (ASSEMBLE): {
     const [byteCode, editorLines] = assemble(action.payload);
-    const { registers } = defaultState;
+    const registers = new Uint8Array(7).fill(0);
     registers[Register.SP] = 255;
     return {
       ...state, byteCode, ram: new Uint8Array(byteCode), registers, editorLines,
