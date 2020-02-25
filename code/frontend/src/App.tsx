@@ -18,6 +18,7 @@ import Settings from './components/Settings';
 import Error from './components/Error';
 // eslint-disable-next-line no-unused-vars
 import { SimulatorError } from './redux/errors';
+import TextDisplay from './components/devices/TextDisplay';
 
 function setCode(code: string, dispatch: Function) {
   const action: SetCode = {
@@ -52,9 +53,21 @@ function changeTitle() {
   }
 }
 
+function handleDeviceDisplay(id: number) {
+  const res = [
+    () => <RamDisplay />,
+    () => <TextDisplay />,
+    () => <div className="Device">Not Implemented</div>,
+    () => <div className="Device">Not Implemented</div>,
+    () => <div className="Device">Not Implemented</div>,
+  ];
+  return res[id]();
+}
+
 const App: React.FC = () => {
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   const error: SimulatorError = useSelector((state : RootState) => state.errors.errors[0]);
+  const activeDevice: number = useSelector((state : RootState) => state.devices.activeDevice);
   const dispatch = useDispatch();
   return (
     <div className="Root">
@@ -74,7 +87,7 @@ const App: React.FC = () => {
           <StateDisplay />
           <br />
           <DeviceDisplayTabs />
-          <RamDisplay />
+          {handleDeviceDisplay(activeDevice)}
         </div>
       </div>
     </div>
