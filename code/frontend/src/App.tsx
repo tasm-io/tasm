@@ -67,8 +67,8 @@ const App: React.FC = () => {
           <Debugger />
         </div>
         <div className="Column">
-          {error ? <Error error={error} /> : ''}
           {displayEditor ? <Editor /> : <Settings />}
+          {error ? <Error error={error} /> : ''}
         </div>
         <div className="Column" style={{ marginLeft: '5em', marginTop: '6.5em' }}>
           <StateDisplay />
