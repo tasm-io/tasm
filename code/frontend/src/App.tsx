@@ -64,6 +64,23 @@ function handleDeviceDisplay(id: number) {
   return res[id]();
 }
 
+function enableHotkeys() {
+  function handleHotkey(e: any) {
+    if (e.altKey && e.which === 82) {
+      document.getElementById('run')!.click(); // alt + r
+    } else if (e.altKey && e.which === 69) {
+      document.getElementById('stop')!.click(); // alt + e
+    } else if (e.altKey && e.which === 83) {
+      document.getElementById('step')!.click(); // alt + s
+    } else if (e.altKey && e.which === 65) {
+      document.getElementById('assemble')!.click(); // alt + a
+    } else if (e.altKey && e.which === 76) {
+      document.getElementById('fileUpload')!.click(); // alt + l
+    }
+  }
+  document.onkeyup = (e) => handleHotkey(e);
+}
+
 const App: React.FC = () => {
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   const error: SimulatorError = useSelector((state : RootState) => state.errors.errors[0]);
@@ -72,6 +89,7 @@ const App: React.FC = () => {
   return (
     <div className="Root">
       {checkURL(dispatch)}
+      {enableHotkeys()}
       {changeTitle()}
       <div className="Row">
         <div className="Column LeftBar">
