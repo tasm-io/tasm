@@ -1,5 +1,11 @@
 import * as ast from './ast';
 
+function prettyPrintCyclicDefinitions(remaining: Map<string, string>): string {
+  const lines: string[] = []
+  remaining.forEach((_, name) => lines.push(`   name`));
+  return lines.join('\n');
+}
+
 // CyclicConstantDefinition is thrown when two constants are
 // defined in terms of each other. For example,
 //
@@ -9,7 +15,7 @@ import * as ast from './ast';
 export class CyclicConstantDefinition extends Error {
   constructor(remaining: Map<string, string>) {
     // TODO(cmgn): A better error message.
-    super(`could not expand constants, cycle in: ${remaining}`);
+    super(`Cyclic constant definitions\n${remaining}`);
   }
 }
 

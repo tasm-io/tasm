@@ -148,47 +148,71 @@ export function detectLabelsUsedInOrg(program: ast.Node): ast.Org[] {
   return badOrgs;
 }
 
+function prettyPrintUndefiniedIdentifiers(identifiers: ast.Identifier[]): string {
+  return identifiers.map((identifier) => `    line ${identifier.source.line + 1}: ${identifier.name}`).join('\n');
+}
+
 export class UndefinedIdentifierError extends Error {
   public identifiers: ast.Identifier[];
 
   constructor(identifiers: ast.Identifier[]) {
-    super(`undefined identifiers: ${identifiers}`);
+    super(`Undefined identifiers\n${prettyPrintUndefiniedIdentifiers(identifiers)}`);
     this.identifiers = identifiers;
   }
+}
+
+function prettyPrintDuplicateDefinitions(definitions: Map<string, Definition[]>): string {
+  const lines: string[] = [];
+  definitions.forEach((occurrences, name) => {
+    lines.push(`    ${name}: ${occurrences.map((occurrence) => `line ${occurrence.source.line + 1}`).join(', ')}`);
+  });
+  return lines.join('\n');
 }
 
 export class DuplicateDefinitionError extends Error {
   public definitions: Map<string, Definition[]>;
 
   constructor(definitions: Map<string, Definition[]>) {
-    super(`duplicate definitions: ${definitions}`);
+    super(`Duplicate definitions\n${prettyPrintDuplicateDefinitions(definitions)}`);
     this.definitions = definitions;
   }
+}
+
+function prettyPrintOpcodesError(instructions: ast.Instruction[]): string {
+  return instructions.map((instruction) => `   line ${instruction.source.line + 1}: ${instruction.opcode}`).join('\n');
 }
 
 export class InvalidOpcodesError extends Error {
   public instructions: ast.Instruction[];
 
   constructor(instructions: ast.Instruction[]) {
-    super(`invalid opcodes: ${instructions}`);
+    super(`Invalid opcodes\n${prettyPrintOpcodesError(instructions)}`);
     this.instructions = instructions;
   }
+}
+
+function prettyPrintBadlyTypedInstructions(instructions: ast.Instruction[]): string {
+  return instructions.map((instruction) => `   line ${instruction.source.line + 1}: ${instruction.opcode}`).join('\n');
 }
 
 export class BadlyTypedInstructionsError extends Error {
   public instructions: ast.Instruction[];
 
   constructor(instructions: ast.Instruction[]) {
-    super(`badly typed instructions: ${instructions}`);
+    super(`Invalid operands to instruction\n${prettyPrintBadlyTypedInstructions(instructions)}`);
     this.instructions = instructions;
   }
+}
+
+function prettyPrintLabelsUsedInOrg(orgs: ast.Org[]): string {
+  return orgs.map((org) => `   line ${org.source.line + 1}`).join('\n');
 }
 
 export class LabelsUsedInOrgError extends Error {
   public orgs: ast.Org[];
 
   constructor(orgs: ast.Org[]) {
-    super(`labels used in orgs: ${orgs}`);
+    super(`Labels used in an org statement\n${prettyPrintLabelsUsedInOrg(orgs)}`);
     this.orgs = orgs;
   }
 }
