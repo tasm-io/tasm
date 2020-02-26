@@ -119,7 +119,13 @@ Name
     }
 
 Integer
-    = integer:[0-9]+ {
+    = integer:("0x" [0-9a-fA-F]+) {
+        return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 16));
+    }
+    / integer:("0b" [01]+) {
+        return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 2));
+    }
+    / integer:[0-9]+ {
         return new ast.Integer(location().start, parseInt(integer.join('')));
     }
 

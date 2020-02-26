@@ -201,3 +201,76 @@ it('rejects an invalid program', () => {
   const program = 'mov al, [bl';
   expect(() => parse(program)).toThrow(SyntaxError);
 });
+
+it('accepts binary literals', () => {
+  const program = `
+  byte 0b11110000
+  byte 0b0
+  byte 0b1
+  `;
+  const expectedOutput = `Block {
+  source: { offset: 0, line: 1, column: 1 },
+  statements: [
+    Byte {
+      source: { offset: 3, line: 2, column: 3 },
+      value: Integer { source: { offset: 8, line: 2, column: 8 }, value: 1 }
+    },
+    Byte {
+      source: { offset: 21, line: 3, column: 3 },
+      value: Integer { source: { offset: 26, line: 3, column: 8 }, value: 0 }
+    },
+    Byte {
+      source: { offset: 32, line: 4, column: 3 },
+      value: Integer { source: { offset: 37, line: 4, column: 8 }, value: 1 }
+    }
+  ]
+}`;
+  expect(inspect(parse(program), false, null, false)).toBe(expectedOutput);
+});
+
+
+it('accepts hexadecimal literals', () => {
+  const program = `
+  byte 0xff
+  byte 0xaB
+  byte 0xa3
+  byte 0x0
+  byte 0x00
+  byte 0x1F
+  byte 0xEe
+  `;
+  const expectedOutput = `Block {
+  source: { offset: 0, line: 1, column: 1 },
+  statements: [
+    Byte {
+      source: { offset: 3, line: 2, column: 3 },
+      value: Integer { source: { offset: 8, line: 2, column: 8 }, value: 15 }
+    },
+    Byte {
+      source: { offset: 15, line: 3, column: 3 },
+      value: Integer { source: { offset: 20, line: 3, column: 8 }, value: 10 }
+    },
+    Byte {
+      source: { offset: 27, line: 4, column: 3 },
+      value: Integer { source: { offset: 32, line: 4, column: 8 }, value: 10 }
+    },
+    Byte {
+      source: { offset: 39, line: 5, column: 3 },
+      value: Integer { source: { offset: 44, line: 5, column: 8 }, value: 0 }
+    },
+    Byte {
+      source: { offset: 50, line: 6, column: 3 },
+      value: Integer { source: { offset: 55, line: 6, column: 8 }, value: 0 }
+    },
+    Byte {
+      source: { offset: 62, line: 7, column: 3 },
+      value: Integer { source: { offset: 67, line: 7, column: 8 }, value: 1 }
+    },
+    Byte {
+      source: { offset: 74, line: 8, column: 3 },
+      value: Integer { source: { offset: 79, line: 8, column: 8 }, value: 14 }
+    }
+  ]
+}`;
+  expect(inspect(parse(program), false, null, false)).toBe(expectedOutput);
+});
