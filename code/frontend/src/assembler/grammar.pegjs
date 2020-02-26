@@ -161,4 +161,5 @@ EscapeSequence
     / "v"  { return "\x0B"; }
 
 _ = [ \r\t]*
-nl = [\n] ([ \n\r\t] / ";" (!"\n" .)*)*
+nl = ([\n] / [\r][\n]) ([ \n\r\t] / ";" (!"\n" .)*)*
+
