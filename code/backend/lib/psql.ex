@@ -14,15 +14,18 @@ defmodule Psql do
   end
 
   def store(pid, code, hash) do
-    Postgrex.query!(pid, "INSERT INTO code (id, code, created_on) VALUES ($1, $2, $3)", [
-      hash,
-      code,
-      NaiveDateTime.utc_now()
-    ])
+    res = Postgrex.query!(pid, "SELECT * FROM code WHERE id = $1", [hash])
+    x = res.num_rows
+    case 0 do
+      ^x -> Postgrex.query!(pid, "INSERT INTO code (id, code, created_on) VALUES ($1, $2, $3)", [
+        hash,
+        code,
+        NaiveDateTime.utc_now()
+      ])
+    end
   end
 
   def retrieve(pid, id) do
-    IO.inspect(id)
     res = Postgrex.query!(pid, "SELECT * FROM code WHERE id = $1", [id])
     x = res.num_rows
 
