@@ -30,12 +30,12 @@ it('expands ascii into bytes', () => {
     new ast.Block(
       source,
       [
-        new ast.Integer(source, 97),
-        new ast.Integer(source, 98),
-        new ast.Integer(source, 99),
-        new ast.Integer(source, 100),
-        new ast.Integer(source, 101),
-        new ast.Integer(source, 102),
+        new ast.Byte(source, new ast.Integer(source, 97)),
+        new ast.Byte(source, new ast.Integer(source, 98)),
+        new ast.Byte(source, new ast.Integer(source, 99)),
+        new ast.Byte(source, new ast.Integer(source, 100)),
+        new ast.Byte(source, new ast.Integer(source, 101)),
+        new ast.Byte(source, new ast.Integer(source, 102)),
       ],
     )
   );
@@ -48,13 +48,13 @@ it('expands asciiz into bytes', () => {
     new ast.Block(
       source,
       [
-        new ast.Integer(source, 97),
-        new ast.Integer(source, 98),
-        new ast.Integer(source, 99),
-        new ast.Integer(source, 100),
-        new ast.Integer(source, 101),
-        new ast.Integer(source, 102),
-        new ast.Integer(source, 0),
+        new ast.Byte(source, new ast.Integer(source, 97)),
+        new ast.Byte(source, new ast.Integer(source, 98)),
+        new ast.Byte(source, new ast.Integer(source, 99)),
+        new ast.Byte(source, new ast.Integer(source, 100)),
+        new ast.Byte(source, new ast.Integer(source, 101)),
+        new ast.Byte(source, new ast.Integer(source, 102)),
+        new ast.Byte(source, new ast.Integer(source, 0)),
       ],
     )
   );
@@ -176,10 +176,10 @@ it('performs the transformation pipeline', () => {
         new ast.Block(
           source,
           [
-            new ast.Integer(source, 97),
-            new ast.Integer(source, 98),
-            new ast.Integer(source, 99),
-            new ast.Integer(source, 0),
+            new ast.Byte(source, new ast.Integer(source, 97)),
+            new ast.Byte(source, new ast.Integer(source, 98)),
+            new ast.Byte(source, new ast.Integer(source, 99)),
+            new ast.Byte(source, new ast.Integer(source, 0)),
           ],
         ),
         new ast.Byte(source, new ast.Integer(source, 97)),
