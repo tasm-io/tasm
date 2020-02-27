@@ -3,7 +3,9 @@ import React from 'react';
 import '../../App.css';
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line no-unused-vars
-import { DeviceState, UpdateDevice, UPDATE_DEVICE } from '../../redux/devices';
+import { UpdateDevice, UPDATE_DEVICE } from '../../redux/simulator';
+// eslint-disable-next-line no-unused-vars
+import { DeviceState } from '../../cpu/cpu';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from '../../redux/root';
 
@@ -24,7 +26,7 @@ const deviceInput = (device: DeviceState, _input: number) => device;
 const deviceOutput = (dev: DeviceState) => (dev.memory ? dev.memory[0] : 0);
 
 export const defaultState: DeviceState = {
-  id: 4,
+  id: 2,
   requestingInterrupt: false,
   input: deviceInput,
   output: deviceOutput,
@@ -32,7 +34,7 @@ export const defaultState: DeviceState = {
 };
 
 const VirtualKeyboard: React.FC = () => {
-  const device: DeviceState = useSelector((state : RootState) => state.devices.devices)
+  const device: DeviceState = useSelector((state : RootState) => state.simulator.devices)
     .filter((dev) => dev.id === defaultState.id)[0];
   const dispatch = useDispatch();
   return (

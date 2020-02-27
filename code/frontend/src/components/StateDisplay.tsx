@@ -6,7 +6,7 @@ import { RootState } from '../redux/root';
 import { Register } from '../instructionset/instructionset';
 import RegisterDisplay from './RegisterDisplay';
 
-function prettyDisplay(base: number, num: number): string {
+export function prettyDisplay(base: number, num: number): string {
   let s: string;
   if (base === 2) {
     s = num.toString(2);

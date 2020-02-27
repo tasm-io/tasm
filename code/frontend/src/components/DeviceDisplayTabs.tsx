@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from '../redux/root';
 // eslint-disable-next-line no-unused-vars
-import { ChangeActiveDevice, CHANGE_ACTIVE_DEVICE } from '../redux/devices';
+import { ChangeActiveDevice, CHANGE_ACTIVE_DEVICE } from '../redux/simulator';
 
 function handleTabChange(deviceTab: number, dispatch: Function) {
   const action: ChangeActiveDevice = {
@@ -17,7 +17,7 @@ function handleTabChange(deviceTab: number, dispatch: Function) {
 
 const DeviceDisplayTabs: React.FC = () => {
   const dispatch = useDispatch();
-  const activeTab: number = useSelector((state : RootState) => state.devices.activeDevice);
+  const activeTab: number = useSelector((state : RootState) => state.simulator.activeDevice);
   return (
     <div className="tabs" aria-label="Device Tab Menu">
       <button type="button" aria-expanded={activeTab === 0} className={`Tab ${activeTab === 0 ? 'ActiveTab' : ''}`} onClick={() => handleTabChange(0, dispatch)}>RAM</button>
