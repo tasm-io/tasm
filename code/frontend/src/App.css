@@ -162,6 +162,14 @@ tbody {
 
 /* Devices */
 
+.VirtualKeyboard input {
+  background-color: transparent;
+  border: 1px rebeccapurple solid;
+  font-size: 2em;
+  color: white;
+  text-align: center;
+}
+
 /* Errors */
 
 .Error {

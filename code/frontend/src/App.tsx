@@ -19,6 +19,7 @@ import Error from './components/Error';
 // eslint-disable-next-line no-unused-vars
 import { SimulatorError } from './redux/errors';
 import TextDisplay from './components/devices/TextDisplay';
+import VirtualKeyboard from './components/devices/VirtualKeyboard';
 
 function setCode(code: string, dispatch: Function) {
   const action: SetCode = {
@@ -57,7 +58,7 @@ function handleDeviceDisplay(id: number) {
   const res = [
     () => <RamDisplay />,
     () => <TextDisplay />,
-    () => <div className="Device">Not Implemented</div>,
+    () => <VirtualKeyboard />,
     () => <div className="Device">Not Implemented</div>,
     () => <div className="Device">Not Implemented</div>,
   ];
