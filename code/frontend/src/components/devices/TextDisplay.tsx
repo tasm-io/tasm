@@ -34,7 +34,7 @@ const deviceInput = (device: DeviceState, input: number) => {
 const deviceOutput = (_dev: DeviceState) => 0;
 
 export const defaultState: DeviceState = {
-  id: 1,
+  id: 3,
   requestingInterrupt: false,
   input: deviceInput,
   output: deviceOutput,

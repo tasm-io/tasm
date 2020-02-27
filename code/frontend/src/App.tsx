@@ -43,7 +43,8 @@ function checkURL(dispatch: Function) {
   const s: string[] = href.split('/');
   if (s.length >= 4 && s[3].toLowerCase() === 'share') {
     setCode('Loading Code...', dispatch);
-    fetchCode(s[4], dispatch);
+    const url: string = s.slice(4, s.length).join('');
+    fetchCode(url, dispatch);
   } else if (localStorage.getItem('code')) {
     setCode(localStorage.getItem('code') as string, dispatch);
   }
@@ -58,6 +59,8 @@ function changeTitle() {
 
 function handleDeviceDisplay(id: number) {
   const res = [
+    () => {},
+    () => {},
     () => <RamDisplay />,
     () => <TextDisplay />,
     () => <VirtualKeyboard />,
@@ -104,7 +107,7 @@ const App: React.FC = () => {
           {displayEditor ? <Editor /> : <Settings />}
           {error ? <Error aria-label="Error" error={error} /> : ''}
         </div>
-        <div className="Column" style={{ marginLeft: '5em', marginTop: '6.5em' }}>
+        <div className="Column RightBar">
           <StateDisplay />
           <br />
           <DeviceDisplayTabs />

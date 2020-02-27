@@ -26,7 +26,7 @@ const deviceInput = (device: DeviceState, _input: number) => device;
 const deviceOutput = (dev: DeviceState) => (dev.memory ? dev.memory[0] : 0);
 
 export const defaultState: DeviceState = {
-  id: 2,
+  id: 4,
   requestingInterrupt: false,
   input: deviceInput,
   output: deviceOutput,

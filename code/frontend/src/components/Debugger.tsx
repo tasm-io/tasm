@@ -17,6 +17,7 @@ import {
 // eslint-disable-next-line no-unused-vars
 import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
 import {
+  // eslint-disable-next-line no-unused-vars
   ADD_ERROR, ErrorTypes, ResetErrors, RESET_ERRORS,
 } from '../redux/errors';
 
