@@ -8,6 +8,14 @@ export interface State {
   memory: Uint8Array,
 }
 
+export interface DeviceState {
+  id: number
+  requestingInterrupt: boolean
+  input: (device: DeviceState, input: number) => DeviceState
+  output: (device: DeviceState) => number
+  memory?: Uint8Array
+}
+
 export class Halt extends Error {
   constructor() {
     super('Program has halted');
