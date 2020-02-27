@@ -10,11 +10,11 @@ Program
     }
     
 ProgramRec
-    = head:Command nl tail:ProgramRec {
+    = head:Command _ nl _ tail:ProgramRec _ {
         tail.unshift(head);
         return tail;
     }
-    / head:Command {
+    / head:Command _ {
         return [head];
     }
 
@@ -75,7 +75,7 @@ OperandsRec
         tail.unshift(head);
         return tail;
     }
-    / head:Operand {
+    / head:Operand _ {
         return [head];
     }
 
@@ -119,7 +119,13 @@ Name
     }
 
 Integer
-    = integer:[0-9]+ {
+    = integer:("0x" [0-9a-fA-F]+) {
+        return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 16));
+    }
+    / integer:("0b" [01]+) {
+        return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 2));
+    }
+    / integer:[0-9]+ {
         return new ast.Integer(location().start, parseInt(integer.join('')));
     }
 
@@ -161,5 +167,6 @@ EscapeSequence
     / "v"  { return "\x0B"; }
 
 _ = [ \r\t]*
-nl = ([\n] / [\r][\n]) ([ \n\r\t] / ";" (!"\n" .)*)*
+comment = ";" (!"\n" .)*
+nl = comment? ([\n] / [\r][\n]) ([ \n\r\t] / comment)*
 
