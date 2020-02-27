@@ -20,6 +20,8 @@ import Error from './components/Error';
 import { SimulatorError } from './redux/errors';
 import TextDisplay from './components/devices/TextDisplay';
 import VirtualKeyboard from './components/devices/VirtualKeyboard';
+import SevenSegment from './components/devices/SevenSegment';
+import TrafficLights from './components/devices/TrafficLights';
 
 function setCode(code: string, dispatch: Function) {
   const action: SetCode = {
@@ -59,8 +61,8 @@ function handleDeviceDisplay(id: number) {
     () => <RamDisplay />,
     () => <TextDisplay />,
     () => <VirtualKeyboard />,
-    () => <div className="Device">Not Implemented</div>,
-    () => <div className="Device">Not Implemented</div>,
+    () => <SevenSegment />,
+    () => <TrafficLights />,
   ];
   return res[id]();
 }
@@ -85,7 +87,7 @@ function enableHotkeys() {
 const App: React.FC = () => {
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   const error: SimulatorError = useSelector((state : RootState) => state.errors.errors[0]);
-  const activeDevice: number = useSelector((state : RootState) => state.devices.activeDevice);
+  const activeDevice: number = useSelector((state : RootState) => state.simulator.activeDevice);
   const dispatch = useDispatch();
   return (
     <div className="Root">
