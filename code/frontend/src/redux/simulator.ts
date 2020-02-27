@@ -37,7 +37,7 @@ const defaultState: SimulatorStoreInterface = {
   registers: new Uint8Array(7),
   cycles: 0,
   devices: [VirtualKeyboardState, TextDisplayState, SevenSegmentState, TrafficLightsState],
-  activeDevice: 0,
+  activeDevice: 2,
   error: undefined,
 };
 
