@@ -93,14 +93,14 @@ const App: React.FC = () => {
       {enableHotkeys()}
       {changeTitle()}
       <div className="Row">
-        <div className="Column LeftBar">
+        <div className="Column LeftBar" aria-label="Left menu">
           <h1 className="SiteTitle">tasm.io</h1>
           <ButtonBox />
           <Debugger />
         </div>
         <div className="Column">
           {displayEditor ? <Editor /> : <Settings />}
-          {error ? <Error error={error} /> : ''}
+          {error ? <Error aria-label="Error" error={error} /> : ''}
         </div>
         <div className="Column" style={{ marginLeft: '5em', marginTop: '6.5em' }}>
           <StateDisplay />
