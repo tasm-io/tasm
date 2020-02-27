@@ -22,6 +22,7 @@ defmodule Psql do
         code,
         NaiveDateTime.utc_now()
       ])
+      _ -> nil
     end
   end
 
