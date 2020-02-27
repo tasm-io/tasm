@@ -162,12 +162,18 @@ tbody {
 
 /* Devices */
 
+.VirtualKeyboard {
+  display: flex;
+  flex-direction: column;
+}
+
 .VirtualKeyboard input {
   background-color: transparent;
   border: 1px rebeccapurple solid;
   font-size: 2em;
   color: white;
   text-align: center;
+  max-height: 2em;
 }
 
 /* Errors */

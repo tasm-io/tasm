@@ -31,9 +31,9 @@ const Editor: React.FC = () => {
     <div className={displayEditor ? 'Editor' : 'Editor slide-out-right'} style={displayNone ? { display: 'none' } : {}}>
       <div className="Tabs">
         <button type="button" className="Tab">Code</button>
-        <button type="button" className="Tab">Byte Code</button>
       </div>
       <AceEditor
+        aria-label="Code Editor"
         minLines={10}
         theme="dracula"
         showPrintMargin={false}

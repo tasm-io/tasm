@@ -30,6 +30,7 @@ const FileUpload: React.FC = () => {
         }}
       />
       <button
+        id="fileUploadButton"
         type="button"
         className="Button"
         onClick={() => document.getElementById('fileUpload')!.click()}

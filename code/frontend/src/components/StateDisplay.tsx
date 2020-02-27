@@ -26,7 +26,7 @@ const StateDisplay: React.FC = () => {
   const registers: Uint8Array = useSelector((state : RootState) => state.simulator.registers);
   const base: number = useSelector((state : RootState) => state.debugger.registerDisplay);
   return (
-    <div className="StateDisplay Row">
+    <div className="StateDisplay Row" aria-label="Registers">
       <div className="Column">
         <RegisterDisplay name="AL" value={prettyDisplay(base, registers[Register.AL])} />
         <RegisterDisplay name="BL" value={prettyDisplay(base, registers[Register.BL])} />
