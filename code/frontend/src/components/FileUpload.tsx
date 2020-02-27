@@ -34,7 +34,8 @@ const FileUpload: React.FC = () => {
         className="Button"
         onClick={() => document.getElementById('fileUpload')!.click()}
       >
-            Upload File
+        <i className="Icon fa fa-upload" />
+        <div className="buttonText">Load File</div>
       </button>
     </div>
   );

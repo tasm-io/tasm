@@ -216,7 +216,9 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
     {
       state.registers[Register.SP] += 1;
       const returnAddr = state.memory[state.registers[Register.SP]];
-      state.registers[Register.IP] = returnAddr;
+      // This IP will be incremented by 1 after this instruction, so we have to offset
+      // the return address.
+      state.registers[Register.IP] = returnAddr - 1;
     }
     break;
   case Opcode.CLI:

@@ -2,7 +2,7 @@
 // tspegjs -o parser.ts --custom-header "import * as ast from './ast';" grammar.pegjs
 
 Program
-    = _ commands:ProgramRec? _ {
+    = nl? commands:ProgramRec? nl? {
         if (commands === null) {
             commands = [];
         }
@@ -10,11 +10,11 @@ Program
     }
     
 ProgramRec
-    = head:Command _ tail:ProgramRec _ {
+    = head:Command _ nl _ tail:ProgramRec _ {
         tail.unshift(head);
         return tail;
     }
-    / head:Command {
+    / head:Command _ {
         return [head];
     }
 
@@ -49,7 +49,7 @@ Ascii
     }
 Asciiz
     = "asciiz" _ value:String {
-        return new ast.Asciiz(location().start, value);
+        return new ast.Asciiz(location().start, value.join(""));
     }
 Break
     = "break" {
@@ -62,6 +62,9 @@ Label
 
 Instruction
     = opcode:Name _ operands:Operands {
+        if (operands === null) {
+          operands = [];
+        }
         return new ast.Instruction(location().start, opcode, operands);
     }
 
@@ -72,7 +75,7 @@ OperandsRec
         tail.unshift(head);
         return tail;
     }
-    / head:Operand {
+    / head:Operand _ {
         return [head];
     }
 
@@ -85,7 +88,7 @@ Operand
     / DirectMemoryAccess
 
 DirectMemoryAccess
-    = "[" _ address:Integer _ "]" {
+    = "[" _ address:Constant _ "]" {
         return new ast.DirectAddress(location().start, address);
     }
 RegisterMemoryAccess
@@ -116,7 +119,13 @@ Name
     }
 
 Integer
-    = integer:[0-9]+ {
+    = integer:("0x" [0-9a-fA-F]+) {
+        return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 16));
+    }
+    / integer:("0b" [01]+) {
+        return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 2));
+    }
+    / integer:[0-9]+ {
         return new ast.Integer(location().start, parseInt(integer.join('')));
     }
 
@@ -157,5 +166,7 @@ EscapeSequence
     / "t"  { return "\t"; }
     / "v"  { return "\x0B"; }
 
-// Whitespace & comments
-_ = ([ \r\n\t\v] / ";" (!"\n" .)*)*
+_ = [ \r\t]*
+comment = ";" (!"\n" .)*
+nl = comment? ([\n] / [\r][\n]) ([ \n\r\t] / comment)*
+

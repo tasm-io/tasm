@@ -2,14 +2,19 @@ import React from 'react';
 import '../App.css';
 
 import FileUpload from './FileUpload';
+import Share from './Share';
 
 const ButtonBox: React.FC = () => (
   <div className="ButtonBox">
     <div className="Column">
       <FileUpload />
-      <button type="button" className="Button">Share</button>
-      <button type="button" className="Button">Format</button>
+      <Share />
+      <button type="button" className="Button">
+        <i className="Icon fa fa-indent" />
+        <div className="buttonText">Format Code</div>
+      </button>
     </div>
+    <hr />
   </div>
 );
 
