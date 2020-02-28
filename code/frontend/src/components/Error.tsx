@@ -20,8 +20,8 @@ function dismiss(id: string, dispatch: Function) {
 const Error: React.FC<Props> = (props: Props) => {
   const dispatch = useDispatch();
   return (
-    <div className={`Error ${ErrorTypes[props.error.type]}`}>
-      <button type="button" className="NoticeDismiss" style={{ border: 0, background: 'transparent' }} id="dismiss" onClick={() => dismiss(props.error.message, dispatch)}>
+    <div className={`Error ${ErrorTypes[props.error.type]}`} role="alert">
+      <button aria-label="Dismiss Error" type="button" className="NoticeDismiss" style={{ border: 0, background: 'transparent' }} id="dismiss" onClick={() => dismiss(props.error.message, dispatch)}>
         <i className="fa fa-times-circle" />
       </button>
       <div className="ErrorHeading">{props.error.title}</div>

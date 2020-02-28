@@ -18,6 +18,10 @@ import Settings from './components/Settings';
 import Error from './components/Error';
 // eslint-disable-next-line no-unused-vars
 import { SimulatorError } from './redux/errors';
+import TextDisplay from './components/devices/TextDisplay';
+import VirtualKeyboard from './components/devices/VirtualKeyboard';
+import SevenSegment from './components/devices/SevenSegment';
+import TrafficLights from './components/devices/TrafficLights';
 
 function setCode(code: string, dispatch: Function) {
   const action: SetCode = {
@@ -39,7 +43,8 @@ function checkURL(dispatch: Function) {
   const s: string[] = href.split('/');
   if (s.length >= 4 && s[3].toLowerCase() === 'share') {
     setCode('Loading Code...', dispatch);
-    fetchCode(s[4], dispatch);
+    const url: string = s.slice(4, s.length).join('');
+    fetchCode(url, dispatch);
   } else if (localStorage.getItem('code')) {
     setCode(localStorage.getItem('code') as string, dispatch);
   }
@@ -52,29 +57,61 @@ function changeTitle() {
   }
 }
 
+function handleDeviceDisplay(id: number) {
+  const res = [
+    () => {},
+    () => {},
+    () => <RamDisplay />,
+    () => <TextDisplay />,
+    () => <VirtualKeyboard />,
+    () => <SevenSegment />,
+    () => <TrafficLights />,
+  ];
+  return res[id]();
+}
+
+function enableHotkeys() {
+  function handleHotkey(e: any) {
+    if (e.altKey && e.which === 82) {
+      document.getElementById('run')!.click(); // alt + r
+    } else if (e.altKey && e.which === 69) {
+      document.getElementById('stop')!.click(); // alt + e
+    } else if (e.altKey && e.which === 83) {
+      document.getElementById('step')!.click(); // alt + s
+    } else if (e.altKey && e.which === 65) {
+      document.getElementById('assemble')!.click(); // alt + a
+    } else if (e.altKey && e.which === 76) {
+      document.getElementById('fileUpload')!.click(); // alt + l
+    }
+  }
+  document.onkeyup = (e) => handleHotkey(e);
+}
+
 const App: React.FC = () => {
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   const error: SimulatorError = useSelector((state : RootState) => state.errors.errors[0]);
+  const activeDevice: number = useSelector((state : RootState) => state.simulator.activeDevice);
   const dispatch = useDispatch();
   return (
     <div className="Root">
       {checkURL(dispatch)}
+      {enableHotkeys()}
       {changeTitle()}
       <div className="Row">
-        <div className="Column LeftBar">
+        <div className="Column LeftBar" aria-label="Left menu">
           <h1 className="SiteTitle">tasm.io</h1>
           <ButtonBox />
           <Debugger />
         </div>
         <div className="Column">
-          {error ? <Error error={error} /> : ''}
           {displayEditor ? <Editor /> : <Settings />}
+          {error ? <Error aria-label="Error" error={error} /> : ''}
         </div>
-        <div className="Column" style={{ marginLeft: '5em', marginTop: '6.5em' }}>
+        <div className="Column RightBar">
           <StateDisplay />
           <br />
           <DeviceDisplayTabs />
-          <RamDisplay />
+          {handleDeviceDisplay(activeDevice)}
         </div>
       </div>
     </div>

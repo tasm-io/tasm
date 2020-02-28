@@ -16,7 +16,10 @@ import {
 } from '../redux/simulator';
 // eslint-disable-next-line no-unused-vars
 import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
-import { ADD_ERROR, ErrorTypes } from '../redux/errors';
+import {
+  // eslint-disable-next-line no-unused-vars
+  ADD_ERROR, ErrorTypes, ResetErrors, RESET_ERRORS,
+} from '../redux/errors';
 
 function handleError(err: Error, dispatch: Function) {
   dispatch({
@@ -30,11 +33,16 @@ function handleError(err: Error, dispatch: Function) {
 }
 
 function handleAssembleClick(code: string, dispatch: Function) {
+  const resetErrorsAction: ResetErrors = {
+    type: RESET_ERRORS,
+    payload: undefined,
+  };
   const assembleAction: Assemble = {
     type: ASSEMBLE,
     payload: code,
   };
   try {
+    dispatch(resetErrorsAction);
     dispatch(assembleAction);
   } catch (error) {
     handleError(error, dispatch);
@@ -110,19 +118,19 @@ const Debugger: React.FC = () => {
   const dispatch = useDispatch();
   return (
     <div className="Column">
-      <button className="Button" type="button" onClick={() => handleAssembleClick(code, dispatch)}>
+      <button className="Button" type="button" id="assemble" onClick={() => handleAssembleClick(code, dispatch)}>
         <i className="Icon fa fa-cog Rotate" />
         <div className="buttonText">Assemble</div>
       </button>
-      <button className="Button" type="button" onClick={() => handleStepClick(dispatch)}>
+      <button className="Button" type="button" id="step" onClick={() => handleStepClick(dispatch)}>
         <i className="Icon fa fa-arrow-right Step" />
         <div className="buttonText">Step</div>
       </button>
-      <button className="Button" type="button" style={running > 0 ? { color: '#11ac84' } : {}} onClick={() => handleRunClick(dispatch, running, speed)}>
+      <button className="Button" type="button" id="run" style={running > 0 ? { color: '#11ac84' } : {}} onClick={() => handleRunClick(dispatch, running, speed)}>
         <i className="Icon fa fa-play" />
         <div className="buttonText">Run</div>
       </button>
-      <button className="Button" style={running === -1 ? { color: 'tomato' } : {}} type="button" onClick={() => handleStopClick(dispatch, running)}>
+      <button className="Button" id="stop" style={running === -1 ? { color: 'tomato' } : {}} type="button" onClick={() => handleStopClick(dispatch, running)}>
         <i className="Icon fa fa-stop" />
         <div className="buttonText">Stop</div>
       </button>

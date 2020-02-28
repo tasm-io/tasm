@@ -162,6 +162,53 @@ tbody {
 
 /* Devices */
 
+.VirtualKeyboard {
+  display: flex;
+  flex-direction: column;
+}
+
+.VirtualKeyboard input {
+  background-color: transparent;
+  border: 1px rebeccapurple solid;
+  font-size: 2em;
+  color: white;
+  text-align: center;
+  max-height: 2em;
+}
+
+.SevenSegment {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.SevenSegment div {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.DisplayInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.TrafficLights {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  margin: auto;
+}
+
+.TrafficLight {
+  border: 5px solid black;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 2em;
+  margin-left: 2em;
+}
+
 /* Errors */
 
 .Error {
@@ -216,6 +263,36 @@ tbody {
   margin: .5em;
 }
 
+/* Devices */
+
+.Device {
+  min-width: 512px;
+  min-height: 512px;
+  padding: 16px;
+  background-color: #222230;
+  display: flex;
+  justify-content: center;
+  align-content: space-around;
+}
+
+.TextDisplay {
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 1.5em;
+  color: white;
+}
+
+.TextDisplay tr {
+  margin-top: 1em;
+}
+
+.TextDisplay td {
+  display: inline;
+  margin: auto;
+  border: 3px solid black;
+  margin-left: 10px !important;
+}
+
 /* Tabs */
 
 .Tabs {
@@ -224,7 +301,7 @@ tbody {
 }
 
 .ActiveTab {
-  color: #f368e0;
+  color: #f368e0 !important;
 }
 
 .Tab {
@@ -270,6 +347,11 @@ hr {
 .LeftBar {
   margin-top: 5em;
   margin-left: 5em;
+}
+
+.RightBar {
+  margin-left: 5em ;
+  margin-top: 6.5em;
 }
 
 /* Animations */
@@ -363,35 +445,38 @@ hr {
  * animation slide-out-right
  * ----------------------------------------
  */
- @-webkit-keyframes scale-in-top {
+@-webkit-keyframes scale-in-top {
   0% {
     -webkit-transform: scale(0);
-            transform: scale(0);
+    transform: scale(0);
     -webkit-transform-origin: 50% 0%;
-            transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
     opacity: 1;
   }
+
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
     -webkit-transform-origin: 50% 0%;
-            transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
     opacity: 1;
   }
 }
+
 @keyframes scale-in-top {
   0% {
     -webkit-transform: scale(0);
-            transform: scale(0);
+    transform: scale(0);
     -webkit-transform-origin: 50% 0%;
-            transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
     opacity: 1;
   }
+
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
     -webkit-transform-origin: 50% 0%;
-            transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
     opacity: 1;
   }
 }
@@ -428,35 +513,38 @@ hr {
 @-webkit-keyframes shadow-pop-tr {
   0% {
     -webkit-box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
-            box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
+    box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
     -webkit-transform: translateX(0) translateY(0);
-            transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
   }
+
   100% {
     -webkit-box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
-            box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
+    box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
     -webkit-transform: translateX(-8px) translateY(8px);
-            transform: translateX(-8px) translateY(8px);
+    transform: translateX(-8px) translateY(8px);
   }
 }
+
 @keyframes shadow-pop-tr {
   0% {
     -webkit-box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
-            box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
+    box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
     -webkit-transform: translateX(0) translateY(0);
-            transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
   }
+
   100% {
     -webkit-box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
-            box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
+    box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
     -webkit-transform: translateX(-8px) translateY(8px);
-            transform: translateX(-8px) translateY(8px);
+    transform: translateX(-8px) translateY(8px);
   }
 }
 
 .Button:hover {
-	-webkit-animation: shadow-pop-tr 0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
-	        animation: shadow-pop-tr 0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+  -webkit-animation: shadow-pop-tr 0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+  animation: shadow-pop-tr 0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
 }
 
 .slide-out-right {

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { combineReducers } from 'redux';
 import { codeReducer } from './code';
 import { simulatorReducer } from './simulator';

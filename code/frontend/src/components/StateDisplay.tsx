@@ -6,7 +6,7 @@ import { RootState } from '../redux/root';
 import { Register } from '../instructionset/instructionset';
 import RegisterDisplay from './RegisterDisplay';
 
-function prettyDisplay(base: number, num: number): string {
+export function prettyDisplay(base: number, num: number): string {
   let s: string;
   if (base === 2) {
     s = num.toString(2);
@@ -26,7 +26,7 @@ const StateDisplay: React.FC = () => {
   const registers: Uint8Array = useSelector((state : RootState) => state.simulator.registers);
   const base: number = useSelector((state : RootState) => state.debugger.registerDisplay);
   return (
-    <div className="StateDisplay Row">
+    <div className="StateDisplay Row" aria-label="Registers">
       <div className="Column">
         <RegisterDisplay name="AL" value={prettyDisplay(base, registers[Register.AL])} />
         <RegisterDisplay name="BL" value={prettyDisplay(base, registers[Register.BL])} />
