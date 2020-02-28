@@ -43,7 +43,7 @@ const Editor: React.FC = () => {
         onChange={(editorCode) => handleCodeChange(editorCode, dispatch)}
         name="AceEditor"
         style={{ backgroundColor: '#222230', color: '#c8d6e5' }}
-        editorProps={{ $blockScrolling: true, $useWorker: false }}
+        editorProps={{ $blockScrolling: true }}
         markers={markers}
       />
     </div>
