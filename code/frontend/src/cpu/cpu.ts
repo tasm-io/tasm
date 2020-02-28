@@ -34,6 +34,12 @@ export class IllegalOperandError extends Error {
   }
 }
 
+export class NoSuchDeviceError extends Error {
+  constructor(device: number) {
+    super(`no device with id ${device}`);
+  }
+}
+
 export function fetchNextInstruction(state: State): [Opcode, Uint8Array] {
   const pos = state.registers[Register.IP];
   const untypedOpcode = state.memory[pos];
@@ -92,7 +98,12 @@ const predicateFunctionFor = {
   [Opcode.JNZ]: (flags: number) => (flags & 128) === 0,
 };
 
-export function executeInstruction(state: State, opcode: Opcode, operands: Uint8Array) {
+export function executeInstruction(
+  state: State,
+  devices: DeviceState[],
+  opcode: Opcode,
+  operands: Uint8Array,
+) {
   // TODO(cmgn): Get rid of this giant, ugly switch statement.
   switch (opcode) {
   case Opcode.HALT:
@@ -246,6 +257,30 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
       state.registers[Register.IP] = operands[0] - 2;
     }
     break;
+  case Opcode.OUT:
+    {
+      const device = devices.filter((dev) => dev.id === operands[0])[0];
+      if (typeof device === 'undefined') {
+        throw new NoSuchDeviceError(operands[0]);
+      }
+      state.registers[Register.AL] = device.output(device);
+    }
+    break;
+  case Opcode.IN:
+    {
+      const device = devices.filter((dev) => dev.id === operands[0])[0];
+      if (typeof device === 'undefined') {
+        throw new NoSuchDeviceError(operands[0]);
+      }
+      const newDevice = device.input(device, state.registers[Register.AL]);
+      for (let i = 0; i < devices.length; i += 1) {
+        if (devices[i].id === device.id) {
+          devices[i] = newDevice;
+          break;
+        }
+      }
+    }
+    break;
   default:
     throw new Error('Well, well, well. Here we are. Some idiot^W^W^W^W^W developer has forgotten '
                     + 'to add their new opcode to the executeInstruction function. If we were using '
@@ -254,9 +289,37 @@ export function executeInstruction(state: State, opcode: Opcode, operands: Uint8
   }
 }
 
-export function step(state: State): void {
+function getAwaitingDevice(devices: DeviceState[]): null | number {
+  // We pick the first device that is awaiting an interrupt.
+  for (let i = 0; i < devices.length; i += 1) {
+    if (devices[i].requestingInterrupt) {
+      return i;
+    }
+  }
+  return null;
+}
+
+function executeNextInstruction(state: State, devices: DeviceState[]): void {
   const [opcode, operands] = fetchNextInstruction(state);
-  executeInstruction(state, opcode, operands);
+  executeInstruction(state, devices, opcode, operands);
   // The number of operands plus the opcode.
   state.registers[Register.IP] += operands.length + 1;
+}
+
+function handleInterrupt(state: State, device: DeviceState): void {
+  const jumpPosition = device.id;
+  // Push the current position, then jump to the new one.
+  state.memory[Register.SP] = state.registers[Register.IP];
+  state.registers[Register.SP] -= 1;
+  state.registers[Register.IP] = jumpPosition;
+}
+
+export function step(state: State, devices: DeviceState[]): void {
+  const awaitingDeviceIndex = getAwaitingDevice(devices);
+  const interruptFlag = state.registers[Register.SR] & 32;
+  if (interruptFlag === 0 || awaitingDeviceIndex === null) {
+    executeNextInstruction(state, devices);
+  } else {
+    handleInterrupt(state, devices[awaitingDeviceIndex]);
+  }
 }
