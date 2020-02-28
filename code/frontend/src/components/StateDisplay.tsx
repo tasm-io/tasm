@@ -24,6 +24,7 @@ export function prettyDisplay(base: number, num: number): string {
 
 const StateDisplay: React.FC = () => {
   const registers: Uint8Array = useSelector((state : RootState) => state.simulator.registers);
+  const cycles: number = useSelector((state : RootState) => state.simulator.cycles);
   const base: number = useSelector((state : RootState) => state.debugger.registerDisplay);
   return (
     <div className="StateDisplay Row" aria-label="Registers">
@@ -37,6 +38,7 @@ const StateDisplay: React.FC = () => {
         <RegisterDisplay name="IP" value={prettyDisplay(base, registers[Register.IP])} />
         <RegisterDisplay name="SP" value={prettyDisplay(base, registers[Register.SP])} />
         <RegisterDisplay name="SR" value={prettyDisplay(base, registers[Register.SR])} />
+        <RegisterDisplay name="Cycles" value={cycles.toString()} />
         <div className="RegisterDisplay" />
       </div>
     </div>

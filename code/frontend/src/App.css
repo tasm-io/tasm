@@ -6,12 +6,14 @@
   background-color: #191927;
   color: #c8d6e5;
   min-height: 100vh;
+  min-width: 100%;
   font-family: 'Roboto', sans-serif;
 }
 
 .Row {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .Column {
@@ -35,6 +37,13 @@
   margin-top: .5em;
   flex: 1;
   margin-left: 3em;
+}
+
+.ace_editor {
+  width: 33vmax !important;
+  height: 33vmax !important;
+  min-width: 600px;
+  min-height: 600px;
 }
 
 /* Ram Display */
@@ -563,9 +572,9 @@ hr {
 
 /* Media queries */
 
-@media only screen and (max-width: 1900px) {
+@media only screen and (max-width: 720px) {
   .Row {
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
@@ -575,6 +584,11 @@ hr {
   .LeftBar {
     margin-top: 1em;
     margin-left: 0em;
+  }
+
+  .ace_editor {
+    width: 50vmax !important;
+    height: 50vmax !important;
   }
 
   .Editor {

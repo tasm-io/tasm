@@ -9,6 +9,7 @@ import { defaultState as VirtualKeyboardState } from '../components/devices/Virt
 import { defaultState as TextDisplayState } from '../components/devices/TextDisplay';
 import { defaultState as SevenSegmentState } from '../components/devices/SevenSegment';
 import { defaultState as TrafficLightsState } from '../components/devices/TrafficLights';
+import { edit } from 'ace-builds';
 /* Action Types */
 export const ASSEMBLE = 'ASSEMBLE';
 export const STEP = 'STEP';
@@ -27,7 +28,6 @@ export interface SimulatorStoreInterface {
     cycles: number
     devices: DeviceState[],
     activeDevice: number
-    error?: {message: string}
 }
 
 const defaultState: SimulatorStoreInterface = {
@@ -38,7 +38,6 @@ const defaultState: SimulatorStoreInterface = {
   cycles: 0,
   devices: [VirtualKeyboardState, TextDisplayState, SevenSegmentState, TrafficLightsState],
   activeDevice: 2,
-  error: undefined,
 };
 
 
@@ -73,6 +72,7 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
   switch (action.type) {
   case (ASSEMBLE): {
     const [byteCode, editorLines] = assemble(action.payload);
+    console.log("EDITOR", editorLines)
     const registers = new Uint8Array(7).fill(0);
     registers[Register.SP] = 255;
     return {
