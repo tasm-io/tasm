@@ -67,7 +67,7 @@ function handleStepClick(dispatch: Function) {
   }
 }
 
-function runInterval(dispatch: Function) {
+function runInterval(dispatch: Function, handle: number) {
   const action: Step = {
     type: STEP,
     payload: undefined,
@@ -76,11 +76,14 @@ function runInterval(dispatch: Function) {
     dispatch(action);
   } catch (error) {
     handleError(error, dispatch);
+    // eslint-disable-next-line no-use-before-define
+    handleStopClick(dispatch, handle);
   }
 }
 
 function handleRunClick(dispatch: Function, running: number, speed: number) {
-  const handle: number = setInterval(runInterval, speed, dispatch, running);
+  // eslint-disable-next-line no-var
+  var handle: any = setInterval(() => runInterval(dispatch, handle), speed);
   const action: SetSimulatorRunning = {
     type: SET_SIMULATOR_RUNNING,
     payload: handle,
