@@ -34,6 +34,7 @@ const mapDigit = (n: number) => {
     if (val) {
       res.push(
         <polygon
+          key={i}
           points={segments[i].toString()}
           fill="#11ac84"
         />,

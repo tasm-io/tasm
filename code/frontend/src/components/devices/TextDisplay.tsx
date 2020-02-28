@@ -11,9 +11,9 @@ import { RootState } from '../../redux/root';
 
 function mapRow(row: number[]) {
   const res: any = [];
-  row.map((s) => {
+  row.map((s, i) => {
     res.push(
-      <td>
+      <td key={i}>
         {String.fromCharCode(s)}
       </td>,
     );

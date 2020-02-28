@@ -37,7 +37,7 @@ const Editor: React.FC = () => {
         minLines={10}
         theme="dracula"
         showPrintMargin={false}
-        width={`${(window.screen.width / 3).toString()}px`}
+        // width={`${(window.screen.width / 3).toString()}px`}
         height={`${(window.screen.height / 1.5).toString()}px`}
         value={code}
         onChange={(editorCode) => handleCodeChange(editorCode, dispatch)}

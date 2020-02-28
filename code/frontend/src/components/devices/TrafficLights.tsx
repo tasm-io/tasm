@@ -24,24 +24,24 @@ const drawTrafficLights = (mem: number) => {
     <div className="TrafficLights">
       <div className="TrafficLight">
         <svg width="100" height="100">
-          <path style={memory[2] ? { fill: 'green' } : { fill: 'grey' }} d={svgCircleData} />
+          <path style={memory[2] ? { fill: 'red' } : { fill: 'grey' }} d={svgCircleData} />
         </svg>
         <svg width="100" height="100">
           <path style={memory[3] ? { fill: 'yellow' } : { fill: 'grey' }} d={svgCircleData} />
         </svg>
         <svg width="100" height="100">
-          <path style={memory[4] ? { fill: 'red' } : { fill: 'grey' }} d={svgCircleData} />
+          <path style={memory[4] ? { fill: 'green' } : { fill: 'grey' }} d={svgCircleData} />
         </svg>
       </div>
       <div className="TrafficLight">
         <svg width="100" height="100">
-          <path style={memory[5] ? { fill: 'green' } : { fill: 'grey' }} d={svgCircleData} />
+          <path style={memory[5] ? { fill: 'red' } : { fill: 'grey' }} d={svgCircleData} />
         </svg>
         <svg width="100" height="100">
           <path style={memory[6] ? { fill: 'yellow' } : { fill: 'grey' }} d={svgCircleData} />
         </svg>
         <svg width="100" height="100">
-          <path style={memory[7] ? { fill: 'red' } : { fill: 'grey' }} d={svgCircleData} />
+          <path style={memory[7] ? { fill: 'green' } : { fill: 'grey' }} d={svgCircleData} />
         </svg>
       </div>
     </div>
