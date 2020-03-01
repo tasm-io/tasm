@@ -1,10 +1,10 @@
 import React from 'react';
 import '../App.css';
 import { useSelector } from 'react-redux';
-// eslint-disable-next-line no-unused-vars
-import { RootState } from '../redux/root';
 import { Register } from '../instructionset/instructionset';
 import RegisterDisplay from './RegisterDisplay';
+// eslint-disable-next-line
+import { RootState } from '../redux/root';
 
 export function prettyDisplay(base: number, num: number): string {
   let s: string;

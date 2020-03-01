@@ -2,13 +2,14 @@
 import React from 'react';
 import '../../App.css';
 
+
 // eslint-disable-next-line no-unused-vars
 import { useSelector } from 'react-redux';
+import { prettyDisplay } from '../StateDisplay';
 // eslint-disable-next-line no-unused-vars
 import { DeviceState } from '../../cpu/cpu';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from '../../redux/root';
-import { prettyDisplay } from '../StateDisplay';
 
 const segments: number[][][] = [
   [[10, 10], [20, 0], [80, 0], [90, 10], [80, 20], [20, 20]],
@@ -34,7 +35,8 @@ const mapDigit = (n: number) => {
     if (val) {
       res.push(
         <polygon
-          key={i}
+          // eslint-disable-next-line react/no-array-index-key
+          key={`polygon${i}`}
           points={segments[i].toString()}
           fill="#11ac84"
         />,

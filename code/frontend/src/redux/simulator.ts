@@ -9,7 +9,6 @@ import { defaultState as VirtualKeyboardState } from '../components/devices/Virt
 import { defaultState as TextDisplayState } from '../components/devices/TextDisplay';
 import { defaultState as SevenSegmentState } from '../components/devices/SevenSegment';
 import { defaultState as TrafficLightsState } from '../components/devices/TrafficLights';
-import { edit } from 'ace-builds';
 /* Action Types */
 export const ASSEMBLE = 'ASSEMBLE';
 export const STEP = 'STEP';
@@ -30,7 +29,10 @@ export interface SimulatorStoreInterface {
     activeDevice: number
 }
 
-const ActiveDevices: DeviceState[] = [VirtualKeyboardState, TextDisplayState, SevenSegmentState, TrafficLightsState]
+const ActiveDevices: DeviceState[] = [VirtualKeyboardState,
+  TextDisplayState,
+  SevenSegmentState,
+  TrafficLightsState];
 
 const defaultState: SimulatorStoreInterface = {
   byteCode: new Uint8Array(256),
@@ -77,14 +79,15 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
     const registers = new Uint8Array(7).fill(0);
     registers[Register.SP] = 255;
     const devices: DeviceState[] = [...ActiveDevices];
-    devices.map((dev) => dev.memory ? dev.memory = new Uint8Array(dev.memory.length) : undefined)
+    // eslint-disable-next-line
+    devices.map((dev) => (dev.memory ? dev.memory = new Uint8Array(dev.memory.length) : undefined))
     return {
-      ...state, 
-      byteCode, 
-      ram: new Uint8Array(byteCode), 
-      registers, 
+      ...state,
+      byteCode,
+      ram: new Uint8Array(byteCode),
+      registers,
       editorLines,
-      devices
+      devices,
     };
   }
   case (STEP): {
@@ -92,7 +95,7 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
       registers: state.registers,
       memory: state.ram,
     };
-    const devs = [...state.devices]
+    const devs = [...state.devices];
     step(simulatorState, devs);
     return {
       ...state,

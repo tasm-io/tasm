@@ -13,6 +13,7 @@ function mapRow(row: number[]) {
   const res: any = [];
   row.map((s, i) => {
     res.push(
+      // eslint-disable-next-line react/no-array-index-key
       <td key={i}>
         {String.fromCharCode(s)}
       </td>,
