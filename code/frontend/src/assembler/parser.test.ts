@@ -209,7 +209,7 @@ it('accepts binary literals', () => {
   statements: [
     Byte {
       source: { offset: 3, line: 2, column: 3 },
-      value: Integer { source: { offset: 8, line: 2, column: 8 }, value: 1 }
+      value: Integer { source: { offset: 8, line: 2, column: 8 }, value: 240 }
     },
     Byte {
       source: { offset: 21, line: 3, column: 3 },
@@ -240,15 +240,21 @@ it('accepts hexadecimal literals', () => {
   statements: [
     Byte {
       source: { offset: 3, line: 2, column: 3 },
-      value: Integer { source: { offset: 8, line: 2, column: 8 }, value: 15 }
+      value: Integer { source: { offset: 8, line: 2, column: 8 }, value: 255 }
     },
     Byte {
       source: { offset: 15, line: 3, column: 3 },
-      value: Integer { source: { offset: 20, line: 3, column: 8 }, value: 10 }
+      value: Integer {
+        source: { offset: 20, line: 3, column: 8 },
+        value: 171
+      }
     },
     Byte {
       source: { offset: 27, line: 4, column: 3 },
-      value: Integer { source: { offset: 32, line: 4, column: 8 }, value: 10 }
+      value: Integer {
+        source: { offset: 32, line: 4, column: 8 },
+        value: 163
+      }
     },
     Byte {
       source: { offset: 39, line: 5, column: 3 },
@@ -260,11 +266,14 @@ it('accepts hexadecimal literals', () => {
     },
     Byte {
       source: { offset: 62, line: 7, column: 3 },
-      value: Integer { source: { offset: 67, line: 7, column: 8 }, value: 1 }
+      value: Integer { source: { offset: 67, line: 7, column: 8 }, value: 31 }
     },
     Byte {
       source: { offset: 74, line: 8, column: 3 },
-      value: Integer { source: { offset: 79, line: 8, column: 8 }, value: 14 }
+      value: Integer {
+        source: { offset: 79, line: 8, column: 8 },
+        value: 238
+      }
     }
   ]
 }`;

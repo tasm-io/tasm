@@ -262,14 +262,14 @@ function peg$parse(input: string, options?: IParseOptions) {
   const peg$c44 = /^[0-9a-fA-F]/;
   const peg$c45 = peg$classExpectation([["0", "9"], ["a", "f"], ["A", "F"]], false, false);
   const peg$c46 = function(integer: any): any {
-          return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 16));
+          return new ast.Integer(location().start, parseInt(integer[1].join('').toLowerCase(), 16));
       };
   const peg$c47 = "0b";
   const peg$c48 = peg$literalExpectation("0b", false);
   const peg$c49 = /^[01]/;
   const peg$c50 = peg$classExpectation(["0", "1"], false, false);
   const peg$c51 = function(integer: any): any {
-          return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 2));
+          return new ast.Integer(location().start, parseInt(integer[1].join('').toLowerCase(), 2));
       };
   const peg$c52 = /^[0-9]/;
   const peg$c53 = peg$classExpectation([["0", "9"]], false, false);
