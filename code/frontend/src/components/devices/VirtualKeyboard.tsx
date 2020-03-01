@@ -35,7 +35,7 @@ export const defaultState: DeviceState = {
 
 const VirtualKeyboard: React.FC = () => {
   const device: DeviceState = useSelector((state : RootState) => state.simulator.devices)
-    .filter((dev) => dev.id === defaultState.id)[0];
+    .filter((dev: DeviceState) => dev.id === defaultState.id)[0];
   const dispatch = useDispatch();
   return (
     <div className="Device VirtualKeyboard">

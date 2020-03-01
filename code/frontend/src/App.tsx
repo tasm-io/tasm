@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,6 +45,8 @@ function checkURL(dispatch: Function) {
     setCode('Loading Code...', dispatch);
     const url: string = s.slice(4, s.length).join('');
     fetchCode(url, dispatch);
+    // eslint-disable-next-line no-restricted-globals
+    history.pushState(null, '', '/');
   } else if (localStorage.getItem('code')) {
     setCode(localStorage.getItem('code') as string, dispatch);
   }

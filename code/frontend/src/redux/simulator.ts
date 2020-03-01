@@ -30,13 +30,15 @@ export interface SimulatorStoreInterface {
     activeDevice: number
 }
 
+const ActiveDevices: DeviceState[] = [VirtualKeyboardState, TextDisplayState, SevenSegmentState, TrafficLightsState]
+
 const defaultState: SimulatorStoreInterface = {
   byteCode: new Uint8Array(256),
   ram: new Uint8Array(256),
   editorLines: new Array(256),
   registers: new Uint8Array(7),
   cycles: 0,
-  devices: [VirtualKeyboardState, TextDisplayState, SevenSegmentState, TrafficLightsState],
+  devices: [...ActiveDevices].map((state: DeviceState) => Object.assign(state)),
   activeDevice: 2,
 };
 
@@ -72,11 +74,17 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
   switch (action.type) {
   case (ASSEMBLE): {
     const [byteCode, editorLines] = assemble(action.payload);
-    console.log("EDITOR", editorLines)
     const registers = new Uint8Array(7).fill(0);
     registers[Register.SP] = 255;
+    const devices: DeviceState[] = [...ActiveDevices];
+    devices.map((dev) => dev.memory ? dev.memory = new Uint8Array(dev.memory.length) : undefined)
     return {
-      ...state, byteCode, ram: new Uint8Array(byteCode), registers, editorLines,
+      ...state, 
+      byteCode, 
+      ram: new Uint8Array(byteCode), 
+      registers, 
+      editorLines,
+      devices
     };
   }
   case (STEP): {
@@ -84,12 +92,14 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
       registers: state.registers,
       memory: state.ram,
     };
-    step(simulatorState);
+    const devs = [...state.devices]
+    step(simulatorState, devs);
     return {
       ...state,
       registers: new Uint8Array(simulatorState.registers),
       ram: new Uint8Array(simulatorState.memory),
       cycles: state.cycles + 1,
+      devices: devs,
     };
   }
   case (CHANGE_ACTIVE_DEVICE): {

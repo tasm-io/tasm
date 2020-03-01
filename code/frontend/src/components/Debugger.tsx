@@ -83,6 +83,7 @@ function runInterval(dispatch: Function, handle: number) {
 
 function handleRunClick(dispatch: Function, running: number, speed: number) {
   // eslint-disable-next-line no-var
+  if(running < 0){
   var handle: any = setInterval(() => runInterval(dispatch, handle), speed);
   const action: SetSimulatorRunning = {
     type: SET_SIMULATOR_RUNNING,
@@ -93,6 +94,7 @@ function handleRunClick(dispatch: Function, running: number, speed: number) {
   } catch (error) {
     handleError(error, dispatch);
   }
+}
 }
 
 function handleStopClick(dispatch: Function, running: number) {
