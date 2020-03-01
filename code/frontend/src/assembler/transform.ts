@@ -1,8 +1,8 @@
 import * as ast from './ast';
 
 function prettyPrintCyclicDefinitions(remaining: Map<string, string>): string {
-  const lines: string[] = []
-  remaining.forEach((_, name) => lines.push(`   name`));
+  const lines: string[] = [];
+  remaining.forEach((_, name) => lines.push(`    ${name}`));
   return lines.join('\n');
 }
 
@@ -15,7 +15,7 @@ function prettyPrintCyclicDefinitions(remaining: Map<string, string>): string {
 export class CyclicConstantDefinition extends Error {
   constructor(remaining: Map<string, string>) {
     // TODO(cmgn): A better error message.
-    super(`Cyclic constant definitions\n${remaining}`);
+    super(`Cyclic constant definitions\n${prettyPrintCyclicDefinitions(remaining)}`);
   }
 }
 
