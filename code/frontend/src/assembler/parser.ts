@@ -507,24 +507,30 @@ function peg$parse(input: string, options?: IParseOptions) {
   }
 
   function peg$parseProgramRec(): any {
-    let s0, s1, s2, s3, s4, s5, s6;
+    let s0, s1, s2, s3, s4, s5, s6, s7;
 
     s0 = peg$currPos;
-    s1 = peg$parseCommand();
+    s1 = peg$parse_();
     if (s1 !== peg$FAILED) {
-      s2 = peg$parse_();
+      s2 = peg$parseCommand();
       if (s2 !== peg$FAILED) {
-        s3 = peg$parsenl();
+        s3 = peg$parse_();
         if (s3 !== peg$FAILED) {
-          s4 = peg$parse_();
+          s4 = peg$parsenl();
           if (s4 !== peg$FAILED) {
-            s5 = peg$parseProgramRec();
+            s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parse_();
+              s6 = peg$parseProgramRec();
               if (s6 !== peg$FAILED) {
-                peg$savedPos = s0;
-                s1 = peg$c1(s1, s5);
-                s0 = s1;
+                s7 = peg$parse_();
+                if (s7 !== peg$FAILED) {
+                  peg$savedPos = s0;
+                  s1 = peg$c1(s2, s6);
+                  s0 = s1;
+                } else {
+                  peg$currPos = s0;
+                  s0 = peg$FAILED;
+                }
               } else {
                 peg$currPos = s0;
                 s0 = peg$FAILED;

@@ -10,7 +10,7 @@ Program
     }
     
 ProgramRec
-    = head:Command _ nl _ tail:ProgramRec _ {
+    = _ head:Command _ nl _ tail:ProgramRec _ {
         tail.unshift(head);
         return tail;
     }
