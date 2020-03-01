@@ -19,6 +19,31 @@ ProgramRec
     }
 
 Command
+    = noninstr:NonInstruction _ instr:Instruction? {
+        if (instr !== null) {
+            noninstr.statements.push(instr);
+        }
+        return noninstr;
+    }
+    / instr:Instruction {
+        return instr;
+    }
+
+NonInstruction
+    = instrs:NonInstructionRec {
+        return new ast.Block(location().start, instrs);
+    }
+
+NonInstructionRec
+    = _ head:Directive _ nl? _ tail:NonInstructionRec _ {
+        tail.unshift(head);
+        return tail;
+    }
+    / head:Directive _ {
+        return [head];
+    }
+
+Directive
     = Org
     / Const
     / Byte
@@ -26,7 +51,6 @@ Command
     / Asciiz
     / Break
     / Label
-    / Instruction
 
 Org
     = "org" _ value:Constant {
@@ -61,7 +85,7 @@ Label
     }
 
 Instruction
-    = opcode:Name _ operands:Operands {
+    = opcode:Name _ operands:Operands _ {
         if (operands === null) {
           operands = [];
         }
