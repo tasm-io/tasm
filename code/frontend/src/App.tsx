@@ -74,16 +74,20 @@ function handleDeviceDisplay(id: number) {
 
 function enableHotkeys() {
   function handleHotkey(e: any) {
-    if (e.altKey && e.which === 82) {
-      document.getElementById('run')!.click(); // alt + r
-    } else if (e.altKey && e.which === 69) {
-      document.getElementById('stop')!.click(); // alt + e
-    } else if (e.altKey && e.which === 83) {
-      document.getElementById('step')!.click(); // alt + s
-    } else if (e.altKey && e.which === 65) {
-      document.getElementById('assemble')!.click(); // alt + a
-    } else if (e.altKey && e.which === 76) {
-      document.getElementById('fileUpload')!.click(); // alt + l
+    if (e.ctrlKey && e.shiftKey && e.which === 88) {
+      document.getElementById('run')!.click(); // ctrl + shift + x
+    } else if (e.ctrlKey && e.shiftKey && e.which === 67) {
+      document.getElementById('stop')!.click(); // ctrl + shift + c
+    } else if (e.ctrlKey && e.shiftKey && e.which === 83) {
+      document.getElementById('step')!.click(); // ctrl + shift + s
+    } else if (e.ctrlKey && e.shiftKey && e.which === 65) {
+      document.getElementById('assemble')!.click(); // ctrl + shift + a
+    } else if (e.ctrlKey && e.shiftKey && e.which === 76) {
+      document.getElementById('fileUpload')!.click(); // // ctrl + shift + l
+    } else if (e.ctrlKey && e.shiftKey && e.which === 90) {
+      document.getElementById('share')!.click(); // // ctrl + shift + z
+    } else if (e.ctrlKey && e.shiftKey && e.which === 70) {
+      document.getElementById('format')!.click(); // // ctrl + shift + f
     }
   }
   document.onkeyup = (e) => handleHotkey(e);

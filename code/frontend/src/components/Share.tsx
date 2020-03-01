@@ -97,6 +97,7 @@ const Share: React.FC = () => {
       <button
         type="button"
         className="Button"
+        id="share"
         onClick={() => handleShareCode(code, dispatch)}
       >
         <i className="Icon fa fa-share-square" />
