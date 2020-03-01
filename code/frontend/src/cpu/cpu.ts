@@ -307,11 +307,12 @@ function executeNextInstruction(state: State, devices: DeviceState[]): void {
 }
 
 function handleInterrupt(state: State, device: DeviceState): void {
-  const jumpPosition = device.id;
   // Push the current position, then jump to the new one.
-  state.memory[Register.SP] = state.registers[Register.IP];
+  state.memory[state.registers[Register.SP]] = state.registers[Register.IP];
   state.registers[Register.SP] -= 1;
-  state.registers[Register.IP] = jumpPosition;
+  // The device's ID is used to work out where the interrupt routine's address
+  // is located.
+  state.registers[Register.IP] = state.memory[device.id];
 }
 
 export function step(state: State, devices: DeviceState[]): void {

@@ -353,7 +353,7 @@ it('steps correctly', () => {
 
 it('handles an interrupt', () => {
   const fakeDevice = {
-    id: 2,
+    id: 1,
     requestingInterrupt: true,
     input: (device: DeviceState, input: number): DeviceState => {
       if (typeof device.memory !== 'undefined') {
@@ -370,11 +370,12 @@ it('handles an interrupt', () => {
     memory: new Uint8Array([5]),
   };
   const state: State = {
-    registers: new Uint8Array([0, 0, 0, 0, 1, 32, 0]),
-    memory: new Uint8Array([0, 2]),
+    registers: new Uint8Array([0, 0, 0, 0, 2, 32, 0]),
+    memory: new Uint8Array([1, 2, 3]),
   };
   step(state, [fakeDevice]);
-  expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 0, 32, 2]));
+  expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 1, 32, 2]));
+  expect(state.memory).toStrictEqual(new Uint8Array([1, 2, 0]));
 });
 
 it('ignores an interrupt when the interrupt flag is disabled', () => {
