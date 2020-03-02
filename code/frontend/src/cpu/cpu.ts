@@ -313,6 +313,7 @@ function handleInterrupt(state: State, device: DeviceState): void {
   // The device's ID is used to work out where the interrupt routine's address
   // is located.
   state.registers[Register.IP] = state.memory[device.id];
+  device.requestingInterrupt = false;
 }
 
 export function step(state: State, devices: DeviceState[]): void {

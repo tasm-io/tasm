@@ -376,6 +376,7 @@ it('handles an interrupt', () => {
   step(state, [fakeDevice]);
   expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 1, 32, 2]));
   expect(state.memory).toStrictEqual(new Uint8Array([1, 2, 0]));
+  expect(fakeDevice.requestingInterrupt).toBe(false);
 });
 
 it('ignores an interrupt when the interrupt flag is disabled', () => {
