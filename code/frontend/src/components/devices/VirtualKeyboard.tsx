@@ -23,7 +23,11 @@ const handleVirtualKeyboardInput = (device: DeviceState, event: any) => {
 
 const deviceInput = (device: DeviceState, _input: number) => device;
 
-const deviceOutput = (dev: DeviceState) => (dev.memory ? dev.memory[0] : 0);
+const deviceOutput = (dev: DeviceState) => {
+  // eslint-disable-next-line no-param-reassign
+  dev.requestingInterrupt = false;
+  return dev.memory![0] || 0;
+};
 
 export const defaultState: DeviceState = {
   id: 4,
