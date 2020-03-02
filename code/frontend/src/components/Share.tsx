@@ -74,26 +74,25 @@ function handleShareCode(code: CodeInterface, dispatch: Function) {
     const uri = code.shareURL;
     dispatch(NotifyUser(uri));
     copyToClipboard(uri);
-    return undefined;
+  } else {
+    const uploadingAction = {
+      type: typeof UPLOADING,
+      payload: true,
+    };
+    dispatch(uploadingAction);
+    uploadCode(code.code).then((resp) => {
+      const response = resp;
+      if (!response.includes('error')) {
+        const uri: string = encodeURIComponent(response);
+        dispatch(handleShareSuccess(uri));
+        dispatch(NotifyUser(uri));
+        copyToClipboard(uri);
+      } else {
+        dispatch(handleShareFailure(response));
+        dispatch(NotifyUserError(response));
+      }
+    });
   }
-  const uploadingAction = {
-    type: typeof UPLOADING,
-    payload: true,
-  };
-  dispatch(uploadingAction);
-  uploadCode(code.code).then((resp) => {
-    const response = resp;
-    if (!response.includes('error')) {
-      const uri: string = encodeURIComponent(response);
-      dispatch(handleShareSuccess(uri));
-      dispatch(NotifyUser(uri));
-      copyToClipboard(uri);
-    } else {
-      dispatch(handleShareFailure(response));
-      dispatch(NotifyUserError(response));
-    }
-  });
-  return undefined;
 }
 
 const Share: React.FC = () => {
