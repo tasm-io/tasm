@@ -174,7 +174,6 @@ export function executeInstruction(
   case Opcode.AND_REG_REG:
   case Opcode.OR_REG_REG:
   case Opcode.XOR_REG_REG:
-  case Opcode.CMP_REG_REG:
     if (!isRegister(operands[0]) || !isRegister(operands[1])) {
       throw new IllegalOperandError(opcode, operands);
     }
@@ -184,6 +183,17 @@ export function executeInstruction(
     );
     updateFlags(state, state.registers[operands[0]]);
     break;
+  case Opcode.CMP_REG_REG:
+    {
+      if (!isRegister(operands[0]) || !isRegister(operands[1])) {
+        throw new IllegalOperandError(opcode, operands);
+      }
+      const result = new Uint8Array([
+        state.registers[operands[0]] - state.registers[operands[1]],
+      ])[0];
+      updateFlags(state, result);
+    }
+    break;
   case Opcode.ADD_REG_INT:
   case Opcode.SUB_REG_INT:
   case Opcode.MUL_REG_INT:
@@ -191,7 +201,6 @@ export function executeInstruction(
   case Opcode.AND_REG_INT:
   case Opcode.OR_REG_INT:
   case Opcode.XOR_REG_INT:
-  case Opcode.CMP_REG_INT:
     if (!isRegister(operands[0])) {
       throw new IllegalOperandError(opcode, operands);
     }
@@ -200,6 +209,17 @@ export function executeInstruction(
       operands[1],
     );
     updateFlags(state, state.registers[operands[0]]);
+    break;
+  case Opcode.CMP_REG_INT:
+    {
+      if (!isRegister(operands[0])) {
+        throw new IllegalOperandError(opcode, operands);
+      }
+      const result = new Uint8Array([
+        state.registers[operands[0]] - operands[1],
+      ])[0];
+      updateFlags(state, result);
+    }
     break;
   case Opcode.NOT:
     if (!isRegister(operands[0])) {
