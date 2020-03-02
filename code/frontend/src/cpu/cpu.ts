@@ -257,7 +257,7 @@ export function executeInstruction(
       state.registers[Register.IP] = operands[0] - 2;
     }
     break;
-  case Opcode.OUT:
+  case Opcode.IN:
     {
       const device = devices.filter((dev) => dev.id === operands[0])[0];
       if (typeof device === 'undefined') {
@@ -266,7 +266,7 @@ export function executeInstruction(
       state.registers[Register.AL] = device.output(device);
     }
     break;
-  case Opcode.IN:
+  case Opcode.OUT:
     {
       const device = devices.filter((dev) => dev.id === operands[0])[0];
       if (typeof device === 'undefined') {
