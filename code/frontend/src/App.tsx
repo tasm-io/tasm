@@ -75,21 +75,35 @@ function handleDeviceDisplay(id: number) {
 
 function enableHotkeys() {
   function handleHotkey(e: any) {
-    if (e.ctrlKey && e.shiftKey && e.which === 88) {
+    if (e.ctrlKey && e.shiftKey) return undefined;
+    switch (e.which) {
+    case (88): {
       document.getElementById('run')!.click(); // ctrl + shift + x
-    } else if (e.ctrlKey && e.shiftKey && e.which === 67) {
+      break;
+    } case (67): {
       document.getElementById('stop')!.click(); // ctrl + shift + c
-    } else if (e.ctrlKey && e.shiftKey && e.which === 83) {
+      break;
+    } case (83): {
       document.getElementById('step')!.click(); // ctrl + shift + s
-    } else if (e.ctrlKey && e.shiftKey && e.which === 65) {
+      break;
+    } case (65): {
       document.getElementById('assemble')!.click(); // ctrl + shift + a
-    } else if (e.ctrlKey && e.shiftKey && e.which === 76) {
+      break;
+    } case (76): {
       document.getElementById('fileUpload')!.click(); // // ctrl + shift + l
-    } else if (e.ctrlKey && e.shiftKey && e.which === 90) {
+      break;
+    } case (90): {
       document.getElementById('share')!.click(); // // ctrl + shift + z
-    } else if (e.ctrlKey && e.shiftKey && e.which === 70) {
+      break;
+    } case (70): {
       document.getElementById('format')!.click(); // // ctrl + shift + f
+      break;
     }
+    default: {
+      break;
+    }
+    }
+    return undefined;
   }
   document.onkeyup = (e) => handleHotkey(e);
 }
