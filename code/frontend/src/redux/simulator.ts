@@ -88,6 +88,7 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
       registers,
       editorLines,
       devices,
+      cycles: 0,
     };
   }
   case (STEP): {
