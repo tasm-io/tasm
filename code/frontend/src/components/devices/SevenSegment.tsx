@@ -11,6 +11,8 @@ import { DeviceState } from '../../cpu/cpu';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from '../../redux/root';
 
+// Cartesian co-ordinates for each part of the 7 segment display.
+// They makeup each point of the polygon which gets filled.
 const segments: number[][][] = [
   [[10, 10], [20, 0], [80, 0], [90, 10], [80, 20], [20, 20]],
   [[90, 10], [100, 20], [100, 80], [90, 90], [80, 80], [80, 20]],

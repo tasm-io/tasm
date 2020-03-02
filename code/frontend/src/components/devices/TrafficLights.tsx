@@ -61,7 +61,7 @@ export const defaultState: DeviceState = {
   requestingInterrupt: false,
   input: deviceInput,
   output: deviceOutput,
-  memory: new Uint8Array(1).fill(56),
+  memory: new Uint8Array([56]),
 };
 
 const TrafficLights: React.FC = () => {
