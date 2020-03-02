@@ -49,8 +49,8 @@ export function debuggerReducer(
   switch (action.type) {
   case (MODIFY_SPEED): {
     let newSpeed = action.payload;
-    if (newSpeed < 250) {
-      newSpeed = 250;
+    if (newSpeed < 50) {
+      newSpeed = 50;
     } else if (newSpeed > 5000) newSpeed = 5000;
     localStorage.setItem('debuggerSpeed', String(newSpeed));
     return { ...state, speed: newSpeed };

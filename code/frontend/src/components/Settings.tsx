@@ -63,7 +63,7 @@ const Settings: React.FC = () => {
       </div>
       <div className="Setting">
         <label htmlFor="sonic">
-          <input type="radio" id="sonic" checked={speed === 250} onChange={() => handleSpeedChange(250, dispatch)} />
+          <input type="radio" id="sonic" checked={speed === 50} onChange={() => handleSpeedChange(50, dispatch)} />
         Sonic
         </label>
       </div>

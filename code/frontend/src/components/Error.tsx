@@ -25,7 +25,7 @@ const Error: React.FC<Props> = (props: Props) => {
         <i className="fa fa-times-circle" />
       </button>
       <div className="ErrorHeading">{props.error.title}</div>
-      <div>{props.error.message}</div>
+      <pre>{props.error.message}</pre>
     </div>
   );
 };

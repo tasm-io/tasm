@@ -17,7 +17,7 @@ function handleFileUpload(files: FileList, dispatch: Function) {
   }
 }
 
-const FileUpload: React.FC = () => {
+const LoadFile: React.FC = () => {
   const dispatch = useDispatch();
   return (
     <div className="FileUpload">
@@ -42,4 +42,4 @@ const FileUpload: React.FC = () => {
   );
 };
 
-export default FileUpload;
+export default LoadFile;

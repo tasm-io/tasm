@@ -11,7 +11,7 @@ export const SET_CODE_DISPLAY = 'SET_CODE_DISPLAY';
  * @param isUploading whether or not the code is currently uploading to the server.
  * @param uploadErrorMessage the error message of a failed upload.
  * @param shared whether or not the current code has been uploaded to the server.
- * @param sharedURL the full URL to access the shared code.
+ * @param sharedURL the share ID of the current code. (Not full URL)
  *
  */
 
@@ -90,7 +90,7 @@ export const codeReducer = (state = defaultState, action: CodeActions) => {
     };
   }
   case (UPLOAD_ERROR): {
-    return { ...state, uploadErrorMessage: action.payload };
+    return { ...state, uploadErrorMessage: action.payload, shared: false };
   }
   case (SET_CODE_DISPLAY): {
     return { ...state, isDisplayed: action.payload };

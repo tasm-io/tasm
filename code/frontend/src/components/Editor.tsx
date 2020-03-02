@@ -3,6 +3,9 @@ import AceEditor from 'react-ace';
 import '../App.css';
 
 import 'ace-builds/src-noconflict/theme-dracula';
+import 'ace-builds/webpack-resolver';
+
+
 import { useSelector, useDispatch } from 'react-redux';
 /* eslint-disable */
 // For some reason the linter doesn't like me using RootState in a lambda :( 
@@ -19,6 +22,7 @@ function handleCodeChange(code: string, dispatch: Function) {
   };
   dispatch(action);
 }
+
 
 const Editor: React.FC = () => {
   const code: string = useSelector((state : RootState) => state.code.code);
@@ -37,7 +41,6 @@ const Editor: React.FC = () => {
         minLines={10}
         theme="dracula"
         showPrintMargin={false}
-        // width={`${(window.screen.width / 3).toString()}px`}
         height={`${(window.screen.height / 1.5).toString()}px`}
         value={code}
         onChange={(editorCode) => handleCodeChange(editorCode, dispatch)}

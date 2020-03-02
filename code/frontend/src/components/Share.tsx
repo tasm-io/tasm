@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 /* eslint-disable */
 import { RootState } from '../redux/root';
 import {serverURL} from '../constants';
-import { UploadError, UPLOADING, UPLOAD_ERROR, UPLOAD_SUCCESS, UploadSuccess } from '../redux/code';
+import { UploadError, UPLOADING, UPLOAD_ERROR, UPLOAD_SUCCESS, UploadSuccess, CodeInterface } from '../redux/code';
 import { ADD_ERROR, ErrorTypes, SimulatorError, AddError } from '../redux/errors';
 /* eslint-enable */
 
@@ -19,7 +19,7 @@ async function uploadCode(code: string) {
     });
     return await response.text();
   } catch (_e) {
-    return 'error: Failed to contact the server';
+    return 'Error: Failed to contact the server';
   }
 }
 
@@ -69,13 +69,19 @@ function handleShareFailure(response: string) : UploadError {
   return action;
 }
 
-function handleShareCode(code: string, dispatch: Function) {
+function handleShareCode(code: CodeInterface, dispatch: Function) {
+  if (code.shared) {
+    const uri = code.shareURL;
+    dispatch(NotifyUser(uri));
+    copyToClipboard(uri);
+    return undefined;
+  }
   const uploadingAction = {
     type: typeof UPLOADING,
     payload: true,
   };
   dispatch(uploadingAction);
-  uploadCode(code).then((resp) => {
+  uploadCode(code.code).then((resp) => {
     const response = resp;
     if (!response.includes('error')) {
       const uri: string = encodeURIComponent(response);
@@ -87,18 +93,19 @@ function handleShareCode(code: string, dispatch: Function) {
       dispatch(NotifyUserError(response));
     }
   });
+  return undefined;
 }
 
 const Share: React.FC = () => {
   const dispatch = useDispatch();
-  const code: string = useSelector((state : RootState) => state.code.code);
+  const codeStore: CodeInterface = useSelector((state : RootState) => state.code);
   return (
     <div className="FileUpload">
       <button
         type="button"
         className="Button"
         id="share"
-        onClick={() => handleShareCode(code, dispatch)}
+        onClick={() => handleShareCode(codeStore, dispatch)}
       >
         <i className="Icon fa fa-share-square" />
         <div className="buttonText">Share</div>

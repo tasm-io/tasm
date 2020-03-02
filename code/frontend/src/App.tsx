@@ -4,7 +4,7 @@ import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import StateDisplay from './components/StateDisplay';
 import Debugger from './components/Debugger';
-import ButtonBox from './components/ButtonBox';
+import EditorButtons from './components/EditorButtons';
 import Editor from './components/Editor';
 
 import { serverURL, siteTitle } from './constants';
@@ -22,6 +22,7 @@ import TextDisplay from './components/devices/TextDisplay';
 import VirtualKeyboard from './components/devices/VirtualKeyboard';
 import SevenSegment from './components/devices/SevenSegment';
 import TrafficLights from './components/devices/TrafficLights';
+import UserButtons from './components/UserButtons';
 
 function setCode(code: string, dispatch: Function) {
   const action: SetCode = {
@@ -106,8 +107,11 @@ const App: React.FC = () => {
       <div className="Row">
         <div className="Column LeftBar" aria-label="Left menu">
           <h1 className="SiteTitle">tasm.io</h1>
-          <ButtonBox />
+          <EditorButtons />
+          <hr style={{ width: '100%' }} />
           <Debugger />
+          <hr style={{ width: '100%' }} />
+          <UserButtons />
         </div>
         <div className="Column">
           {displayEditor ? <Editor /> : <Settings />}

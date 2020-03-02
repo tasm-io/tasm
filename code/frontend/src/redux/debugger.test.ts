@@ -36,7 +36,7 @@ test('change the debugger speed lower bound', () => {
     registerDisplay: 2,
   };
   const endState: DebuggerInterface = {
-    speed: 250,
+    speed: 50,
     running: -2,
     registerDisplay: 2,
   };
