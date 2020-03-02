@@ -10,7 +10,7 @@ Program
     }
     
 ProgramRec
-    = head:Command _ nl _ tail:ProgramRec _ {
+    = _ head:Command _ nl _ tail:ProgramRec _ {
         tail.unshift(head);
         return tail;
     }
@@ -19,6 +19,31 @@ ProgramRec
     }
 
 Command
+    = noninstr:NonInstruction _ instr:Instruction? {
+        if (instr !== null) {
+            noninstr.statements.push(instr);
+        }
+        return noninstr;
+    }
+    / instr:Instruction {
+        return instr;
+    }
+
+NonInstruction
+    = instrs:NonInstructionRec {
+        return new ast.Block(location().start, instrs);
+    }
+
+NonInstructionRec
+    = _ head:Directive _ nl? _ tail:NonInstructionRec _ {
+        tail.unshift(head);
+        return tail;
+    }
+    / head:Directive _ {
+        return [head];
+    }
+
+Directive
     = Org
     / Const
     / Byte
@@ -26,7 +51,6 @@ Command
     / Asciiz
     / Break
     / Label
-    / Instruction
 
 Org
     = "org" _ value:Constant {
@@ -61,7 +85,7 @@ Label
     }
 
 Instruction
-    = opcode:Name _ operands:Operands {
+    = opcode:Name _ operands:Operands _ {
         if (operands === null) {
           operands = [];
         }
@@ -120,10 +144,10 @@ Name
 
 Integer
     = integer:("0x" [0-9a-fA-F]+) {
-        return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 16));
+        return new ast.Integer(location().start, parseInt(integer[1].join('').toLowerCase(), 16));
     }
     / integer:("0b" [01]+) {
-        return new ast.Integer(location().start, parseInt(integer.join('').slice(2).toLowerCase(), 2));
+        return new ast.Integer(location().start, parseInt(integer[1].join('').toLowerCase(), 2));
     }
     / integer:[0-9]+ {
         return new ast.Integer(location().start, parseInt(integer.join('')));

@@ -24,11 +24,16 @@ class State {
   // position is the current position in the memory buffer.
   private position: number;
 
+  // lineMapping maps opcodes contained in memory to their original
+  // line numbers.
+  private lineMapping: (number | null)[];
+
   constructor() {
     this.memory = new Uint8Array(256);
     this.toFill = [];
     this.labels = new Map();
     this.position = 0;
+    this.lineMapping = new Array(256).fill(null);
   }
 
   // Seek sets the write position.
@@ -41,6 +46,11 @@ class State {
     this.memory[this.position] = n;
     this.position += 1;
     this.position %= this.memory.length;
+  }
+
+  writeWithLineNumber(n: number, line: number) {
+    this.lineMapping[this.position] = line;
+    this.write(n);
   }
 
   // Mark marks the current write position as one that should be filled in once
@@ -65,8 +75,8 @@ class State {
   }
 
   // Extract extracs the underlying memory.
-  extract(): Uint8Array {
-    return this.memory;
+  extract(): [Uint8Array, (number | null)[]] {
+    return [this.memory, this.lineMapping];
   }
 }
 
@@ -112,7 +122,7 @@ const operandVisitor = ast.createNullableVisitor<void, State>({
   visitRegisterAddress: (visitor, node, context) => {
     const fakeState = new State();
     node.register.accept(visitor, fakeState);
-    const fakeMemory = fakeState.extract();
+    const fakeMemory = fakeState.extract()[0];
     // eslint-disable-next-line no-bitwise
     context.write(fakeMemory[0] << 5);
   },
@@ -121,7 +131,7 @@ const operandVisitor = ast.createNullableVisitor<void, State>({
     const fakeState = new State();
     node.register.accept(visitor, fakeState);
     node.offset.accept(visitor, fakeState);
-    const fakeMemory = fakeState.extract();
+    const fakeMemory = fakeState.extract()[0];
     // eslint-disable-next-line no-bitwise
     context.write((fakeMemory[0] << 5) | fakeMemory[1]);
   },
@@ -130,7 +140,7 @@ const operandVisitor = ast.createNullableVisitor<void, State>({
 const statementVisitor = ast.createNullableVisitor<void, State>({
   visitInstruction: (_visitor, node, context) => {
     const opcode = getMatchingOpcode(node);
-    context.write(opcode);
+    context.writeWithLineNumber(opcode, node.source.line);
     node.operands.forEach((operand) => operand.accept(operandVisitor, context));
   },
   visitBlock: (visitor, node, context) => {
@@ -147,12 +157,12 @@ const statementVisitor = ast.createNullableVisitor<void, State>({
   visitOrg: (_visitor, node, context) => {
     const fakeState = new State();
     node.addr.accept(operandVisitor, fakeState);
-    const offset = fakeState.extract()[0];
+    const offset = fakeState.extract()[0][0];
     context.seek(offset);
   },
 });
 
-export default function generateCode(program: ast.Node): Uint8Array {
+export default function generateCode(program: ast.Node): [Uint8Array, (number | null)[]] {
   const state = new State();
   program.accept(statementVisitor, state);
   state.fillLabels();

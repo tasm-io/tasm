@@ -290,32 +290,6 @@ it('executes STI', () => {
   expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 0, 32, 0]));
 });
 
-it('executes IN', () => {
-  const fakeDevice = {
-    id: 0,
-    requestingInterrupt: false,
-    input: (device: DeviceState, input: number): DeviceState => {
-      if (typeof device.memory !== 'undefined') {
-        device.memory[0] = input;
-      }
-      return device;
-    },
-    output: (device: DeviceState): number => {
-      if (typeof device.memory !== 'undefined') {
-        return device.memory[0];
-      }
-      return 255;
-    },
-    memory: new Uint8Array([5]),
-  };
-  const state: State = {
-    registers: new Uint8Array([1, 0, 0, 0, 0, 0, 0]),
-    memory: new Uint8Array([0, 0]),
-  };
-  executeInstruction(state, [fakeDevice], Opcode.IN, new Uint8Array([0]));
-  expect(fakeDevice.memory).toStrictEqual(new Uint8Array([1]));
-});
-
 it('executes OUT', () => {
   const fakeDevice = {
     id: 0,
@@ -339,6 +313,32 @@ it('executes OUT', () => {
     memory: new Uint8Array([0, 0]),
   };
   executeInstruction(state, [fakeDevice], Opcode.OUT, new Uint8Array([0]));
+  expect(fakeDevice.memory).toStrictEqual(new Uint8Array([1]));
+});
+
+it('executes IN', () => {
+  const fakeDevice = {
+    id: 0,
+    requestingInterrupt: false,
+    input: (device: DeviceState, input: number): DeviceState => {
+      if (typeof device.memory !== 'undefined') {
+        device.memory[0] = input;
+      }
+      return device;
+    },
+    output: (device: DeviceState): number => {
+      if (typeof device.memory !== 'undefined') {
+        return device.memory[0];
+      }
+      return 255;
+    },
+    memory: new Uint8Array([5]),
+  };
+  const state: State = {
+    registers: new Uint8Array([1, 0, 0, 0, 0, 0, 0]),
+    memory: new Uint8Array([0, 0]),
+  };
+  executeInstruction(state, [fakeDevice], Opcode.IN, new Uint8Array([0]));
   expect(state.registers).toStrictEqual(new Uint8Array([5, 0, 0, 0, 0, 0, 0]));
 });
 
@@ -353,7 +353,7 @@ it('steps correctly', () => {
 
 it('handles an interrupt', () => {
   const fakeDevice = {
-    id: 2,
+    id: 1,
     requestingInterrupt: true,
     input: (device: DeviceState, input: number): DeviceState => {
       if (typeof device.memory !== 'undefined') {
@@ -370,11 +370,13 @@ it('handles an interrupt', () => {
     memory: new Uint8Array([5]),
   };
   const state: State = {
-    registers: new Uint8Array([0, 0, 0, 0, 1, 32, 0]),
-    memory: new Uint8Array([0, 2]),
+    registers: new Uint8Array([0, 0, 0, 0, 2, 32, 0]),
+    memory: new Uint8Array([1, 2, 3]),
   };
   step(state, [fakeDevice]);
-  expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 0, 32, 2]));
+  expect(state.registers).toStrictEqual(new Uint8Array([0, 0, 0, 0, 1, 32, 2]));
+  expect(state.memory).toStrictEqual(new Uint8Array([1, 2, 0]));
+  expect(fakeDevice.requestingInterrupt).toBe(false);
 });
 
 it('ignores an interrupt when the interrupt flag is disabled', () => {

@@ -257,7 +257,7 @@ export function executeInstruction(
       state.registers[Register.IP] = operands[0] - 2;
     }
     break;
-  case Opcode.OUT:
+  case Opcode.IN:
     {
       const device = devices.filter((dev) => dev.id === operands[0])[0];
       if (typeof device === 'undefined') {
@@ -266,7 +266,7 @@ export function executeInstruction(
       state.registers[Register.AL] = device.output(device);
     }
     break;
-  case Opcode.IN:
+  case Opcode.OUT:
     {
       const device = devices.filter((dev) => dev.id === operands[0])[0];
       if (typeof device === 'undefined') {
@@ -307,11 +307,13 @@ function executeNextInstruction(state: State, devices: DeviceState[]): void {
 }
 
 function handleInterrupt(state: State, device: DeviceState): void {
-  const jumpPosition = device.id;
   // Push the current position, then jump to the new one.
-  state.memory[Register.SP] = state.registers[Register.IP];
+  state.memory[state.registers[Register.SP]] = state.registers[Register.IP];
   state.registers[Register.SP] -= 1;
-  state.registers[Register.IP] = jumpPosition;
+  // The device's ID is used to work out where the interrupt routine's address
+  // is located.
+  state.registers[Register.IP] = state.memory[device.id];
+  device.requestingInterrupt = false;
 }
 
 export function step(state: State, devices: DeviceState[]): void {

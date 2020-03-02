@@ -200,6 +200,14 @@ it('rejects badly-typed instructions', () => {
               new ast.Identifier(source, 'label'),
             ],
           ),
+          new ast.Instruction(
+            source,
+            'add',
+            [
+              new ast.Register(source, 'al'),
+              new ast.Character(source, 'a'),
+            ],
+          ),
         ],
       ),
     ),

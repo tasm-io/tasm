@@ -92,6 +92,7 @@ export function detectInvalidOpcodes(program: ast.Node): ast.Instruction[] {
 function getOperandTypes(instruction: ast.Instruction): Operand[] {
   const typeOf = ast.createNullableVisitor<null | Operand, {}>({
     visitInteger: (_visitor, _node, _context) => Operand.INTEGER,
+    visitCharacter: (_visitor, _node, _context) => Operand.INTEGER,
     // An identifier represents either a label, or a constant, so we can be sure that
     // it will eventually turn into an integer.
     visitIdentifier: (_visitor, _node, _context) => Operand.INTEGER,

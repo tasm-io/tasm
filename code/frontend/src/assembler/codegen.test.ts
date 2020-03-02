@@ -12,6 +12,14 @@ function buildMemory(...commands: [number, number][]): Uint8Array {
   return buffer;
 }
 
+function buildMapping(...commands: [number, number][]): (number | null)[] {
+  const buffer = new Array(256).fill(null);
+  commands.forEach(([i, v]) => {
+    buffer[i] = v;
+  });
+  return buffer;
+}
+
 it('assembles a basic add', () => {
   expect(
     generateCode(
@@ -23,7 +31,7 @@ it('assembles a basic add', () => {
           new ast.Integer(source, 5),
         ],
       ),
-    ),
+    )[0],
   ).toStrictEqual(
     buildMemory(
       [0, Opcode.ADD_REG_INT],
@@ -73,7 +81,7 @@ it('implements all the arithmetic operators', () => {
           ),
         ],
       ),
-    ),
+    )[0],
   ).toStrictEqual(
     buildMemory(
       [0, Opcode.ADD_REG_REG],
@@ -185,7 +193,7 @@ it('assembles mov correctly', () => {
           ),
         ],
       ),
-    ),
+    )[0],
   ).toStrictEqual(
     buildMemory(
       [0, Opcode.MOV_REG_REG],
@@ -241,7 +249,7 @@ it('assembles labels correctly', () => {
           new ast.Label(source, 'goo'),
         ],
       ),
-    ),
+    )[0],
   ).toStrictEqual(
     buildMemory(
       [0, 1],
@@ -279,7 +287,7 @@ it('assembles org correctly', () => {
           ),
         ],
       ),
-    ),
+    )[0],
   ).toStrictEqual(
     buildMemory(
       [25, Opcode.ADD_REG_INT],
@@ -304,7 +312,7 @@ it('assembles bytes correctly', () => {
           new ast.Byte(source, new ast.Integer(source, 'b'.charCodeAt(0))),
         ],
       ),
-    ),
+    )[0],
   ).toStrictEqual(
     buildMemory(
       [0, 97],
@@ -314,3 +322,48 @@ it('assembles bytes correctly', () => {
   );
 });
 
+it('correctly maps instructions to line numbers', () => {
+  expect(
+    generateCode(
+      new ast.Block(
+        source,
+        [
+          new ast.Instruction(
+            { ...source, line: 1 },
+            'add',
+            [
+              new ast.Register(source, 'al'),
+              new ast.Register(source, 'al'),
+            ],
+          ),
+          new ast.Instruction(
+            { ...source, line: 4 },
+            'add',
+            [
+              new ast.Register(source, 'al'),
+              new ast.Register(source, 'bl'),
+            ],
+          ),
+          new ast.Org(
+            source,
+            new ast.Integer(source, 20),
+          ),
+          new ast.Instruction(
+            { ...source, line: 8 },
+            'add',
+            [
+              new ast.Register(source, 'al'),
+              new ast.Register(source, 'cl'),
+            ],
+          ),
+        ],
+      ),
+    )[1],
+  ).toStrictEqual(
+    buildMapping(
+      [0, 1],
+      [3, 4],
+      [20, 8],
+    ),
+  );
+});
