@@ -114,11 +114,11 @@ it('executes XOR_REG_REG', () => {
 
 it('executes CMP_REG_REG', () => {
   const state: State = {
-    registers: new Uint8Array([3, 1, 0, 0, 0, 0, 0]),
+    registers: new Uint8Array([3, 4, 0, 0, 0, 0, 0]),
     memory: new Uint8Array([]),
   };
   executeInstruction(state, [], Opcode.CMP_REG_REG, new Uint8Array([Register.AL, Register.BL]));
-  expect(state.registers).toStrictEqual(new Uint8Array([2, 1, 0, 0, 0, 0, 0]));
+  expect(state.registers).toStrictEqual(new Uint8Array([3, 4, 0, 0, 0, 64, 0]));
 });
 
 it('executes MOV_REG_REG', () => {

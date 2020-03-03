@@ -19,7 +19,7 @@ build site:
   script:
     - cd code/frontend
     - npm install --progress=false
-    - npm run-script build
+    - unset CI && npm run-script build
 
 test site:
   image: node:latest
