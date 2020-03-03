@@ -15,6 +15,7 @@ import { Register } from '../instructionset/instructionset';
 
 // Handle changes in the code and send the changes to the redux store.
 function handleCodeChange(code: string, dispatch: Function) {
+  if (code[code.length - 1] !== '\n') { code = `${code}\n`; }
   localStorage.setItem('code', code);
   const action: SetCode = {
     payload: code,
@@ -33,22 +34,36 @@ interface Marker {
   type: string,
 }
 
+function markLine(line: number) {
+  const markers: Marker[] = [];
+  for (let i = 1; i < line; i += 1) {
+    markers.push({
+      startRow: i,
+      startCol: 0,
+      endRow: i,
+      endCol: 8000,
+      className: '',
+      type: 'fullLine',
+    });
+  }
+  markers.push({
+    startRow: line,
+    startCol: 0,
+    endRow: line,
+    endCol: 8000,
+    className: 'EditorMarker',
+    type: 'fullLine',
+  });
+  return markers;
+}
+
 const Editor: React.FC = () => {
   const code: string = useSelector((state : RootState) => state.code.code);
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
-  /* const IP: number = useSelector((state : RootState) => state.simulator.registers[Register.IP]);
-  const editorLines: (null | number)[] = useSelector((state : RootState)
-  => state.simulator.editorLines);
-  const marker: Marker = {
-    startRow: 3,
-    startCol: 1,
-    endRow: 4,
-    endCol: 9009090000,
-    className: 'EditorMarker',
-    type: 'background',
-  };
-  console.log(marker);
-  */
+  const IP: number = useSelector((state : RootState) => state.simulator.registers[Register.IP]);
+  const editorLines: (null | number)[] = useSelector((state : RootState) => state.simulator.editorLines);
+  const markers: Marker[] = markLine(editorLines[IP] as number);
+  console.log(markers);
   const dispatch: Function = useDispatch();
   let displayNone = false;
   if (!displayEditor) setTimeout(() => { displayNone = true; }, 1000);
@@ -58,8 +73,8 @@ const Editor: React.FC = () => {
         <button type="button" className="Tab">Code</button>
       </div>
       <AceEditor
-        aria-label="Code Editor"
-        minLines={10}
+        minLines={100}
+        maxLines={250}
         theme="dracula"
         showPrintMargin={false}
         height={`${(window.screen.height / 1.5).toString()}px`}
@@ -68,7 +83,9 @@ const Editor: React.FC = () => {
         name="AceEditor"
         style={{ backgroundColor: '#222230', color: '#c8d6e5' }}
         editorProps={{ $blockScrolling: true }}
-        // markers={}
+        setOptions={{ highlightActiveLine: false }}
+        markers={markers}
+        aria-label="Code Editor"
       />
     </div>
   );
