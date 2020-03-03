@@ -22,7 +22,6 @@ export interface CodeInterface {
     uploadErrorMessage: string
     shared: boolean
     shareURL: string
-    markers: Marker[]
 }
 
 const defaultState: CodeInterface = {
@@ -32,7 +31,6 @@ const defaultState: CodeInterface = {
   shared: false,
   uploadErrorMessage: '',
   shareURL: '',
-  markers: [],
 };
 
 type CodeActions = SetCode | UploadError | UploadSuccess | Uploading | SetCodeDisplay
@@ -65,16 +63,6 @@ export interface UploadError {
 }
 
 /* End of Actions */
-
-export interface Marker {
-    startRow: number
-    startCol: number
-    endRow: number
-    endCol: number
-    className: string
-    type: string,
-}
-
 
 export const codeReducer = (state = defaultState, action: CodeActions) => {
   switch (action.type) {

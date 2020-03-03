@@ -75,7 +75,7 @@ function handleDeviceDisplay(id: number) {
 
 function enableHotkeys() {
   function handleHotkey(e: any) {
-    if (e.ctrlKey && e.shiftKey) return undefined;
+    if (!e.ctrlKey || !e.shiftKey) return undefined;
     switch (e.which) {
     case (88): {
       document.getElementById('run')!.click(); // ctrl + shift + x
