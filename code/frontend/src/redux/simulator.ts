@@ -5,15 +5,17 @@ import { State, step } from '../cpu/cpu';
 import { Register } from '../instructionset/instructionset';
 // eslint-disable-next-line no-unused-vars
 import { DeviceState } from '../cpu/cpu';
-import { defaultState as VirtualKeyboardState } from '../components/devices/VirtualKeyboard';
-import { defaultState as TextDisplayState } from '../components/devices/TextDisplay';
-import { defaultState as SevenSegmentState } from '../components/devices/SevenSegment';
-import { defaultState as TrafficLightsState } from '../components/devices/TrafficLights';
+import { defaultState as virtualKeyboardState } from '../components/devices/VirtualKeyboard';
+import { defaultState as textDisplayState } from '../components/devices/TextDisplay';
+import { defaultState as sevenSegmentState } from '../components/devices/SevenSegment';
+import { defaultState as trafficLightsState } from '../components/devices/TrafficLights';
+import timerInterrupt from '../components/devices/timerInterrrupt';
 /* Action Types */
 export const ASSEMBLE = 'ASSEMBLE';
 export const STEP = 'STEP';
 export const CHANGE_ACTIVE_DEVICE = 'CHANGE_ACTIVE_DEVICE';
 export const UPDATE_DEVICE = 'UPDATE_DEVICE';
+export const MODIFY_TIMER_CYCLES = 'MODIFY_TIMER_CYCLES';
 
 type Nullable<T> = null | T;
 
@@ -27,6 +29,7 @@ type Nullable<T> = null | T;
  * @param cycles a counter of the current steps cycled through in the simulator
  * @param devices the state of all active devices within the simulator
  * @param activeDevice the current visible device in the device panel.
+ * @param timerCycles the number of cycles before a timer interrupt is requested.
  *
  */
 export interface SimulatorStoreInterface {
@@ -37,13 +40,15 @@ export interface SimulatorStoreInterface {
     cycles: number
     devices: DeviceState[],
     activeDevice: number
+    timerCycles: number,
 }
 
 const ActiveDevices: DeviceState[] = [
-  VirtualKeyboardState,
-  TextDisplayState,
-  SevenSegmentState,
-  TrafficLightsState,
+  timerInterrupt,
+  virtualKeyboardState,
+  textDisplayState,
+  sevenSegmentState,
+  trafficLightsState,
 ];
 
 
@@ -55,10 +60,11 @@ const defaultState: SimulatorStoreInterface = {
   cycles: 0,
   devices: [...ActiveDevices].map((state: DeviceState) => Object.assign(state)),
   activeDevice: 2, // Should relate to the device.id
+  timerCycles: 5,
 };
 
 
-type SimulatorActions = Assemble | Step | ChangeActiveDevice | UpdateDevice
+type SimulatorActions = Assemble | Step | ChangeActiveDevice | UpdateDevice | ModifyTimerCycles
 
 
 export interface Assemble {
@@ -79,6 +85,11 @@ export interface ChangeActiveDevice {
 export interface UpdateDevice {
   type: typeof UPDATE_DEVICE
   payload: DeviceState
+}
+
+export interface ModifyTimerCycles {
+  type: typeof MODIFY_TIMER_CYCLES
+  payload: number
 }
 
 export const simulatorReducer = (state = defaultState, action: SimulatorActions) => {
@@ -110,6 +121,9 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
     };
     const devs = [...state.devices];
     step(simulatorState, devs);
+    if ((state.cycles + 1) % state.timerCycles === 0) {
+      devs.filter((dev) => dev.id === 7)[0].requestingInterrupt = true;
+    }
     return {
       ...state,
       registers: new Uint8Array(simulatorState.registers),
@@ -125,6 +139,9 @@ export const simulatorReducer = (state = defaultState, action: SimulatorActions)
     const otherDevices = state.devices.filter((dev) => dev.id !== action.payload.id);
     otherDevices.push(action.payload);
     return { ...state, devices: otherDevices };
+  }
+  case (MODIFY_TIMER_CYCLES): {
+    return { ...state, timerCycles: action.payload };
   }
   default:
     return { ...state };

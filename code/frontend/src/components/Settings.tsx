@@ -6,6 +6,7 @@ import { MODIFY_SPEED, MODIFY_REGISTER_DISPLAY } from '../redux/debugger';
 import { SET_CODE_DISPLAY, SetCodeDisplay } from '../redux/code';
 // eslint-disable-next-line no-unused-vars
 import { RootState } from '../redux/root';
+import { MODIFY_TIMER_CYCLES } from '../redux/simulator';
 
 function handleSpeedChange(speed: number, dispatch: Function) {
   const action = {
@@ -23,6 +24,14 @@ function handleRegisterDisplayChange(base: number, dispatch: Function) {
   dispatch(action);
 }
 
+function handleModifyTimerCycles(newCycles: number, dispatch: Function) {
+  const action = {
+    type: MODIFY_TIMER_CYCLES,
+    payload: newCycles,
+  }
+  dispatch(action);
+}
+
 function handleExit(dispatch: Function) {
   const action: SetCodeDisplay = {
     type: SET_CODE_DISPLAY,
@@ -34,12 +43,17 @@ function handleExit(dispatch: Function) {
 const Settings: React.FC = () => {
   const dispatch = useDispatch();
   const speed: number = useSelector((state : RootState) => state.debugger.speed);
+  const timerCycles: number = useSelector((state : RootState) => state.simulator.timerCycles);
   const registerDisplay: number = useSelector(
     (state : RootState) => state.debugger.registerDisplay,
   );
   return (
     <div className="Settings" style={{ width: `${(window.screen.width / 3).toString()}px` }}>
       <h3>Settings</h3>
+      <div className="Setting">
+        <p>Timer Cycles:</p>
+        <input type="number" value={timerCycles} onChange={(e) => handleModifyTimerCycles(Number(e.target.value), dispatch)} />
+      </div>
       <div className="Setting">
         <p>Run Speed:</p>
       </div>
