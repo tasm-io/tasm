@@ -80,8 +80,8 @@ function enableHotkeys() {
     case (88): {
       document.getElementById('run')!.click(); // ctrl + shift + x
       break;
-    } case (67): {
-      document.getElementById('stop')!.click(); // ctrl + shift + c
+    } case (81): {
+      document.getElementById('stop')!.click(); // ctrl + shift + q
       break;
     } case (83): {
       document.getElementById('step')!.click(); // ctrl + shift + s

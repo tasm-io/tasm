@@ -28,7 +28,17 @@ function handleError(err: Error, dispatch: Function) {
   });
 }
 
-function handleAssembleClick(code: string, dispatch: Function) {
+function handleStopClick(dispatch: Function, running: number) {
+  const action: SetSimulatorRunning = {
+    type: SET_SIMULATOR_RUNNING,
+    payload: -1,
+  };
+  clearInterval(running);
+  dispatch(action);
+}
+
+function handleAssembleClick(code: string, dispatch: Function, running: number) {
+  handleStopClick(dispatch, running);
   const resetErrorsAction: ResetErrors = {
     type: RESET_ERRORS,
     payload: undefined,
@@ -43,11 +53,6 @@ function handleAssembleClick(code: string, dispatch: Function) {
   } catch (error) {
     handleError(error, dispatch);
   }
-  const debuggerResetAction: SetSimulatorRunning = {
-    type: SET_SIMULATOR_RUNNING,
-    payload: -2,
-  };
-  dispatch(debuggerResetAction);
 }
 
 function handleStepClick(dispatch: Function) {
@@ -94,15 +99,6 @@ function handleRunClick(dispatch: Function, running: number, speed: number) {
   }
 }
 
-function handleStopClick(dispatch: Function, running: number) {
-  const action: SetSimulatorRunning = {
-    type: SET_SIMULATOR_RUNNING,
-    payload: -1,
-  };
-  clearInterval(running);
-  dispatch(action);
-}
-
 const Debugger: React.FC = () => {
   const code: string = useSelector((state : RootState) => state.code.code);
   const running: number = useSelector((state : RootState) => state.debugger.running);
@@ -110,7 +106,7 @@ const Debugger: React.FC = () => {
   const dispatch = useDispatch();
   return (
     <div className="Column">
-      <button className="Button" type="button" id="assemble" onClick={() => handleAssembleClick(code, dispatch)}>
+      <button className="Button" type="button" id="assemble" onClick={() => handleAssembleClick(code, dispatch, running)}>
         <i className="Icon fa fa-cog Rotate" />
         <div className="buttonText">Assemble</div>
       </button>
