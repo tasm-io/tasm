@@ -176,7 +176,7 @@ export function executeInstruction(
     if (!isRegister(operands[0])) {
       throw new IllegalOperandError(opcode, operands);
     }
-    state.registers[operands[0]] = state.registers[operands[0]] + (opcode === Opcode.INC ? 1 : -1);
+    state.registers[operands[0]] += (opcode === Opcode.INC ? 1 : -1);
     break;
   case Opcode.ADD_REG_REG:
   case Opcode.SUB_REG_REG:
