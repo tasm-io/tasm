@@ -121,6 +121,24 @@ it('executes CMP_REG_REG', () => {
   expect(state.registers).toStrictEqual(new Uint8Array([3, 4, 0, 0, 0, 64, 0]));
 });
 
+it('executes SHL_REG_REG', () => {
+  const state: State = {
+    registers: new Uint8Array([1, 7, 0, 0, 0, 0, 0]),
+    memory: new Uint8Array([]),
+  };
+  executeInstruction(state, [], Opcode.SHL_REG_REG, new Uint8Array([Register.AL, Register.BL]));
+  expect(state.registers).toStrictEqual(new Uint8Array([128, 7, 0, 0, 0, 64, 0]));
+});
+
+it('executes SHR_REG_REG', () => {
+  const state: State = {
+    registers: new Uint8Array([128, 7, 0, 0, 0, 0, 0]),
+    memory: new Uint8Array([]),
+  };
+  executeInstruction(state, [], Opcode.SHR_REG_REG, new Uint8Array([Register.AL, Register.BL]));
+  expect(state.registers).toStrictEqual(new Uint8Array([1, 7, 0, 0, 0, 0, 0]));
+});
+
 it('executes MOV_REG_REG', () => {
   const state: State = {
     registers: new Uint8Array([0, 0, 0, 2, 0, 0, 0]),

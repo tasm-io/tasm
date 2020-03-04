@@ -50,6 +50,12 @@ export enum Opcode {
   RET = 37,
   CLI = 38,
   STI = 39,
+  SHR_REG_REG = 40,
+  SHR_REG_INT = 41,
+  SHL_REG_REG = 42,
+  SHL_REG_INT = 43,
+  INC = 44,
+  DEC = 45,
 }
 
 export const OpcodeMapping: { [key: string]: Opcode[] } = {
@@ -87,6 +93,10 @@ export const OpcodeMapping: { [key: string]: Opcode[] } = {
   ret: [Opcode.RET],
   cli: [Opcode.CLI],
   sti: [Opcode.STI],
+  shr: [Opcode.SHR_REG_REG, Opcode.SHR_REG_INT],
+  shl: [Opcode.SHL_REG_REG, Opcode.SHL_REG_INT],
+  inc: [Opcode.INC],
+  dec: [Opcode.DEC],
 };
 
 // OperandTypes maps each opcode to its operand's types.
@@ -131,6 +141,12 @@ export const OperandTypes = {
   [Opcode.RET]: [],
   [Opcode.CLI]: [],
   [Opcode.STI]: [],
+  [Opcode.SHR_REG_REG]: [Operand.REGISTER, Operand.REGISTER],
+  [Opcode.SHR_REG_INT]: [Operand.REGISTER, Operand.INTEGER],
+  [Opcode.SHL_REG_REG]: [Operand.REGISTER, Operand.REGISTER],
+  [Opcode.SHL_REG_INT]: [Operand.REGISTER, Operand.INTEGER],
+  [Opcode.INC]: [Operand.REGISTER],
+  [Opcode.DEC]: [Operand.REGISTER],
 };
 
 // Register represents a register operand type.
