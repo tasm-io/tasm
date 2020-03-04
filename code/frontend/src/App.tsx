@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,8 +47,8 @@ function checkURL(dispatch: Function) {
     const url: string = s.slice(4, s.length).join('');
     fetchCode(url, dispatch);
     // eslint-disable-next-line no-restricted-globals
-    history.pushState(null, '', '/');
-  } else if (localStorage.getItem('code')) {
+    history.pushState(null, '', ' /');
+  } else if (localStorage.getItem('code') && !(s[3].toLowerCase() === 'shared')) {
     setCode(localStorage.getItem('code') as string, dispatch);
   }
 }
@@ -113,11 +113,11 @@ const App: React.FC = () => {
   const error: SimulatorError = useSelector((state : RootState) => state.errors.errors[0]);
   const activeDevice: number = useSelector((state : RootState) => state.simulator.activeDevice);
   const dispatch = useDispatch();
+  useEffect(() => checkURL(dispatch), []);
+  useEffect(enableHotkeys, []);
+  useEffect(changeTitle, []);
   return (
     <div className="Root">
-      {checkURL(dispatch)}
-      {enableHotkeys()}
-      {changeTitle()}
       <div className="Row">
         <div className="Column LeftBar" aria-label="Left menu">
           <h1 className="SiteTitle">tasm.io</h1>

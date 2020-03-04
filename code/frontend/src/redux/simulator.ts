@@ -19,7 +19,6 @@ export const MODIFY_TIMER_CYCLES = 'MODIFY_TIMER_CYCLES';
 
 type Nullable<T> = null | T;
 
-
 /**
  * SimulatorStoreInterface represents of the state of the simulator in the redux central store.
  * @param byteCode the ByteCode representation of the current assembled program
