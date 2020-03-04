@@ -4,7 +4,7 @@ import assemble from '../assembler/assemble';
 import { State, step, DeviceState } from '../cpu/cpu';
 import { Register } from '../instructionset/instructionset';
 // eslint-disable-next-line no-unused-vars
-import { defaultState as virtualkeyboardState } from '../components/devices/VirtualKeyboard';
+import { defaultState as virtualKeyboardState } from '../components/devices/VirtualKeyboard';
 import { defaultState as textDisplayState } from '../components/devices/TextDisplay';
 import { defaultState as sevenSegmentState } from '../components/devices/SevenSegment';
 import { defaultState as trafficLightsState } from '../components/devices/TrafficLights';
