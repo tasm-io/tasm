@@ -15,6 +15,7 @@ import { Register } from '../instructionset/instructionset';
 
 // Handle changes in the code and send the changes to the redux store.
 function handleCodeChange(code: string, dispatch: Function) {
+  // eslint-disable-next-line no-param-reassign
   if (code[code.length - 1] !== '\n') { code = `${code}\n`; }
   localStorage.setItem('code', code);
   const action: SetCode = {
@@ -61,9 +62,10 @@ const Editor: React.FC = () => {
   const code: string = useSelector((state : RootState) => state.code.code);
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   const IP: number = useSelector((state : RootState) => state.simulator.registers[Register.IP]);
-  const editorLines: (null | number)[] = useSelector((state : RootState) => state.simulator.editorLines);
+  const editorLines: (null | number)[] = useSelector(
+    (state : RootState) => state.simulator.editorLines,
+  );
   const markers: Marker[] = markLine(editorLines[IP] as number);
-  console.log(markers);
   const dispatch: Function = useDispatch();
   let displayNone = false;
   if (!displayEditor) setTimeout(() => { displayNone = true; }, 1000);

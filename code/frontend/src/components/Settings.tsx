@@ -28,7 +28,7 @@ function handleModifyTimerCycles(newCycles: number, dispatch: Function) {
   const action = {
     type: MODIFY_TIMER_CYCLES,
     payload: newCycles,
-  }
+  };
   dispatch(action);
 }
 
