@@ -1,10 +1,9 @@
 /* eslint-disable import/no-cycle */
 import assemble from '../assembler/assemble';
 // eslint-disable-next-line no-unused-vars
-import { State, step } from '../cpu/cpu';
+import { State, step, DeviceState } from '../cpu/cpu';
 import { Register } from '../instructionset/instructionset';
 // eslint-disable-next-line no-unused-vars
-import { DeviceState } from '../cpu/cpu';
 import { defaultState as virtualKeyboardState } from '../components/devices/VirtualKeyboard';
 import { defaultState as textDisplayState } from '../components/devices/TextDisplay';
 import { defaultState as sevenSegmentState } from '../components/devices/SevenSegment';
