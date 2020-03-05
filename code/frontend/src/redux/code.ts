@@ -93,10 +93,10 @@ export const codeReducer = (state = defaultState, action: CodeActions) => {
     return { ...state, isDisplayed: action.payload };
   }
   case (FORMAT_CODE): {
-    const code = state.code
-    const ast = parse(code)
-    const newCode = format(ast)
-    return {...state, code: newCode}
+    const { code } = state;
+    const ast = parse(code);
+    const newCode = format(ast);
+    return { ...state, code: newCode };
   }
   default:
     return state;
