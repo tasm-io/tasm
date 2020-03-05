@@ -3,12 +3,14 @@ defmodule Runner do
 
   def start(_type, _args) do
     {serverPort, _} = Integer.parse(System.get_env("PORT"))
+    dbHost = System.get_env("DB_HOST")
+    dbUser = System.get_env("DB_USER")
     dbPass = System.get_env("DB_PASS")
 
     children = [
       %{
         id: WebServer,
-        start: {WebServer, :start, [serverPort, dbPass]}
+        start: {WebServer, :start, [serverPort, dbHost, dbUser, dbPass]}
       }
     ]
 

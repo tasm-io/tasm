@@ -3,8 +3,8 @@
 defmodule WebServer do
   use Application
 
-  def start(serverPort, dbpass) do
-    dispatch_config = build_dispatch_config(dbpass)
+  def start(serverPort, dbHost, dbUser, dbPass) do
+    dispatch_config = build_dispatch_config(dbHost, dbUser, dbPass)
 
     {:ok, _} =
       :cowboy.start_clear(
@@ -14,12 +14,12 @@ defmodule WebServer do
       )
   end
 
-  def build_dispatch_config(dbpass) do
+  def build_dispatch_config(dbHost, dbUser, dbPass) do
     :cowboy_router.compile([
       {:_,
        [
-         {"/submit", SubmitHandler, [Psql.setup_db_connection(dbpass)]},
-         {"/request", RequestHandler, [Psql.setup_db_connection(dbpass)]},
+         {"/submit", SubmitHandler, [Psql.setup_db_connection(dbHost, dbUser, dbPass)]},
+         {"/request", RequestHandler, [Psql.setup_db_connection(dbHost, dbUser, dbPass)]},
          {"/[share/[...]]", :cowboy_static, {:file, "/var/www/tasm.io/index.html"}},
          {"/[...]", :cowboy_static, {:dir, "/var/www/tasm.io"}},
          {"/[...]", :cowboy_static, {:dir, "/var/www/tasm.io/static"}}

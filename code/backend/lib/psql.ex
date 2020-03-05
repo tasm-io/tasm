@@ -1,12 +1,12 @@
 # Handles setting up DB connection and performing DB actions.
 
 defmodule Psql do
-  def setup_db_connection(pw) do
+  def setup_db_connection(host, user, password) do
     {:ok, pid} =
       Postgrex.start_link(
-        hostname: "localhost",
-        username: "tasm",
-        password: pw,
+        hostname: host,
+        username: user,
+        password: password,
         database: "tasm_code_safe"
       )
 
