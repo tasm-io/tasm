@@ -79,6 +79,8 @@ const operatorFunctionFor = {
   [Opcode.OR_REG_REG]: (x: number, y: number) => x | y,
   [Opcode.XOR_REG_REG]: (x: number, y: number) => x ^ y,
   [Opcode.CMP_REG_REG]: (x: number, y: number) => x - y,
+  [Opcode.SHR_REG_REG]: (x: number, y: number) => x >> y,
+  [Opcode.SHL_REG_REG]: (x: number, y: number) => x << y,
   [Opcode.ADD_REG_INT]: (x: number, y: number) => x + y,
   [Opcode.SUB_REG_INT]: (x: number, y: number) => x - y,
   [Opcode.MUL_REG_INT]: (x: number, y: number) => x * y,
@@ -87,6 +89,8 @@ const operatorFunctionFor = {
   [Opcode.OR_REG_INT]: (x: number, y: number) => x | y,
   [Opcode.XOR_REG_INT]: (x: number, y: number) => x ^ y,
   [Opcode.CMP_REG_INT]: (x: number, y: number) => x - y,
+  [Opcode.SHR_REG_INT]: (x: number, y: number) => x >> y,
+  [Opcode.SHL_REG_INT]: (x: number, y: number) => x << y,
   [Opcode.NOT]: (x: number) => ~x & 0b11111111,
 };
 
@@ -167,6 +171,13 @@ export function executeInstruction(
       state.memory[state.registers[register] + offset] = operands[1];
     }
     break;
+  case Opcode.INC:
+  case Opcode.DEC:
+    if (!isRegister(operands[0])) {
+      throw new IllegalOperandError(opcode, operands);
+    }
+    state.registers[operands[0]] += (opcode === Opcode.INC ? 1 : -1);
+    break;
   case Opcode.ADD_REG_REG:
   case Opcode.SUB_REG_REG:
   case Opcode.MUL_REG_REG:
@@ -174,6 +185,8 @@ export function executeInstruction(
   case Opcode.AND_REG_REG:
   case Opcode.OR_REG_REG:
   case Opcode.XOR_REG_REG:
+  case Opcode.SHR_REG_REG:
+  case Opcode.SHL_REG_REG:
     if (!isRegister(operands[0]) || !isRegister(operands[1])) {
       throw new IllegalOperandError(opcode, operands);
     }
@@ -201,6 +214,8 @@ export function executeInstruction(
   case Opcode.AND_REG_INT:
   case Opcode.OR_REG_INT:
   case Opcode.XOR_REG_INT:
+  case Opcode.SHR_REG_INT:
+  case Opcode.SHL_REG_INT:
     if (!isRegister(operands[0])) {
       throw new IllegalOperandError(opcode, operands);
     }

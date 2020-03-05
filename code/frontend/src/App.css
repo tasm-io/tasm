@@ -158,7 +158,6 @@ tbody {
 /* Text Editor */
 
 .Editor {
-  flex: 1;
   margin-left: 10em;
   margin-top: 5em;
 }
@@ -170,8 +169,6 @@ tbody {
 .EditorMarker {
   background-color:#1e384a;
 }
-
-/* Memory Display */
 
 /* Devices */
 
@@ -280,7 +277,7 @@ tbody {
 
 .Device {
   min-width: 512px;
-  min-height: 512px;
+  min-height: 33vmax;
   padding: 16px;
   background-color: #222230;
   display: flex;
@@ -364,7 +361,7 @@ hr {
 
 .RightBar {
   margin-left: 5em ;
-  margin-top: 6.5em;
+  margin-top: 5em;
 }
 
 /* Animations */
@@ -588,11 +585,6 @@ hr {
   .LeftBar {
     margin-top: 1em;
     margin-left: 0em;
-  }
-
-  .ace_editor {
-    width: 50vmax !important;
-    height: 50vmax !important;
   }
 
   .Editor {

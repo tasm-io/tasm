@@ -77,9 +77,9 @@ const Editor: React.FC = () => {
       <AceEditor
         minLines={100}
         maxLines={250}
+        height="100%"
         theme="dracula"
         showPrintMargin={false}
-        height={`${(window.screen.height / 1.5).toString()}px`}
         value={code}
         onChange={(editorCode) => handleCodeChange(editorCode, dispatch)}
         name="AceEditor"
