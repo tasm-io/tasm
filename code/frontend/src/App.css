@@ -374,6 +374,7 @@ hr {
 .Middle {
   margin-left: 10em;
   margin-top: 5em;
+  min-width: 33vmax;
 }
 
 /* Animations */
