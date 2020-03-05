@@ -131,11 +131,10 @@ const App: React.FC = () => {
           {displayEditor ? <Editor /> : <Settings />}
           {error ? <Error aria-label="Error" error={error} /> : ''}
         </div>
-        <div className="Column RightBar">
-          <StateDisplay />
-          <br />
+        <div className="Column RightBar" style={{ maxHeight: document.getElementById('AceEditor')?.style.height }}>
           <DeviceDisplayTabs />
           {handleDeviceDisplay(activeDevice)}
+          <StateDisplay />
         </div>
       </div>
     </div>
