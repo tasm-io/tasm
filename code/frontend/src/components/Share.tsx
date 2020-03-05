@@ -35,7 +35,7 @@ function NotifyUser(id: string) {
   const error: SimulatorError = {
     type: ErrorTypes.Good,
     title: 'Code Uploaded & Shared',
-    message: `${serverURL}/share/${id} and has been automatically copied!`,
+    message: `${serverURL}/share/${id} \n has been automatically copied!`,
   };
   const payload: AddError = {
     type: ADD_ERROR,
