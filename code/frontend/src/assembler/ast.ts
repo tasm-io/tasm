@@ -408,7 +408,7 @@ function defaultNullableVisitor<T, U>(): NullableVisitor<T, U> {
 }
 
 function merge<T>(a: { [key: string]: T }, b: { [key: string]: T }): { [key: string]: T } {
-  const result = Object.fromEntries(Object.entries(a));
+  const result = Object.assign(a);
   Object.keys(a).forEach((k) => {
     if (typeof (b[k]) !== 'undefined') {
       result[k] = b[k];
