@@ -127,7 +127,7 @@ const App: React.FC = () => {
           <hr style={{ width: '100%' }} />
           <UserButtons />
         </div>
-        <div className="Column">
+        <div className="Column Middle">
           {displayEditor ? <Editor /> : <Settings />}
           {error ? <Error aria-label="Error" error={error} /> : ''}
         </div>

@@ -24,8 +24,10 @@ const Error: React.FC<Props> = (props: Props) => {
       <button aria-label="Dismiss Error" type="button" className="NoticeDismiss" style={{ border: 0, background: 'transparent' }} id="dismiss" onClick={() => dismiss(props.error.message, dispatch)}>
         <i className="fa fa-times-circle" />
       </button>
+      <div style={{paddingLeft: '1em'}}>
       <div className="ErrorHeading">{props.error.title}</div>
       <pre>{props.error.message}</pre>
+      </div>
     </div>
   );
 };

@@ -26,8 +26,8 @@
 /* State Display */
 
 .StateDisplay {
-  border-radius: 25px;
   font-weight: 400;
+  margin-top: 1em;
 }
 
 .RegisterDisplay {
@@ -66,6 +66,7 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   justify-content: center;
+  min-height: 600px;
 }
 
 table {
@@ -158,8 +159,6 @@ tbody {
 /* Text Editor */
 
 .Editor {
-  margin-left: 10em;
-  margin-top: 5em;
 }
 
 .ErrorMarker {
@@ -224,7 +223,9 @@ tbody {
 .Error {
   margin: auto;
   padding: .3em;
-  margin-top: .4em;
+  padding-right: 0;
+  padding-left: 0;
+  margin-top: 1em;
   border-top-right-radius: .1em;
   border-bottom-right-radius: 10px;
   min-width: 100%;
@@ -273,12 +274,19 @@ tbody {
   margin: .5em;
 }
 
+#AceEditor {
+  height: 33max !important;
+}
+
 /* Devices */
 
 .Device {
   min-width: 512px;
-  min-height: 33vmax;
-  padding: 16px;
+  max-width: 600px;
+  min-height: 600px !important;
+  height: 33vmax !important;
+  padding-left: 1em;
+  padding-right: 1em;
   background-color: #222230;
   display: flex;
   justify-content: center;
@@ -361,6 +369,11 @@ hr {
 
 .RightBar {
   margin-left: 5em ;
+  margin-top: 5em;
+}
+
+.Middle {
+  margin-left: 10em;
   margin-top: 5em;
 }
 
@@ -573,7 +586,7 @@ hr {
 
 /* Media queries */
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 980px) {
   .Row {
     flex-direction: column;
     flex-wrap: wrap;
@@ -583,14 +596,17 @@ hr {
   }
 
   .LeftBar {
-    margin-top: 1em;
-    margin-left: 0em;
+    margin: auto;
   }
 
-  .Editor {
-    flex: 1;
-    margin-left: 4em;
-    margin-top: 1em;
+  .RightBar {
+    margin-left: 10em;
+    margin-bottom: 2em;
+  }
+
+  .StateDisplay {
+    display: flex;
+    flex-direction: row;
   }
 
 }
