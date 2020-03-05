@@ -1,9 +1,13 @@
+import { parse } from '../assembler/parser';
+import format from '../formatter/format';
+
 /* Action Types */
 export const SET_CODE = 'SET_CODE';
 export const UPLOAD_ERROR = 'UPLOAD_ERROR';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const UPLOADING = 'UPLOADING';
 export const SET_CODE_DISPLAY = 'SET_CODE_DISPLAY';
+export const FORMAT_CODE = 'FORMAT_CODE';
 
 /**
  * CodeInterface represents of the user's code in the redux central store.
@@ -33,7 +37,7 @@ const defaultState: CodeInterface = {
   shareURL: '',
 };
 
-type CodeActions = SetCode | UploadError | UploadSuccess | Uploading | SetCodeDisplay
+type CodeActions = SetCode | UploadError | UploadSuccess | Uploading | SetCodeDisplay | FormatCode
 
 /* Actions */
 
@@ -62,6 +66,11 @@ export interface UploadError {
     payload: string
 }
 
+export interface FormatCode {
+  type: typeof FORMAT_CODE
+  payload: undefined
+}
+
 /* End of Actions */
 
 export const codeReducer = (state = defaultState, action: CodeActions) => {
@@ -82,6 +91,12 @@ export const codeReducer = (state = defaultState, action: CodeActions) => {
   }
   case (SET_CODE_DISPLAY): {
     return { ...state, isDisplayed: action.payload };
+  }
+  case (FORMAT_CODE): {
+    const code = state.code
+    const ast = parse(code)
+    const newCode = format(ast)
+    return {...state, code: newCode}
   }
   default:
     return state;
