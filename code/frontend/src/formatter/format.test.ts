@@ -1,5 +1,5 @@
 import * as ast from '../assembler/ast';
-import { format } from './format';
+import format from './format';
 import { parse } from '../assembler/parser';
 
 it('formats a program without org', () => {
