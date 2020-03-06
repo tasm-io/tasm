@@ -1,0 +1,53 @@
+{
+  "extends": [
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "env": {
+    "jest": true,
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "indent": [
+      "error", 
+      2
+    ],
+    "import/no-unresolved": "error",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [
+          ".jsx",
+          ".tsx"
+        ]
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "max-classes-per-file": [
+      2,
+      64
+    ],
+    "react/destructuring-assignment": [0],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  }
+}

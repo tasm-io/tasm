@@ -1,0 +1,612 @@
+/* Root - App.tsx */
+
+.Root {
+  display: flex;
+  flex-direction: column;
+  background-color: #191927;
+  color: #c8d6e5;
+  min-height: 100vh;
+  min-width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+.Row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.Column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Components */
+
+/* State Display */
+
+.StateDisplay {
+  font-weight: 400;
+  margin-top: 1em;
+}
+
+.RegisterDisplay {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  margin: auto;
+  margin-top: .5em;
+  flex: 1;
+  margin-left: 3em;
+}
+
+.ace_editor {
+  width: 33vmax !important;
+  height: 33vmax !important;
+  min-width: 600px;
+  min-height: 600px;
+}
+
+/* Ram Display */
+
+.IP {
+  color: #01d2d3;
+  background-color: #1e384a;
+}
+
+.SP {
+  color: #11ac84;
+  background-color: #1e363c;
+}
+
+.RamDisplay {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  background-color: #222230;
+  border-radius: .25em;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  justify-content: center;
+  min-height: 600px;
+}
+
+table {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+tbody {
+  display: flex;
+  flex-direction: column;
+}
+
+.RamDisplay tr {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.RamDisplay td {
+  margin: auto;
+}
+
+.RamDisplay th {
+  padding: .4em;
+  color: tomato;
+}
+
+.RamDisplayIP {
+  background-color: red;
+}
+
+/* Debugger */
+
+.Debugger {
+  background-color: none;
+  flex: 2;
+}
+
+.DebuggerButton {
+  display: flex;
+  max-height: 5em;
+  background: transparent;
+  padding: .2em;
+  cursor: pointer;
+}
+
+.Icon {
+  font-size: 2em;
+  padding: .3em;
+}
+
+/* Button Box */
+
+.ButtonBox {
+  margin: .5em;
+  font-size: smaller;
+}
+
+.buttonText {
+  margin: auto;
+  margin-left: .2em;
+  font-family: 'Roboto', sans-serif;
+  font-weight: lighter;
+}
+
+.FileUpload {
+  display: flex;
+  flex: 1;
+}
+
+.Button {
+  display: inline-flex;
+  font-family: 'Roboto', sans-serif;
+  color: #c8d6e5;
+  flex: 1;
+  border: 0;
+  background-color: transparent;
+  border-radius: 5px;
+  margin: .2em;
+  padding: .7em;
+  outline: 1;
+  cursor: pointer;
+}
+
+.Button:hover {
+  background-color: #222230;
+}
+
+/* Text Editor */
+
+.Editor {
+}
+
+.ErrorMarker {
+  background-color: red;
+}
+
+.EditorMarker {
+  background-color:#1e384a;
+}
+
+/* Devices */
+
+.VirtualKeyboard {
+  display: flex;
+  flex-direction: column;
+}
+
+.VirtualKeyboard input {
+  background-color: transparent;
+  border: 1px rebeccapurple solid;
+  font-size: 2em;
+  color: white;
+  text-align: center;
+  max-height: 2em;
+}
+
+.SevenSegment {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.SevenSegment div {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.DisplayInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.TrafficLights {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  margin: auto;
+}
+
+.TrafficLight {
+  border: 5px solid black;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 2em;
+  margin-left: 2em;
+}
+
+/* Errors */
+
+.Error {
+  margin: auto;
+  padding: .3em;
+  padding-right: 0;
+  padding-left: 0;
+  margin-top: 1em;
+  border-top-right-radius: .1em;
+  border-bottom-right-radius: 10px;
+  min-width: 100%;
+  -webkit-animation: scale-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: scale-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.ErrorHeading {
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
+.Bad {
+  background-color: #402834;
+}
+
+.Ok {
+  background-color: #423432;
+}
+
+.Good {
+  background-color: #1e363c
+}
+
+.NoticeDismiss {
+  cursor: pointer;
+  font-size: 1em;
+  background: transparent;
+  border: 0;
+  padding-right: .5em;
+}
+
+.NoticeDismiss:Hover {
+  color: crimson;
+}
+
+/* Settings */
+
+.Settings {
+  flex: 1;
+  margin-top: 5em;
+}
+
+.Setting {
+  margin: .5em;
+}
+
+#AceEditor {
+  height: 33max !important;
+}
+
+/* Devices */
+
+.Device {
+  min-width: 512px;
+  max-width: 600px;
+  min-height: 600px !important;
+  height: 33vmax !important;
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: #222230;
+  display: flex;
+  justify-content: center;
+  align-content: space-around;
+}
+
+.TextDisplay {
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 1.5em;
+  color: white;
+}
+
+.TextDisplay tr {
+  margin-top: 1em;
+}
+
+.TextDisplay td {
+  display: inline;
+  margin: auto;
+  border: 3px solid black;
+  margin-left: 10px !important;
+}
+
+/* Tabs */
+
+.Tabs {
+  display: flex;
+  min-width: 100%;
+}
+
+.ActiveTab {
+  color: #f368e0 !important;
+}
+
+.Tab {
+  padding: .5em;
+  font-size: 1em;
+  font-family: 'Roboto', sans-serif;
+  background-color: transparent;
+  border: 1px solid #282a36;
+  border-bottom: 0px;
+  color: #c8d6e5;
+}
+
+.Tab:nth-last-child(1) {
+  border-top-right-radius: 1em;
+  border-left: 0;
+}
+
+.Tab:nth-child(1) {
+  border-top-left-radius: 1em;
+}
+
+.Tab:nth-child(n+2) {
+  border-left: 0;
+}
+
+.Tab:hover {
+  background-color: #222230;
+}
+
+
+/* Other */
+
+hr {
+  background-color: #44475a;
+  border: .5px solid #44475a;
+}
+
+.SiteTitle {
+  color: #14a5ae;
+  text-align: center;
+}
+
+.LeftBar {
+  margin-top: 5em;
+  margin-left: 5em;
+}
+
+.RightBar {
+  margin-left: 5em ;
+  margin-top: 5em;
+}
+
+.Middle {
+  margin-left: 10em;
+  margin-top: 5em;
+  min-width: 33vmax;
+}
+
+/* Animations */
+
+.Rotate {
+  transition: 2s;
+}
+
+.Button:focus-within .Rotate {
+  -o-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.FlashGreen {
+  transition: 1s;
+}
+
+.FlashGreen:focus {
+  color: green;
+}
+
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-2-19 16:9:2
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation scale-out-right
+ * ----------------------------------------
+ */
+@-webkit-keyframes scale-out-right {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    opacity: 1;
+  }
+}
+
+@keyframes scale-out-right {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-2-20 11:53:46
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-out-right
+ * ----------------------------------------
+ */
+@-webkit-keyframes scale-in-top {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in-top {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    opacity: 1;
+  }
+}
+
+
+@-webkit-keyframes slide-out-right {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translateX(700px);
+    transform: translateX(700px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-right {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translateX(700px);
+    transform: translateX(700px);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes shadow-pop-tr {
+  0% {
+    -webkit-box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
+    box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
+    -webkit-transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
+  }
+
+  100% {
+    -webkit-box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
+    box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
+    -webkit-transform: translateX(-8px) translateY(8px);
+    transform: translateX(-8px) translateY(8px);
+  }
+}
+
+@keyframes shadow-pop-tr {
+  0% {
+    -webkit-box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
+    box-shadow: 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36, 0 0 #282a36;
+    -webkit-transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
+  }
+
+  100% {
+    -webkit-box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
+    box-shadow: 1px -1px #282a36, 2px -2px #282a36, 3px -3px #282a36, 4px -4px #282a36, 5px -5px #282a36, 6px -6px #282a36, 7px -7px #282a36, 8px -8px #282a36;
+    -webkit-transform: translateX(-8px) translateY(8px);
+    transform: translateX(-8px) translateY(8px);
+  }
+}
+
+.Button:hover {
+  -webkit-animation: shadow-pop-tr 0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+  animation: shadow-pop-tr 0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+}
+
+.slide-out-right {
+  z-index: 10;
+  -webkit-animation: slide-out-right 2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: slide-out-right 2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+
+.Button:focus-within .Step {
+  z-index: 10;
+  -webkit-animation: scale-out-right 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: scale-out-right 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+
+/* Media queries */
+
+@media only screen and (max-width: 980px) {
+  .Row {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .LeftBar {
+    margin: auto;
+  }
+
+  .RightBar {
+    margin-left: 10em;
+    margin-bottom: 2em;
+  }
+
+  .StateDisplay {
+    display: flex;
+    flex-direction: row;
+  }
+
+}

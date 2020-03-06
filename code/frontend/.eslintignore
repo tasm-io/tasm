@@ -1,0 +1,8 @@
+**/*.test.tsx
+**/*.test.ts
+**/serviceWorker.ts
+**/react-app-env.d.ts
+node_modules/*
+
+# Auto generated
+**/parser.ts
