@@ -1,19 +1,23 @@
 # TASM User Guide
 
+## Table of Contents
+
+### 0. [Overview](#0-Overview)
+### 1. [User Interface](#1-User-Interface)
+### 2. [Simulator Instructions](#2-Simulator-Instructions)
+### 3. [Devices](#3-Devices)
+### 4. [Hotkeys](#4-Hotkeys)
+### 5. [Example Programs](#5-Example-Programs)
+
 ## 0. Overview 
 
-Welcome to the TASM user guide. TASM (Typescript Assembly Simulator) is an 8-bit assembly simulator written in TypeScript. It allows students and hobbyists to write and simulate assembly instructions in an environment that is less intimidating then 32bit or 64bit assembly environments. TASM is best served alongside a college course or online tutorial series as some technical knowledge is required and presumed throughout this document.
+Welcome to the TASM user guide. TASM (Typescript Assembly Simulator) is an 8-bit assembly simulator written in TypeScript. It allows students and hobbyists to write and simulate assembly instructions in an environment that is less intimidating than 32bit or 64bit assembly environments. TASM is best served alongside a college course or online tutorial series as some technical knowledge is required and presumed throughout this document.
 
-This document outlines how you can interact with TASM and provides a great source of reference material for when writing TASM programs.
+This document outlines how you can interact with TASM and provides a great source of reference material when writing TASM programs.
 
 This document is split into sections for your convenience:
 
-**0. [Overview](#0-Overview)**
-**1. [User Interface](#1-User-Interface)**
-**2. [Simulator Instructions](#2-Simulator-Instructions)**
-**3. [Devices](#3-Devices)**
-**4. [Hotkeys](#4-Hotkeys)**
-**5. [Example Programs](#5-Example-Programs)**
+
 
 ## 1. User Interface 
 
@@ -102,22 +106,24 @@ TASM supports a number of instructions and directives that can be assembled and 
 
 ### Registers 
 
-TASM has 4 general purpose registers along with 3 specific purpose registers.
+TASM has 4 general purpose registers along with 3 special purpose registers.
 
 #### General Purpose
 *AL*, *BL*, *CL* and *DL* registers can be used for storing values as per your programming needs. 
 The *AL* register is special as that is used with devices for inputting and outputting as mentioned with the OUT and IN instructions below.
 
-#### Specific Registers 
+#### Special Registers 
 
 ##### IP (Instruction Pointer)
-The instruction pointers hold the address of the next instruction that is to be executed. 
-It is visually displayed with a blue background in RAM and a blue line within the editor. 
+- The instruction pointers hold the address of the next instruction that is to be executed. 
+- It is visually displayed with a blue background in RAM and a blue line within the editor. 
 ##### SP (Stack Pointer)
-The stack pointer holds the address of the next stack. 
+- The stack pointer holds the address that the stack will use for the next value pushed. 
 ##### SR (Status Register)
 
-Is a flag register, each bit represents a flag that is either enabled or disabled. The following bits within the flag register have a meaning 
+- Is a flag register
+- each bit represents a flag that is either enabled or disabled
+- he following bits within the flag register have a meaning 
 
 | Bit (MSB = 8)   | Meaning        | 
 | --------        | --------       | 
@@ -131,14 +137,14 @@ Is a flag register, each bit represents a flag that is either enabled or disable
 | 1               | None           | 
 
 ##### Zero Flag
-Is set when an arithmetic operation results in zero.
-It is unset up on the execution of the next instruction.
+- Is set when an arithmetic operation results in zero.
+- It is unset up on the execution of the next instruction.
 ##### Negative Flag
-Is set when an arithmetic operation results in a negative value.
-It is unset up on the execution of the next instruction.
+- Is set when an arithmetic operation results in a negative value.
+- It is unset up on the execution of the next instruction.
 ##### Interrupt Flag
-Is set when the STI instruction is called and is unset when CLI is called.
-It represents whether interrupts should be handled at the current time by the simulator or not. 
+- Is set when the STI instruction is called and is unset when CLI is called.
+- It represents whether interrupts should be handled at the current time by the simulator or not. 
 
 ### Syntactic Elements
 
@@ -248,7 +254,7 @@ important: ascii "my name jeff"
 important: asciiz "my name jeff"  ; This is really "my name jeff\0"
 ```
 
-#### Specification
+#### Instructions
 
 **`REG` represents a register**
 **`IMM/N` represents a N-bit immediate value**
@@ -377,7 +383,6 @@ SHR REG, IMM/8
 Push a value on to the stack.
 
 ```
-PUSH IMM/8
 PUSH REG
 ```
 
@@ -491,7 +496,8 @@ OUT IMM/8
 TASM comes with 4 visual devices that can be interacted with by toggling the view in the device tabs panel alongside the timer interrupt "device"
 
 #### Note: Devices That Request Interrupts 
-Some devices may request interrupts. These get handled when the interrupt flag is set as mentioned [above](#Interrupt-Flag). These get handled by the IP pointing to the value at the memory location of the port of the device. 
+ome devices may request interrupts. These get handled when the interrupt flag is set as mentioned [above](#Interrupt-Flag).
+There is a range of memory locations beginning at 0x03 named the interrupt service vector (ISV). Elements of this vector contain the addresses of the subroutine that should be called when a specific interrupt is triggered. These subroutines are called interrupt service routines (ISRs). For example, in the case of the timer interrupt, the device id is 07, thus, the ISV index is 0x07. This means that the value contained at 0x07 should be the address of the subroutine to be called when the timer interrupt is triggered.
 
 Example:
 ```
@@ -499,10 +505,10 @@ Example:
 ; Sets AL to 41 every x cycles
 
 jmp loop
-org 07 ; the port for timer interrupts
+org 07 ; the port for timer interrupts (ISV)
 byte 20 ; the location the IP will jump to
 
-org 20
+org 20 ; ISR
 mov al, 41
 ret
 
@@ -522,15 +528,15 @@ The text display device provides a 4 x 16 grid of memory to output values to be 
 Example:
 ```
 ; Results in a "A" outputted to the first position of the text display device.
-MOV AL, 65
-OUT 03
+mov al, 65
+out 03
 ```
 
 ### Virtual Keyboard
 
 PORT: 4
 
-The virtual keyboard allows for a character input to be entered from the users keyboard into the input box on the device view. The user input will then be converted to the ascii value representation. The virtual keyboard will then request an interrupt.
+The virtual keyboard allows for a character input to be entered from the user's keyboard into the input box on the device view. The user input will then be converted to the ascii value representation. The virtual keyboard will then request an interrupt.
 
 ### 7 Segment Display
 
@@ -617,5 +623,6 @@ The hotkeys all follow the same format:
 
 Example programs to illustrate methods of interacting with the devices and instruction set are presented below.
 
+- [Hello World](https://tasm.io/hello-world)
 - [Keyboard and Text Display](https://tasm.io/keyboard)
 - [7 Segment Display](https://tasm.io/counter)
