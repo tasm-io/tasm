@@ -13,6 +13,7 @@
       - [Assembler](#assembler)
       - [CPU](#cpu)
     + [Component Model](#component-model)
+    + [Data Flow Diagram](#data-flow-diagram)
     + [Operational Model](#operational-model)
       - [Example interactions between components](#example-interactions-between-components)
         * [Assembling a Program](#assembling-a-program)
@@ -126,6 +127,12 @@ As mentioned, our component model is largely the same as we initially planned.
 ![Component model diagram](https://i.imgur.com/mN9aeNy.png)  
 
 The colour coding is used to indicate which level the components are at. Blue components are the components that provide the low-level functionality, and components on the levels above that integrate these components together to provide a functional application.
+
+### Data Flow Diagram
+
+![Data flow diagram](https://i.imgur.com/H2Ltyij.png)
+
+This diagram remains largely unchanged from our functional specification. The only thing that has changed is the internal structure of some of the processes from how we thought they would be structured.
 
 ### Operational Model
 
@@ -365,3 +372,4 @@ DB_PASS=password mix code/frontend/_build/prod/rel/webserver/bin/webserver start
 If given more time, we have ideas for some potential features that we could include to make our application better. One is the ability to step backwards as well as forwards. This would be really simple to implement, it would just take some time to create & lots of time to test it to ensure that it works. We would also add a number of the features that users suggested which we are currently lacking.
 
 As mentioned in the user evaluation document, we would also like to perform further user evaluation on a more diverse group of users. We felt that our data is very biased in favour of technically advanced users because we got them all from a society primarily dedicated to computing.
+
