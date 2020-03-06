@@ -17,6 +17,8 @@
     + [Operational Model](#operational-model)
       - [Example interactions between components](#example-interactions-between-components)
         * [Assembling a Program](#assembling-a-program)
+  * [Extending Devices](#extending-devices)
+    + [The Device LifeCycle](#the-device-lifecycle)
   * [Testing](#testing)
     + [Unit testing](#unit-testing)
     + [Integration testing](#integration-testing)
@@ -149,6 +151,34 @@ All of our services are hosted on a single cloud VM for convenience &amp; cost r
 ![Sequence diagram for assembling a program](https://i.imgur.com/hvb88pQ.png)
 
 This sequence diagram demonstrates the flow of data between the subcomponents of the assembler when a program is being assembled.
+
+## Extending Devices
+
+TASM has several different devices by default ranging from a seven segment display to a virtual keyboard. Developers may wish to extend the current device list of TASM and provide their own visual or functional devices.
+
+### The Device LifeCycle 
+
+Devices live in `/code/frontend/src/components/devices`. They are made from the `DeviceState` interface that can be found within `cpu.ts`. 
+
+```typescript
+interface DeviceState {
+  id: number
+  requestingInterrupt: boolean
+  input: (device: DeviceState, input: number) => DeviceState
+  output: (device: DeviceState) => number
+  memory?: Uint8Array
+}
+```
+
+The `defaultState` of a device must be exported from it's component file. This `defaultState` must be passed to the `ActiveDevices` array in the simulator.ts redux store file. This enables the device. 
+
+*Note: All Devices must have a unique Identifier, ensure you have no duplicate IDs*
+
+The list of device states is passed through the simulator during each step. The simulator will check if a device is requesting an interrupt and handle it appropriately and will also check for `IN` and `OUT` calls within code that match the device ID.
+
+Upon each step, the simulator returns the updated deviceStates which are stored within the redux store. This allows for access to the memory of the device which can be used for visual components.
+
+It is recommended to review the devices provided within the default version of TASM for ideas when it comes to desiging devices.
 
 ## Testing
 
