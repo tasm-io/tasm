@@ -21,10 +21,12 @@ const UserButtons: React.FC = () => {
   const displayEditor: boolean = useSelector((state : RootState) => state.code.isDisplayed);
   return (
     <div className="Column">
-      <button className="Button" type="button">
-        <i className="Icon fa fa-info-circle" />
-        <div className="buttonText">User Guide</div>
-      </button>
+      <a style={{ textDecoration: 'none' }} href="https://gitlab.computing.dcu.ie/fradls2/2020-ca326-sfradl-tasm/blob/master/user_manual/user_manual.md">
+        <button className="Button" type="button">
+          <i className="Icon fa fa-info-circle" />
+          <div className="buttonText">User Guide</div>
+        </button>
+      </a>
       <button className="Button" type="button" onClick={() => handleSettingsClick(!displayEditor, dispatch)}>
         <i className="Icon fa fa-wrench" />
         <div className="buttonText">Settings</div>
